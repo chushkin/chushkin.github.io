@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="980" viewBox="0 0 720 980" role="img" aria-labelledby="title desc">
+  <title id="title">Скриншот приложения Домашний логопед</title>
+  <desc id="desc">Игровой экран обучающего приложения с карточками звуков, букв и упражнений.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#fff6c7"/>
+      <stop offset="0.48" stop-color="#d8f5ef"/>
+      <stop offset="1" stop-color="#ffd8c9"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#2a463f" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <rect width="720" height="980" rx="38" fill="url(#bg)"/>
+  <circle cx="86" cy="86" r="48" fill="#ffffff" opacity="0.72"/>
+  <circle cx="640" cy="166" r="74" fill="#ffffff" opacity="0.42"/>
+
+  <g filter="url(#shadow)">
+    <rect x="56" y="58" width="608" height="142" rx="28" fill="#ffffff"/>
+    <text x="94" y="112" fill="#10241f" font-family="Arial, sans-serif" font-size="34" font-weight="800">Домашний логопед</text>
+    <text x="94" y="154" fill="#66746f" font-family="Arial, sans-serif" font-size="22">Упражнения для речи и памяти</text>
+    <rect x="520" y="92" width="84" height="72" rx="20" fill="#c9f3de"/>
+    <text x="547" y="140" fill="#0c6b61" font-family="Arial, sans-serif" font-size="36" font-weight="800">Р</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="56" y="244" width="284" height="218" rx="28" fill="#ffffff"/>
+    <rect x="92" y="280" width="88" height="88" rx="24" fill="#4d7cfe"/>
+    <text x="118" y="340" fill="#ffffff" font-family="Arial, sans-serif" font-size="46" font-weight="800">С</text>
+    <text x="92" y="406" fill="#10241f" font-family="Arial, sans-serif" font-size="28" font-weight="800">Угадай звук</text>
+    <text x="92" y="436" fill="#66746f" font-family="Arial, sans-serif" font-size="19">картинки и буквы</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="380" y="244" width="284" height="218" rx="28" fill="#ffffff"/>
+    <rect x="416" y="280" width="88" height="88" rx="24" fill="#f06c58"/>
+    <text x="438" y="340" fill="#ffffff" font-family="Arial, sans-serif" font-size="46" font-weight="800">Ж</text>
+    <text x="416" y="406" fill="#10241f" font-family="Arial, sans-serif" font-size="28" font-weight="800">Собери слово</text>
+    <text x="416" y="436" fill="#66746f" font-family="Arial, sans-serif" font-size="19">игровые задания</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="56" y="502" width="608" height="208" rx="30" fill="#10241f"/>
+    <text x="96" y="570" fill="#ffffff" font-family="Arial, sans-serif" font-size="30" font-weight="800">350+ уроков</text>
+    <text x="96" y="612" fill="#cfe2dd" font-family="Arial, sans-serif" font-size="22">звуки, дикция, дыхательная гимнастика</text>
+    <rect x="96" y="650" width="188" height="18" rx="9" fill="#ffd166"/>
+    <rect x="308" y="650" width="248" height="18" rx="9" fill="#c9f3de"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="56" y="748" width="176" height="150" rx="26" fill="#ffffff"/>
+    <text x="96" y="810" fill="#10241f" font-family="Arial, sans-serif" font-size="44" font-weight="800">4.7</text>
+    <text x="96" y="846" fill="#66746f" font-family="Arial, sans-serif" font-size="20">рейтинг</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="272" y="748" width="392" height="150" rx="26" fill="#ffffff"/>
+    <text x="312" y="810" fill="#10241f" font-family="Arial, sans-serif" font-size="44" font-weight="800">500 тыс.+</text>
+    <text x="312" y="846" fill="#66746f" font-family="Arial, sans-serif" font-size="20">установок в Google Play</text>
+  </g>
+</svg>
