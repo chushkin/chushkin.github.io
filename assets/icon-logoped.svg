@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" role="img" aria-labelledby="title">
+  <title id="title">Домашний логопед</title>
+  <rect width="160" height="160" rx="34" fill="#0c6b61"/>
+  <circle cx="50" cy="54" r="22" fill="#ffd166"/>
+  <circle cx="110" cy="54" r="22" fill="#c9f3de"/>
+  <path d="M38 104c13-17 29-25 48-24 18 1 32 10 42 25" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round"/>
+  <text x="80" y="119" text-anchor="middle" fill="#fff" font-family="Arial, sans-serif" font-size="42" font-weight="800">Р</text>
+</svg>

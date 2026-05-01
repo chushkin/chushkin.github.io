@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" role="img" aria-labelledby="title">
+  <title id="title">Азбука, алфавит для детей игры</title>
+  <rect width="160" height="160" rx="34" fill="#4d7cfe"/>
+  <rect x="24" y="24" width="112" height="112" rx="24" fill="#fff" opacity=".92"/>
+  <text x="80" y="104" text-anchor="middle" fill="#4d7cfe" font-family="Arial, sans-serif" font-size="76" font-weight="900">А</text>
+  <circle cx="122" cy="38" r="16" fill="#ffd166"/>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="460" viewBox="0 0 720 460" role="img" aria-labelledby="title">
+  <title id="title">Экран приложения Украинский алфавит</title>
+  <rect width="720" height="460" rx="28" fill="#ecfbf4"/>
+  <rect x="0" y="0" width="720" height="190" rx="28" fill="#4d7cfe"/>
+  <path d="M0 128h720v82H0z" fill="#ffd166"/>
+  <rect x="48" y="52" width="230" height="284" rx="30" fill="#fff"/>
+  <text x="163" y="220" text-anchor="middle" fill="#0c6b61" font-family="Arial, sans-serif" font-size="116" font-weight="900">У</text>
+  <rect x="326" y="70" width="312" height="62" rx="18" fill="#fff" opacity=".92"/>
+  <rect x="326" y="162" width="250" height="62" rx="18" fill="#fff" opacity=".92"/>
+  <rect x="326" y="254" width="294" height="62" rx="18" fill="#fff" opacity=".92"/>
+  <text x="360" y="110" fill="#12221d" font-family="Arial, sans-serif" font-size="24" font-weight="800">Українська абетка</text>
+  <circle cx="576" cy="372" r="42" fill="#f06c58"/>
+</svg>

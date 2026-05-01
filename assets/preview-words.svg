@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="460" viewBox="0 0 720 460" role="img" aria-labelledby="title">
+  <title id="title">Экран приложения Алфавит, учим буквы и слова</title>
+  <rect width="720" height="460" rx="28" fill="#fff3ed"/>
+  <rect x="50" y="48" width="620" height="364" rx="34" fill="#fff"/>
+  <text x="88" y="110" fill="#12221d" font-family="Arial, sans-serif" font-size="34" font-weight="800">Собери слово</text>
+  <g font-family="Arial, sans-serif" font-size="48" font-weight="900" text-anchor="middle">
+    <rect x="90" y="158" width="96" height="96" rx="22" fill="#f06c58"/><text x="138" y="222" fill="#fff">К</text>
+    <rect x="206" y="158" width="96" height="96" rx="22" fill="#ffd166"/><text x="254" y="222" fill="#12221d">О</text>
+    <rect x="322" y="158" width="96" height="96" rx="22" fill="#c9f3de"/><text x="370" y="222" fill="#0c6b61">Т</text>
+  </g>
+  <rect x="90" y="306" width="216" height="64" rx="20" fill="#10241f"/>
+  <text x="198" y="348" text-anchor="middle" fill="#fff" font-family="Arial, sans-serif" font-size="24" font-weight="800">Проверить</text>
+  <circle cx="582" cy="208" r="74" fill="#4d7cfe" opacity=".18"/>
+</svg>

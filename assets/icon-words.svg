@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" role="img" aria-labelledby="title">
+  <title id="title">Алфавит, учим буквы и слова</title>
+  <rect width="160" height="160" rx="34" fill="#f06c58"/>
+  <circle cx="116" cy="42" r="18" fill="#ffd166"/>
+  <rect x="28" y="36" width="104" height="88" rx="24" fill="#fff" opacity=".92"/>
+  <text x="80" y="98" text-anchor="middle" fill="#f06c58" font-family="Arial, sans-serif" font-size="66" font-weight="900">Б</text>
+</svg>
