@@ -5,10 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Портфолио разработчика Eugene Chushkin: образовательные приложения для детей, речи, букв и первых слов."
+      content="Портфолио Eugene Chushkin: Vera AI, мобильные AI-продукты и образовательные приложения для детей."
     />
-    <meta name="theme-color" content="#0e1714" />
-    <title>Eugene Chushkin — developer portfolio</title>
+    <meta name="theme-color" content="#0b1020" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Eugene Chushkin — mobile developer" />
+    <meta property="og:description" content="Vera AI и мобильные образовательные приложения Eugene Chushkin." />
+    <meta property="og:image" content="https://chushkin.github.io/assets/vera-preview.png" />
+    <meta property="og:url" content="https://chushkin.github.io/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>Eugene Chushkin — mobile developer</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -18,6 +24,7 @@
         <span>Eugene Chushkin</span>
       </a>
       <nav class="main-nav" aria-label="Основная навигация">
+        <a href="#vera">Vera AI</a>
         <a href="#apps">Приложения</a>
         <a href="#stores">Магазины</a>
         <a href="mailto:eugene.chushkin@gmail.com">Контакт</a>
@@ -27,40 +34,22 @@
     <main id="top">
       <section class="hero section-band">
         <div class="hero-copy">
-          <p class="eyebrow">Mobile apps for kids, speech and early learning</p>
-          <h1>Разработчик образовательных приложений, которые помогают детям говорить, читать и учиться через игру.</h1>
+          <p class="eyebrow">Independent mobile developer</p>
+          <h1>Eugene Chushkin</h1>
           <p class="lead">
-            Портфолио объединяет самые заметные приложения из Google Play, RuStore и App Store:
-            логопедические упражнения, алфавиты, первые слова и обучающие игры.
+            Создаю мобильные продукты, которые превращают сложные ежедневные задачи в понятные действия:
+            от AI-дневника питания Vera до образовательных приложений для детей.
           </p>
           <div class="hero-actions">
-            <a class="button button-primary" href="#apps">Смотреть приложения</a>
+            <a class="button button-primary" href="#vera">Смотреть Vera AI</a>
+            <a class="button button-secondary" href="#apps">Все приложения</a>
             <a class="button button-secondary" href="https://github.com/chushkin" rel="noreferrer">GitHub</a>
           </div>
         </div>
-
-        <div class="hero-visual" aria-label="Обзор ключевых приложений">
-          <div class="phone">
-            <div class="phone-top"></div>
-            <div class="app-showcase">
-              <img
-                src="assets/logoped-screenshot.svg"
-                alt="Скриншот приложения Домашний логопед"
-              />
-              <div class="showcase-caption">
-                <span class="caption-title">Домашний логопед</span>
-                <span class="caption-meta">500 тыс.+ установок</span>
-              </div>
-            </div>
-          </div>
-          <div class="floating-stat stat-one">
-            <span>4.7</span>
-            <small>Google Play rating</small>
-          </div>
-          <div class="floating-stat stat-two">
-            <span>3</span>
-            <small>платформы</small>
-          </div>
+        <div class="hero-product" aria-label="Новый продукт Vera AI">
+          <img src="assets/vera-icon.png" alt="Значок Vera AI" />
+          <span>Новый продукт</span>
+          <strong>Vera AI · 0.8.0</strong>
         </div>
       </section>
 
@@ -74,8 +63,74 @@
           <span>актуальные обновления в магазинах</span>
         </div>
         <div>
-          <strong>Kids EdTech</strong>
-          <span>единая ниша и узнаваемое позиционирование</span>
+          <strong>AI + EdTech</strong>
+          <span>продукты для ежедневных задач и обучения</span>
+        </div>
+      </section>
+
+      <section class="vera-section" id="vera">
+        <div class="vera-intro">
+          <div class="vera-heading">
+            <img src="assets/vera-icon.png" alt="Иконка приложения Vera AI" />
+            <div>
+              <p class="eyebrow">Featured AI product</p>
+              <h2>Вера: счётчик калорий по фото</h2>
+            </div>
+          </div>
+          <div class="vera-story">
+            <p class="vera-lead">Сфотографируй еду. Остальное — Vera.</p>
+            <p>
+              AI оценивает калории и КБЖУ, пользователь проверяет результат и сохраняет его.
+              Дневник питания, вода, вес, шаги и динамика собраны в одном спокойном мобильном продукте.
+            </p>
+            <div class="vera-actions">
+              <a class="button vera-store-button" href="https://www.rustore.ru/catalog/app/app.vera.food" rel="noreferrer">
+                Открыть в RuStore
+              </a>
+              <a class="button button-secondary" href="vera/">Страница Vera</a>
+              <span>Android · версия 0.8.0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="vera-features" aria-label="Возможности Vera AI">
+          <article>
+            <span>01 · AI PHOTO</span>
+            <h3>Еда по фотографии</h3>
+            <p>Распознавание блюда и предварительная оценка калорий, белков, жиров, углеводов и клетчатки.</p>
+          </article>
+          <article>
+            <span>02 · DAILY LOG</span>
+            <h3>День в одном экране</h3>
+            <p>Приёмы пищи, вода, шаги, вес и дневные ориентиры без громоздких ручных таблиц.</p>
+          </article>
+          <article>
+            <span>03 · VERA AI</span>
+            <h3>Понимает обычный текст</h3>
+            <p>Можно написать, что съел или выпил, добавить шаги и получить понятный ответ от Vera.</p>
+          </article>
+          <article>
+            <span>04 · INSIGHTS</span>
+            <h3>Динамика без шума</h3>
+            <p>Тренды за 7, 30 и 90 дней помогают увидеть общую картину без случайных выводов.</p>
+          </article>
+        </div>
+
+        <div class="vera-gallery-heading">
+          <div>
+            <p class="eyebrow">Product presentation</p>
+            <h3>Как работает Vera</h3>
+          </div>
+          <p>Семь реальных экранов версии 0.8.0</p>
+        </div>
+        <div class="vera-gallery" aria-label="Презентация приложения Vera AI">
+          <figure><img src="assets/vera-01.jpg" alt="Vera распознаёт еду по фотографии" /><figcaption>AI-анализ еды</figcaption></figure>
+          <figure><img src="assets/vera-02.jpg" alt="Проверка оценки Vera перед сохранением" /><figcaption>Проверка результата</figcaption></figure>
+          <figure><img src="assets/vera-03.jpg" alt="Сводка дня в Vera AI" /><figcaption>Сводка дня</figcaption></figure>
+          <figure><img src="assets/vera-04.jpg" alt="Дневник питания Vera AI" /><figcaption>Дневник питания</figcaption></figure>
+          <figure><img src="assets/vera-05.jpg" alt="Диалог с Vera AI" /><figcaption>Текстовый помощник</figcaption></figure>
+          <figure><img src="assets/vera-06.jpg" alt="Аналитика прогресса в Vera AI" /><figcaption>Динамика</figcaption></figure>
+          <figure><img src="assets/vera-07.jpg" alt="Разбор калорий и КБЖУ в Vera AI" /><figcaption>Детали рациона</figcaption></figure>
         </div>
       </section>
 
@@ -84,8 +139,8 @@
           <p class="eyebrow">Selected apps</p>
           <h2>Популярные приложения</h2>
           <p>
-            Для первого экрана и портфолио я выбрал приложения с самым сильным публичным сигналом:
-            установки, рейтинг, наличие в нескольких сторах и ясная образовательная ценность.
+            Образовательная линейка остается важной частью портфолио: логопедические упражнения,
+            алфавиты, первые слова и обучающие игры с большой пользовательской аудиторией.
           </p>
         </div>
 
