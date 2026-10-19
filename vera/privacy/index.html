@@ -25,7 +25,7 @@
       <article class="document">
         <p class="eyebrow">Юридическая информация</p>
         <h1>Политика конфиденциальности Vera AI</h1>
-        <p class="meta">Дата вступления в силу: 8 августа 2026 года · Последнее обновление: 8 августа 2026 года</p>
+        <p class="meta">Дата вступления в силу: 8 августа 2026 года · Последнее обновление: 19 октября 2026 года</p>
         <p>
           Настоящая политика объясняет, как мобильное приложение Vera AI («Vera», «приложение»),
           разработанное Eugene Chushkin («мы»), обрабатывает информацию. Vera — локальный дневник
@@ -47,10 +47,11 @@
           ответа, распознавания блюда и приблизительной оценки его состава.
         </p>
         <p>
-          Запрос проходит через сервер Vera и может обрабатываться внешними AI-провайдерами,
-          включая DeepSeek, Alibaba Cloud Model Studio, OpenRouter и Yandex Cloud. Резервный
-          провайдер может использоваться при недоступности основного. Их обработка регулируется
-          собственными условиями и политиками конфиденциальности.
+          Запрос проходит через сервер Vera на Alibaba Cloud в Сингапуре. Текст обрабатывает
+          DeepSeek, фотографии — Alibaba Cloud Model Studio; резервный маршрут — OpenRouter.
+          В старых версиях приложения запрос может проходить через совместимый шлюз Yandex Cloud
+          к тому же серверу Vera. Обработка у AI-провайдеров регулируется их собственными
+          условиями и политиками конфиденциальности.
         </p>
         <div class="notice">
           <p>
@@ -67,6 +68,10 @@
           также могут временно обрабатывать сетевые и диагностические данные, например IP-адрес,
           тип устройства, время запроса и сведения об ошибке, для безопасности и работы сервиса.
         </p>
+
+        <h2>Память разговоров</h2>
+        <p>История переписки, сохранённые факты, рецепты, текущие дела и планы питания хранятся на устройстве отдельно для каждого локального профиля. Перед первой отправкой приложение объясняет внешнюю AI-обработку. В iOS 1.2 и новее перед первым AI-запросом появляется отдельное разрешение: его можно отклонить и продолжить пользоваться локальным дневником. При отправке пользователем запроса к нему добавляется ограниченная подборка разрешённого контекста: истории, фактов, текущих дел и планов. Она передаётся через сервер Vera на Alibaba Cloud в Сингапуре сервису DeepSeek; резервный маршрут — OpenRouter. Подборка может включать сведения о здоровье, если пользователь указал их в сообщениях или фактах. Создание плана и замена блюда требуют AI-запроса; просмотр сохранённого плана, формирование списка покупок и подтверждение съеденного выполняются локально.</p>
+        <p>В разделе «Память Веры» можно отключить добавление контекста, выключить последующие AI-запросы или очистить память профиля. Дневник доступен без AI. Удаление факта не удаляет его упоминания в старой переписке; очистка памяти удаляет всю локальную переписку, факты, дела и планы питания. Записи дневника при этом сохраняются; для полного удаления выберите «Профиль» → «Удалить все данные». Уже обработанные внешним поставщиком запросы этим действием не отзываются; правила их хранения определяются условиями поставщика.</p>
 
         <h2>4. Камера и медиатека</h2>
         <p>
@@ -133,7 +138,7 @@
         <section class="language-divider" id="english" lang="en">
           <p class="eyebrow">Legal information · English</p>
           <h1>Vera AI Privacy Policy</h1>
-          <p class="meta">Effective: August 8, 2026 · Last updated: August 8, 2026</p>
+          <p class="meta">Effective: August 8, 2026 · Last updated: October 19, 2026</p>
           <p>
             This policy explains how the Vera AI mobile application (“Vera”, the “App”), developed by
             Eugene Chushkin (“we”), processes information. Vera is a local-first nutrition diary with
@@ -154,11 +159,16 @@
             is used to generate an answer, recognize food, and estimate its nutritional content.
           </p>
           <p>
-            Requests pass through the Vera server and may be processed by external AI providers,
-            including DeepSeek, Alibaba Cloud Model Studio, OpenRouter, and Yandex Cloud. A fallback
-            provider may be used if the primary service is unavailable. Their own terms and privacy
-            policies govern their processing.
+            Requests pass through the Vera server hosted on Alibaba Cloud in Singapore. DeepSeek
+            processes text, Alibaba Cloud Model Studio processes photos, and OpenRouter provides
+            the fallback route. Older app versions may reach the same Vera server through a
+            compatible Yandex Cloud gateway. AI providers process requests under their own terms
+            and privacy policies.
           </p>
+
+          <h2>Conversation memory</h2>
+          <p>Conversation history, saved facts, recipes, ongoing tasks and meal plans are kept on the device separately for each local profile. The app explains external AI processing before the first submission. On iOS 1.2 and later, a separate permission is requested before the first AI call; users can decline and continue using the local diary. When the user sends a request, a limited selection of permitted context (history, facts, tasks and plans) is attached and sent through Vera's Alibaba Cloud server in Singapore to DeepSeek, with OpenRouter as the fallback route. This context may include health information if the user entered it in messages or facts. Creating a plan or replacing a meal requires an AI request. Viewing saved plans, building shopping lists and confirming eaten meals are local operations.</p>
+          <p>Memory settings allow users to stop attaching context, disable future AI requests, or clear the profile's local history, facts, tasks and meal plans. The diary remains available without AI. Deleting a fact does not remove earlier mentions from chat. Clearing memory keeps diary entries; Profile → Delete all data removes all local app data. Clearing local memory does not recall requests already processed by external providers; provider retention is governed by their own terms.</p>
 
           <h2>3. Technical data</h2>
           <p>
