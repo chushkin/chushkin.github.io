@@ -1,0 +1,187 @@
+{
+  "app": "Brain Evolution",
+  "preview_version": "1.2.0",
+  "screenshots_provenance": "Separate instrumented iOS Simulator build 1.2.0; original game UI, no redrawing; source captures paused for presentation. Not screenshots of the currently published versions.",
+  "artwork_provenance": "AI promotional illustration based on the shipped application icon; not game UI.",
+  "assets": [
+    {
+      "file": "brain-mascot-720.webp",
+      "width": 720,
+      "height": 405,
+      "bytes": 41880,
+      "source": "Builds/AppStore/1.2.0/Source/Artwork/brain-evolution-keyart-v1.png",
+      "source_sha256": "b930ffb85418a13ced0efb44eaabc69d77e65adcc6bad6b33b43a156d1fca53c",
+      "sha256": "4f67210182c049fed259fa3c1f254d66af16d624dc2cb2b1c46fac3ade21218c"
+    },
+    {
+      "file": "brain-mascot-1400.webp",
+      "width": 1400,
+      "height": 788,
+      "bytes": 102712,
+      "source": "Builds/AppStore/1.2.0/Source/Artwork/brain-evolution-keyart-v1.png",
+      "source_sha256": "b930ffb85418a13ced0efb44eaabc69d77e65adcc6bad6b33b43a156d1fca53c",
+      "sha256": "e9d2045ce6d40240d853fbde83f0beb4180e403771550bcdba2f4fef23c5add2"
+    },
+    {
+      "file": "app-icon.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 15680,
+      "source": "Builds/iOS/Unity-iPhone/Images.xcassets/AppIcon.appiconset/Icon-Store-1024.png",
+      "source_sha256": "d8701095dc0af6c119e494a8efffe399e3a814d00f4a46551d289db976f65cbb",
+      "sha256": "b6094ba3f7c883b3e2ac717908f26d9ad6e235de5ee25952be425453b8282d29"
+    },
+    {
+      "file": "numbers-iphone-ru.webp",
+      "width": 700,
+      "height": 1517,
+      "bytes": 50840,
+      "source": "Builds/AppStore/1.2.0/Source/Captures/iphone/ru/numbers.png",
+      "source_sha256": "54012842b3101ee143a5ff8f53929caa6e4fa14fa4edb419b75a7a07df841d21",
+      "sha256": "3c292de2a953c14d7895755a8e739558ffe6373fdb7bc787df78c0fff41e4061"
+    },
+    {
+      "file": "sudoku-iphone-ru.webp",
+      "width": 700,
+      "height": 1517,
+      "bytes": 55722,
+      "source": "Builds/AppStore/1.2.0/Source/Captures/iphone/ru/sudoku.png",
+      "source_sha256": "bafacdbf3e254de791537a6ec542df38e70322cb249c8623dde08f1d2ccff527",
+      "sha256": "3419a040f74c8e0e66b2b0968e771fdbd8e9f0ff1944a48769d9e70384a439e0"
+    },
+    {
+      "file": "memorics-iphone-ru.webp",
+      "width": 700,
+      "height": 1517,
+      "bytes": 38022,
+      "source": "Builds/AppStore/1.2.0/Source/Captures/iphone/ru/memorics.png",
+      "source_sha256": "4151dec320391c5dc08e0d5d25535f81ddd02744b93b9ce3f9d7b8046c7571ee",
+      "sha256": "76192a0b57a328187ca0a8c1c10a9c478ef465eb3d20e259c534d45874ed9cc9"
+    },
+    {
+      "file": "spatial-iphone-ru.webp",
+      "width": 700,
+      "height": 1517,
+      "bytes": 30898,
+      "source": "Builds/AppStore/1.2.0/Source/Captures/iphone/ru/spatial.png",
+      "source_sha256": "59bcac59c88b4024f30bbf1f88026826100d022a38f14fee715669eac437eb12",
+      "sha256": "cafce814de35585eac7a7c4d224a898c92a1b908b5c6b09164ce5695d04b2301"
+    },
+    {
+      "file": "numbers-ipad-ru.webp",
+      "width": 900,
+      "height": 1201,
+      "bytes": 50898,
+      "source": "Builds/AppStore/1.2.0/Source/Captures/ipad/ru/numbers.png",
+      "source_sha256": "13eda95a6e99e81a513b169f91e45e406c4a8fab6e2b695c85fc2dc548a3c68a",
+      "sha256": "3da6c91d080e1767c97855a39b7f459d196fa00aa9dabc6ccb990b0b01776373"
+    },
+    {
+      "file": "sudoku-ipad-ru.webp",
+      "width": 900,
+      "height": 1201,
+      "bytes": 54094,
+      "source": "Builds/AppStore/1.2.0/Source/Captures/ipad/ru/sudoku.png",
+      "source_sha256": "fa3aa4a69e5d4cb9cf7685f94b89c4eb8a1de523c34b12713afe489d2ad0d6f5",
+      "sha256": "3c11ec81260ec59b9cb58be97aeaa7de55dc648777ccd48d806a76645b6f5cfb"
+    },
+    {
+      "file": "memorics-ipad-ru.webp",
+      "width": 900,
+      "height": 1201,
+      "bytes": 45858,
+      "source": "Builds/AppStore/1.2.0/Source/Captures/ipad/ru/memorics.png",
+      "source_sha256": "ae63dab19ec076355deab03d3d2823904f2ade9f470761af559d1655ae478314",
+      "sha256": "2d2ff79bf3ac46894591d5a644ff1a32e30f95079b6adfd403ac71114fdba9f1"
+    },
+    {
+      "file": "spatial-ipad-ru.webp",
+      "width": 900,
+      "height": 1201,
+      "bytes": 38366,
+      "source": "Builds/AppStore/1.2.0/Source/Captures/ipad/ru/spatial.png",
+      "source_sha256": "910630ec1d6399af05e32f58df5af39410ba88c0def48a44881eb4f9cdcb6cba",
+      "sha256": "d5432c6cd9a1d7c3c6b0fbe88f59db9e3ef6457ae196fa41a45c81f1a5b531b0"
+    },
+    {
+      "file": "numbers-iphone-en.webp",
+      "width": 700,
+      "height": 1517,
+      "bytes": 50962,
+      "source": "Builds/AppStore/1.2.0/Source/Captures/iphone/en-US/numbers.png",
+      "source_sha256": "be1adbdcb47d85d63926477f981eee0c85b5f216390e5672ec92a8d461b6d2b6",
+      "sha256": "8079566c01cf1c2fcf70c9fb9bcae570b320d59d0d6ab172b9399beb03fab69e"
+    },
+    {
+      "file": "sudoku-iphone-en.webp",
+      "width": 700,
+      "height": 1517,
+      "bytes": 53538,
+      "source": "Builds/AppStore/1.2.0/Source/Captures/iphone/en-US/sudoku.png",
+      "source_sha256": "6d1cab62dcd3d30d78b5ee50ba604b17110e4f3877eac4eec48e34f4ca1a27ed",
+      "sha256": "4488a79c73ba44409c8b6dbe700c00a159d16e6e6149e28d3318c369d4646434"
+    },
+    {
+      "file": "memorics-iphone-en.webp",
+      "width": 700,
+      "height": 1517,
+      "bytes": 36178,
+      "source": "Builds/AppStore/1.2.0/Source/Captures/iphone/en-US/memorics.png",
+      "source_sha256": "acb51b5ebbfaef2dd300948294ce33b95457bc454f2567500071a8d4f830289f",
+      "sha256": "fad9686e63346074cb4232e50cf0aeac3586d4580dd861dcb318cacc6dc9d0aa"
+    },
+    {
+      "file": "spatial-iphone-en.webp",
+      "width": 700,
+      "height": 1517,
+      "bytes": 30830,
+      "source": "Builds/AppStore/1.2.0/Source/Captures/iphone/en-US/spatial.png",
+      "source_sha256": "677dacd7a7f9d71d9315b9e21d5d67e36a0d7dfac1d625cb5e8f3439889c0039",
+      "sha256": "0f06efdef0fc9d1d2be255c7a2f2ceb7b4440cd158fb2949a1dad9f90e7c6bba"
+    },
+    {
+      "file": "numbers-ipad-en.webp",
+      "width": 900,
+      "height": 1201,
+      "bytes": 51030,
+      "source": "Builds/AppStore/1.2.0/Source/Captures/ipad/en-US/numbers.png",
+      "source_sha256": "001e36195d8b8845ba56644a41178b2c5d5753328534651407977edfb699be81",
+      "sha256": "a8e46d56e9e506632b26fefdd76de48d03726f989dd12f56e95ca648f4b09bf3"
+    },
+    {
+      "file": "sudoku-ipad-en.webp",
+      "width": 900,
+      "height": 1201,
+      "bytes": 53348,
+      "source": "Builds/AppStore/1.2.0/Source/Captures/ipad/en-US/sudoku.png",
+      "source_sha256": "b0ec5bcf2d540b75da8a4a255467bcc36a0c6d4e684b4c1ffc835d40f31c6688",
+      "sha256": "d474bc25737515c247e698970ebdabee696e088f23b99dd7736fb282f5fd8e96"
+    },
+    {
+      "file": "memorics-ipad-en.webp",
+      "width": 900,
+      "height": 1201,
+      "bytes": 43376,
+      "source": "Builds/AppStore/1.2.0/Source/Captures/ipad/en-US/memorics.png",
+      "source_sha256": "04b8c6bfa0a7bd38d75e6a030cb3ce0c997252eac8b4747c6ba286e004c9b046",
+      "sha256": "90737f81f34339fd71ab026d2457e9600eb4199f97be2daf25a80ed8306ebb30"
+    },
+    {
+      "file": "spatial-ipad-en.webp",
+      "width": 900,
+      "height": 1201,
+      "bytes": 37626,
+      "source": "Builds/AppStore/1.2.0/Source/Captures/ipad/en-US/spatial.png",
+      "source_sha256": "b288df4373c83a971d65e61df3ab51ebcb69e4a1ee81529b11c7b20b1262283c",
+      "sha256": "524e895f4b18c94825e3284e49975b7e978cb75e65046475faa64b913556ad7f"
+    },
+    {
+      "file": "brain-evolution-preview.jpg",
+      "width": 1200,
+      "height": 630,
+      "bytes": 131822,
+      "source": "Builds/AppStore/1.2.0/Source/Artwork/brain-evolution-keyart-v1.png",
+      "source_sha256": "b930ffb85418a13ced0efb44eaabc69d77e65adcc6bad6b33b43a156d1fca53c"
+    }
+  ]
+}

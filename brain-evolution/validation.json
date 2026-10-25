@@ -1,0 +1,42 @@
+{
+  "status": "PASS",
+  "pages": [
+    {
+      "page": "brain-evolution/index.html",
+      "h1": 1,
+      "games": 13,
+      "tabs": 4,
+      "local_links_and_assets": "PASS",
+      "version_disclosure": "PASS",
+      "dead_google_play_cta": "absent"
+    },
+    {
+      "page": "brain-evolution/en/index.html",
+      "h1": 1,
+      "games": 13,
+      "tabs": 4,
+      "local_links_and_assets": "PASS",
+      "version_disclosure": "PASS",
+      "dead_google_play_cta": "absent"
+    }
+  ],
+  "source_sha256": {
+    "index.html": "85af8c8b0dabd789e7de0cd262e17982d57e747dde24605d5579e04ef55e671a",
+    "en/index.html": "7e7c5565c6128f8138cfcffddefaf6809ebee465cba51259a46c6f63697f3565",
+    "styles.css": "c4671273b54a876f9c9ef6213e06cedc64dc01f253c92f4bf5e8d9a95b8b03db",
+    "app.js": "58392cb7a400de31da908b75464065ff01ba4e4211dd2402580482238b043ec6"
+  },
+  "optimized_assets": 20,
+  "total_image_bytes": 1013680,
+  "checks": [
+    "one H1 per page",
+    "all13 named games across4 categories",
+    "tab/panel ARIA IDs",
+    "local asset and link targets",
+    "required real store links",
+    "published vs upcoming version disclosure",
+    "image alt and intrinsic dimensions",
+    "manifest image decoding/dimensions/hash"
+  ],
+  "browser_qa": "Performed separately by root; this report does not claim browser interaction checks."
+}

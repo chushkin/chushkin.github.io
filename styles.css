@@ -1173,3 +1173,12 @@ h1 {
     flex-direction: column;
   }
 }
+
+/* Brain Evolution: preserve the full native screen in its portfolio preview. */
+.case-visual-brain { background: #d8ecde; padding: 36px 0; }
+.case-visual-brain .case-screen {
+  width: min(62%, 260px);
+  height: auto;
+  aspect-ratio: 1290 / 2796;
+  object-fit: contain;
+}
