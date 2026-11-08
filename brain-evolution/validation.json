@@ -8,7 +8,8 @@
       "tabs": 4,
       "local_links_and_assets": "PASS",
       "version_disclosure": "PASS",
-      "dead_google_play_cta": "absent"
+      "google_play_cta": "present",
+      "web_version_link": "v1/"
     },
     {
       "page": "brain-evolution/en/index.html",
@@ -17,12 +18,13 @@
       "tabs": 4,
       "local_links_and_assets": "PASS",
       "version_disclosure": "PASS",
-      "dead_google_play_cta": "absent"
+      "google_play_cta": "present",
+      "web_version_link": "v1/"
     }
   ],
   "source_sha256": {
-    "index.html": "85af8c8b0dabd789e7de0cd262e17982d57e747dde24605d5579e04ef55e671a",
-    "en/index.html": "7e7c5565c6128f8138cfcffddefaf6809ebee465cba51259a46c6f63697f3565",
+    "index.html": "2765444f1844e9a38526f0096d7889fbfc928aec0fc43277abfd77171b18cdc6",
+    "en/index.html": "31dace2b59bb3d63cd37610c77eef7df14fc424d99cde851eb5e946f231038dc",
     "styles.css": "c4671273b54a876f9c9ef6213e06cedc64dc01f253c92f4bf5e8d9a95b8b03db",
     "app.js": "58392cb7a400de31da908b75464065ff01ba4e4211dd2402580482238b043ec6"
   },

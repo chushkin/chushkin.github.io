@@ -40,7 +40,8 @@ def main():
  for path in [SITE/'index.html',SITE/'en/index.html']:
   parsed=Parser();source=path.read_text('utf-8');parsed.feed(source)
   assert parsed.h1==1 and parsed.games==13 and len(parsed.tabs)==4 and len(parsed.panels)==4,path
-  assert 'play.google.com' not in source,path
+  assert 'https://play.google.com/store/apps/details?id=com.AmazeSolution.BrainEvolution' in parsed.links,path
+  assert ('../v1/' if path.parent.name=='en' else 'v1/') in parsed.links,path
   assert '1.0.7' in source and '1.1.8' in source and source.count('1.2.0')>=12,path
   assert 'sites.google.com/view/chushkin' in source,path
   assert 'https://apps.apple.com/ru/app/brain-evolution-of-thinking/id6465684415' in parsed.links,path
@@ -60,7 +61,7 @@ def main():
    if tag=='img':assert 'alt' in attrs and 'width' in attrs and 'height' in attrs,(path,attrs)
   reports.append({'page':str(path.relative_to(CHECKOUT)),'h1':parsed.h1,'games':parsed.games,
                   'tabs':len(parsed.tabs),'local_links_and_assets':'PASS','version_disclosure':'PASS',
-                  'dead_google_play_cta':'absent'})
+                  'google_play_cta':'present','web_version_link':'v1/'})
  manifest=json.loads((SITE/'assets/manifest.json').read_text('utf-8'))
  for asset in manifest['assets']:
   path=SITE/'assets'/asset['file'];image=Image.open(path)

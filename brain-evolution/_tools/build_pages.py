@@ -7,6 +7,7 @@ import json
 ROOT=Path(__file__).resolve().parents[1]
 APP_STORE='https://apps.apple.com/ru/app/brain-evolution-of-thinking/id6465684415'
 RUSTORE='https://www.rustore.ru/catalog/app/com.AmazeSolution.BrainEvolution'
+GOOGLE_PLAY='https://play.google.com/store/apps/details?id=com.AmazeSolution.BrainEvolution'
 PRIVACY='https://sites.google.com/view/chushkin'
 MAIL='eugene.chushkin@gmail.com'
 
@@ -18,7 +19,7 @@ COPY={
   'product':'Игры для любопытного ума','release':'Готовится обновление 1.2.0',
   'hero_title':'Дайте уму<br><em>интересную</em><br>задачу.',
   'hero_copy':'Считайте, запоминайте, ищите закономерности. Коллекция небольших игровых задач для вашей следующей паузы.',
-  'app_store':'Открыть App Store','rustore':'Открыть RuStore',
+  'app_store':'Открыть App Store','rustore':'Открыть RuStore','google_play':'Открыть Google Play','web':'Открыть веб-версию','web_platform':'Браузер',
   'store_note':'В магазинах пока предыдущие версии.<br>Новые игры и экраны ниже — превью будущей 1.2.0.',
   'art_alt':'Персонаж Brain Evolution — коралловый мозг в очках рядом с числовой головоломкой и геометрическими фигурами',
   'art_caption':'Больше способов играть','art_version':'13 мини-игр в готовящемся обновлении 1.2.0',
@@ -43,7 +44,7 @@ COPY={
   'faq_title':'Перед первой игрой','faq_eyebrow':'Несколько ответов',
   'faq':[
    ('Какая версия показана на странице?','Игры и скриншоты в галерее — превью готовящейся версии 1.2.0. На 25 октября 2026 года в App Store доступна 1.0.7, в RuStore — 1.1.8. Обновление 1.2.0 ещё не опубликовано; после перехода в магазин проверьте доступную там версию.'),
-   ('На каких устройствах можно играть?','Текущая версия доступна на iPhone и iPad через App Store, а на Android — через RuStore. Кнопки на этой странице ведут на официальные страницы приложения.'),
+   ('На каких устройствах можно играть?','Текущая версия доступна на iPhone и iPad через App Store, а на Android — через RuStore и Google Play. Веб-версия открывается прямо в браузере. Кнопки на этой странице ведут на официальные страницы приложения.'),
    ('Как устроены профили и прогресс в 1.2.0?','В готовящейся версии можно создавать локальные профили игроков и хранить результаты отдельно. Звёзды, медали и ранги относятся к прохождению игр.'),
    ('Какие языки есть в 1.2.0?','В настройках доступен выбор английского, русского, украинского, немецкого, испанского, французского, итальянского, польского, португальского, турецкого и иврита. Часть новых панелей пока остаётся на английском или русском.'),
   ],
@@ -61,7 +62,7 @@ COPY={
   'product':'Games for a curious mind','release':'Coming next: update 1.2.0',
   'hero_title':'Make room<br>for a little<br><em>challenge.</em>',
   'hero_copy':'Calculate, remember and look for patterns. A colourful collection of small challenges for your next little break.',
-  'app_store':'Open App Store','rustore':'Open RuStore',
+  'app_store':'Open App Store','rustore':'Open RuStore','google_play':'Open Google Play','web':'Open web version','web_platform':'Browser',
   'store_note':'Stores currently offer earlier versions.<br>The new games and screens below preview the upcoming 1.2.0 update.',
   'art_alt':'The Brain Evolution mascot, a coral brain wearing round glasses, beside a number puzzle and geometric shapes',
   'art_caption':'More ways to play','art_version':'13 mini-games in the upcoming 1.2.0 update',
@@ -86,7 +87,7 @@ COPY={
   'faq_title':'Before your first game','faq_eyebrow':'A few answers',
   'faq':[
    ('Which version is shown on this page?','The gallery previews the upcoming version 1.2.0. On October 25, 2026, the App Store offers version 1.0.7 and RuStore offers version 1.1.8. Update 1.2.0 has not been published yet. Check the version available in the store before downloading.'),
-   ('Which devices can I use?','The current version is available for iPhone and iPad on the App Store, and for Android on RuStore. The buttons on this page link to the official app listings.'),
+   ('Which devices can I use?','The current version is available for iPhone and iPad on the App Store, and for Android on RuStore and Google Play. The web version runs right in your browser. The buttons on this page link to the official app listings.'),
    ('How do profiles and progress work in 1.2.0?','The upcoming version lets players create local profiles and keep results separate. Stars, medals and ranks relate to progress through the games.'),
    ('Which languages are available in 1.2.0?','Settings offer English, Russian, Ukrainian, German, Spanish, French, Italian, Polish, Portuguese, Turkish and Hebrew. Some new panels are still displayed in English or Russian.'),
   ],
@@ -104,8 +105,8 @@ def arrow():
  return '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 
 
-def buttons(c):
- return f'''<div class="store-actions"><a class="button button-mint" href="{APP_STORE}" rel="external noreferrer"><span class="store-platform">iPhone · iPad</span><span>{c['app_store']}</span>{arrow()}</a><a class="button button-outline" href="{RUSTORE}" rel="external noreferrer"><span class="store-platform">Android</span><span>{c['rustore']}</span>{arrow()}</a></div>'''
+def buttons(c,base=''):
+ return f'''<div class="store-actions"><a class="button button-mint" href="{APP_STORE}" rel="external noreferrer"><span class="store-platform">iPhone · iPad</span><span>{c['app_store']}</span>{arrow()}</a><a class="button button-outline" href="{RUSTORE}" rel="external noreferrer"><span class="store-platform">Android</span><span>{c['rustore']}</span>{arrow()}</a><a class="button button-outline" href="{GOOGLE_PLAY}" rel="external noreferrer"><span class="store-platform">Android</span><span>{c['google_play']}</span>{arrow()}</a><a class="button button-outline" href="{base}v1/"><span class="store-platform">{c['web_platform']}</span><span>{c['web']}</span>{arrow()}</a></div>'''
 
 
 def page(lang):
@@ -154,7 +155,7 @@ def page(lang):
  <a class="skip-link" href="#main">{e(c['skip'])}</a>
  <header class="site-header"><a class="brand" href="{home}" aria-label="Eugene Chushkin"><span class="brand-mark">EC</span><span>Eugene Chushkin</span></a><nav class="main-nav" aria-label="{e(c['nav_label'])}"><a href="#games">{e(c['nav_games'])}</a><a href="#your-way">{e(c['nav_story'])}</a><a class="nav-download" href="#download">{e(c['nav_get'])}</a></nav><nav class="language-nav" aria-label="Language">{language_nav}</nav></header>
  <main id="main">
-  <section class="hero" aria-labelledby="hero-title"><div class="container hero-grid"><div class="hero-copy"><div class="product-lockup"><img src="{base}assets/app-icon.webp" alt="" width="54" height="54"/><div><span>Brain Evolution</span><p>{e(c['product'])}</p></div></div><p class="release-tag"><span aria-hidden="true"></span>{e(c['release'])}</p><h1 id="hero-title">{c['hero_title']}</h1><p class="hero-lead">{e(c['hero_copy'])}</p>{buttons(c)}<p class="store-note">{c['store_note']}</p></div><figure class="hero-art"><img src="{base}assets/brain-mascot-1400.webp" srcset="{base}assets/brain-mascot-720.webp 720w, {base}assets/brain-mascot-1400.webp 1400w" sizes="(max-width:980px) 100vw, 55vw" alt="{e(c['art_alt'])}" width="1400" height="788" fetchpriority="high"/><figcaption><span class="art-star" aria-hidden="true">✳</span><div><strong>{e(c['art_caption'])}</strong><span>{e(c['art_version'])}</span></div></figcaption></figure></div><a class="scroll-cue" href="#games"><span>{e(c['nav_games'])}</span><span aria-hidden="true">↓</span></a></section>
+  <section class="hero" aria-labelledby="hero-title"><div class="container hero-grid"><div class="hero-copy"><div class="product-lockup"><img src="{base}assets/app-icon.webp" alt="" width="54" height="54"/><div><span>Brain Evolution</span><p>{e(c['product'])}</p></div></div><p class="release-tag"><span aria-hidden="true"></span>{e(c['release'])}</p><h1 id="hero-title">{c['hero_title']}</h1><p class="hero-lead">{e(c['hero_copy'])}</p>{buttons(c,base)}<p class="store-note">{c['store_note']}</p></div><figure class="hero-art"><img src="{base}assets/brain-mascot-1400.webp" srcset="{base}assets/brain-mascot-720.webp 720w, {base}assets/brain-mascot-1400.webp 1400w" sizes="(max-width:980px) 100vw, 55vw" alt="{e(c['art_alt'])}" width="1400" height="788" fetchpriority="high"/><figcaption><span class="art-star" aria-hidden="true">✳</span><div><strong>{e(c['art_caption'])}</strong><span>{e(c['art_version'])}</span></div></figcaption></figure></div><a class="scroll-cue" href="#games"><span>{e(c['nav_games'])}</span><span aria-hidden="true">↓</span></a></section>
 
   <section class="explore section-space" id="games" aria-labelledby="games-title"><div class="container"><div class="section-heading"><div><p class="eyebrow">{e(c['explore_eyebrow'])}</p><h2 id="games-title">{c['explore_title']}</h2></div><p>{e(c['explore_copy'])}</p></div><div class="gallery-controls"><div class="game-tabs" role="tablist" aria-label="{e(c['tab_label'])}">{tabs}</div><div class="device-switch" role="group" aria-label="{e(c['device_label'])}"><button type="button" data-device="iphone" aria-pressed="true">iPhone</button><button type="button" data-device="ipad" aria-pressed="false">iPad</button></div></div>{''.join(panels)}<p class="gallery-note">{e(c['gallery_note'])}</p><p id="preview-status" class="sr-only" aria-live="polite"></p></div></section>
 
@@ -162,7 +163,7 @@ def page(lang):
 
   <section class="faq section-space" aria-labelledby="faq-title"><div class="container faq-grid"><div><p class="eyebrow">{e(c['faq_eyebrow'])}</p><h2 id="faq-title">{e(c['faq_title'])}</h2><a class="text-link" href="{support}">{e(c['support'])} {arrow()}</a></div><div class="faq-list">{faq}</div></div></section>
 
-  <section class="download section-space" id="download" aria-labelledby="download-title"><div class="container download-grid"><div><img class="download-icon" src="{base}assets/app-icon.webp" alt="Brain Evolution" width="88" height="88"/><p class="eyebrow">{e(c['download_eyebrow'])}</p><h2 id="download-title">{c['download_title']}</h2><p class="download-copy">{e(c['download_copy'])}</p>{buttons(c)}</div><aside class="availability"><p class="eyebrow">{e(c['available_label'])}</p><a href="{APP_STORE}" rel="external noreferrer"><span>App Store</span><strong>{e(c['ios_current'])}</strong>{arrow()}</a><a href="{RUSTORE}" rel="external noreferrer"><span>RuStore</span><strong>{e(c['android_current'])}</strong>{arrow()}</a><p>{e(c['checked'])}</p></aside></div></section>
+  <section class="download section-space" id="download" aria-labelledby="download-title"><div class="container download-grid"><div><img class="download-icon" src="{base}assets/app-icon.webp" alt="Brain Evolution" width="88" height="88"/><p class="eyebrow">{e(c['download_eyebrow'])}</p><h2 id="download-title">{c['download_title']}</h2><p class="download-copy">{e(c['download_copy'])}</p>{buttons(c,base)}</div><aside class="availability"><p class="eyebrow">{e(c['available_label'])}</p><a href="{APP_STORE}" rel="external noreferrer"><span>App Store</span><strong>{e(c['ios_current'])}</strong>{arrow()}</a><a href="{RUSTORE}" rel="external noreferrer"><span>RuStore</span><strong>{e(c['android_current'])}</strong>{arrow()}</a><p>{e(c['checked'])}</p></aside></div></section>
  </main>
  <footer class="site-footer"><div class="container footer-grid"><div><strong>Brain Evolution</strong><p>{e(c['footer_copy'])}</p><span>© 2026 Eugene Chushkin</span></div><nav aria-label="{e(c['support'])}"><a href="{support}">{e(c['support'])}</a><a href="{PRIVACY}" rel="external noreferrer">{e(c['privacy'])}</a><a href="mailto:{MAIL}">{MAIL}</a><a href="{home}">{e(c['developer'])} <span aria-hidden="true">↗</span></a></nav></div></footer>
  <dialog class="image-dialog" aria-labelledby="dialog-title"><div class="dialog-toolbar"><h2 id="dialog-title">{e(c['dialog_title'])}</h2><button type="button" class="dialog-close" aria-label="{e(c['close'])}"><span aria-hidden="true">×</span></button></div><div class="dialog-body"><img alt="" width="700" height="1517"/></div><p>{e(c['dialog_note'])}</p></dialog>
