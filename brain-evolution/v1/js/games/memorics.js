@@ -2,7 +2,7 @@ import { RestoredGame, tr, escapeHTML } from './restored-game.js';
 import { createRandom } from '../original.js';
 import { audio } from '../audio.js';
 import { i18n } from '../i18n.js';
-import { loadResources, drawFrame, drawBorderSection, rect, numbers, rgba, canvasPoint } from './spb-canvas.js';
+import { loadResources, drawFrame, drawBorderSection, rect, numbers, rgba, canvasPoint } from './amaze-canvas.js';
 import * as M from './memorics-model.js';
 
 // cr_game_wnd: 480x715 layout units below the top bar. Memorics is COLORRECTS (102).
@@ -105,15 +105,15 @@ export class MemoricsGame extends RestoredGame {
         aria-label="${name === 'skip' ? tr('Пропустить', 'Skip') : tr('Далее', 'Next')}"></button>`;
     };
     const timer = rect(g.cr_time_txt.text_rect);
-    this.frame(this.title, `<div class="spb-stage cr-stage" style="aspect-ratio:${WIDTH}/${HEIGHT}">
-        <canvas class="spb-stage-canvas" width="${WIDTH}" height="${HEIGHT}" data-cr-canvas
+    this.frame(this.title, `<div class="amaze-stage cr-stage" style="aspect-ratio:${WIDTH}/${HEIGHT}">
+        <canvas class="amaze-stage-canvas" width="${WIDTH}" height="${HEIGHT}" data-cr-canvas
           aria-label="${tr('Поле Memorics: 6 столбцов, 5 строк', 'Memorics field: 6 columns, 5 rows')}"></canvas>
-        <div class="spb-stage-text cr-text" data-text aria-live="polite"></div>
-        <div class="spb-stage-text cr-tries" data-tries style="${at(rect(g.cr_tryesleft_txt.text_rect))}" aria-live="polite"></div>
-        <div class="spb-stage-text cr-timer" data-timer style="${at(timer, bottom.y)}"></div>
+        <div class="amaze-stage-text cr-text" data-text aria-live="polite"></div>
+        <div class="amaze-stage-text cr-tries" data-tries style="${at(rect(g.cr_tryesleft_txt.text_rect))}" aria-live="polite"></div>
+        <div class="amaze-stage-text cr-timer" data-timer style="${at(timer, bottom.y)}"></div>
         ${button(g.cr_skip_btn, 'skip', bottom.y)}${button(g.cr_next_btn, 'next', 0)}
       </div>`);
-    this.container.querySelector('.spb-pause-bar').insertAdjacentHTML('beforeend', '<span class="spb-stage-time" data-time></span>');
+    this.container.querySelector('.amaze-pause-bar').insertAdjacentHTML('beforeend', '<span class="amaze-stage-time" data-time></span>');
     this.canvas = this.container.querySelector('[data-cr-canvas]');
     this.ctx = this.canvas.getContext('2d');
     this.canvas.addEventListener('pointerdown', event => {

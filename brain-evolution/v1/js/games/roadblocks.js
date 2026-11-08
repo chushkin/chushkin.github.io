@@ -34,11 +34,11 @@ export class RoadblocksGame extends RestoredGame {
   }
   render() {
     this.frame(this.title, `<p class="restored-instruction">${tr('Прокатите шар к выходу со стрелкой','Roll the ball to an exit gate')}</p>
-      <div class="spb-board-wrapper"><div class="rb-field-wrap"><canvas id="rbCanvas" width="468" height="572" aria-label="${tr('Лабиринт','Maze')}"></canvas>
+      <div class="amaze-board-wrapper"><div class="rb-field-wrap"><canvas id="rbCanvas" width="468" height="572" aria-label="${tr('Лабиринт','Maze')}"></canvas>
       ${this.phase==='solved'?`<div class="game-ending-overlay" role="status"><div class="game-ending-card">
         <h2>${tr('Выход найден!', 'Exit reached!')}</h2>
         <p>${tr('Поле пройдено', 'Field completed')}: ${this.levelIndex+1}/${this.levels.length}</p>
-        <button class="spb-action-btn" data-next>${i18n.t('Next')}</button>
+        <button class="amaze-action-btn" data-next>${i18n.t('Next')}</button>
       </div></div>`:''}</div></div>
       <p class="geometry-feedback" data-feedback aria-live="polite"></p>`,
       this.phase==='solved'?'':

@@ -2,7 +2,7 @@ import { RestoredGame, tr, escapeHTML } from './restored-game.js';
 import { arrayValue } from '../original.js';
 import { audio } from '../audio.js';
 import { i18n } from '../i18n.js';
-import { loadResources, drawFrame, drawTiled, drawBorderSection, rect, numbers, rgba, canvasPoint } from './spb-canvas.js';
+import { loadResources, drawFrame, drawTiled, drawBorderSection, rect, numbers, rgba, canvasPoint } from './amaze-canvas.js';
 import * as M from './numbers-model.js';
 
 // Numbers window (numbers_wnd) is 480x715 layout units below the 85-unit top bar.
@@ -61,7 +61,7 @@ export class NumbersGame extends RestoredGame {
         <div class="numbers-task" data-task aria-live="polite"
           style="left:${pct(text.x, WIDTH)};top:${pct(bottom.y + text.y, HEIGHT)};width:${pct(text.w, WIDTH)};height:${pct(text.h, HEIGHT)}"></div>
       </div>`);
-    const pause = this.container.querySelector('.spb-pause-bar');
+    const pause = this.container.querySelector('.amaze-pause-bar');
     pause.insertAdjacentHTML('beforeend', '<span class="numbers-time" data-time></span>');
     this.canvas = this.container.querySelector('[data-numbers-canvas]');
     this.ctx = this.canvas.getContext('2d');

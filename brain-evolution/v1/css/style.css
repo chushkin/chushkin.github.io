@@ -1,4 +1,4 @@
-/* SPB Brain Evolution - Authentic Remaster Styling */
+/* Amaze Brain Evolution - Authentic Remaster Styling */
 
 :root {
   --bg-dark: #0b111a;
@@ -10,19 +10,19 @@
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 
-  /* Authentic SPB In-Game Palette from Screenshots */
-  --spb-sky-bg: #c8e4f8;
-  --spb-header-dark: #103358;
-  --spb-header-bottom: #09223e;
-  --spb-pause-bar-top: #bfe1f8;
-  --spb-pause-bar-bot: #9ec8ec;
-  --spb-block-light: #9bc5eb;
-  --spb-block-dark: #6fa3cf;
-  --spb-cell-border: #4d82ae;
-  --spb-cell-selected: #fed7a4;
-  --spb-cell-selected-border: #f39c12;
-  --spb-digit-given: #092b52;
-  --spb-digit-user: #0055cc;
+  /* Authentic Amaze In-Game Palette from Screenshots */
+  --amaze-sky-bg: #c8e4f8;
+  --amaze-header-dark: #103358;
+  --amaze-header-bottom: #09223e;
+  --amaze-pause-bar-top: #bfe1f8;
+  --amaze-pause-bar-bot: #9ec8ec;
+  --amaze-block-light: #9bc5eb;
+  --amaze-block-dark: #6fa3cf;
+  --amaze-cell-border: #4d82ae;
+  --amaze-cell-selected: #fed7a4;
+  --amaze-cell-selected-border: #f39c12;
+  --amaze-digit-given: #092b52;
+  --amaze-digit-user: #0055cc;
 }
 
 * {
@@ -180,7 +180,7 @@ body {
 /* ============================================================ */
 /* INTRO CHALKBOARD FULL-SCREEN SPLASH (Screenshot 1)           */
 /* ============================================================ */
-.spb-intro-view {
+.amaze-intro-view {
   position: absolute;
   inset: 0;
   background: #192b1e;
@@ -193,7 +193,7 @@ body {
   overflow: hidden;
 }
 
-.spb-intro-img {
+.amaze-intro-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -227,32 +227,32 @@ body {
 }
 
 /* ============================================================ */
-/* AUTHENTIC SPB TOP BARS (Screenshots 2 & 3)                   */
+/* AUTHENTIC Amaze TOP BARS (Screenshots 2 & 3)                   */
 /* ============================================================ */
-.spb-game-container {
+.amaze-game-container {
   display: flex;
   flex-direction: column;
   flex: 1;
   width: 100%;
   height: 100%;
-  background: var(--spb-sky-bg);
+  background: var(--amaze-sky-bg);
   position: relative;
   overflow: hidden;
 }
 
-.spb-header-bar {
+.amaze-header-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 48px;
   padding: 0 12px;
-  background: linear-gradient(180deg, var(--spb-header-dark) 0%, var(--spb-header-bottom) 100%);
+  background: linear-gradient(180deg, var(--amaze-header-dark) 0%, var(--amaze-header-bottom) 100%);
   border-bottom: 2px solid #234c75;
   box-shadow: 0 2px 6px rgba(0,0,0,0.3);
   z-index: 10;
 }
 
-.spb-header-btn {
+.amaze-header-btn {
   width: 36px;
   height: 34px;
   background: linear-gradient(180deg, #1f5f96 0%, #124068 100%);
@@ -267,7 +267,7 @@ body {
   transition: all 0.1s ease;
 }
 
-.spb-header-btn:active {
+.amaze-header-btn:active {
   transform: translateY(1px);
   background: #0f3556;
 }
@@ -284,7 +284,7 @@ body {
   line-height: 1;
 }
 
-.spb-header-title {
+.amaze-header-title {
   font-size: 18px;
   font-weight: 700;
   color: #fff;
@@ -293,17 +293,17 @@ body {
 }
 
 /* Pause bar */
-.spb-pause-bar {
+.amaze-pause-bar {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 34px;
-  background: linear-gradient(180deg, var(--spb-pause-bar-top) 0%, var(--spb-pause-bar-bot) 100%);
+  background: linear-gradient(180deg, var(--amaze-pause-bar-top) 0%, var(--amaze-pause-bar-bot) 100%);
   border-bottom: 1px solid #7eaed6;
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
 }
 
-.spb-pause-capsule {
+.amaze-pause-capsule {
   width: 90px;
   height: 22px;
   background: linear-gradient(180deg, #ffffff 0%, #e1effa 60%, #c1dff6 100%);
@@ -316,7 +316,7 @@ body {
   box-shadow: inset 0 1px 0 #fff, 0 1px 3px rgba(0,0,0,0.2);
 }
 
-.spb-pause-capsule:active {
+.amaze-pause-capsule:active {
   background: #b8d9f4;
 }
 
@@ -328,9 +328,9 @@ body {
 }
 
 /* ============================================================ */
-/* SUDOKU SCREEN — Authentic SPB Brain Evolution (_SUDOKU_INO)  */
+/* SUDOKU SCREEN — Authentic Amaze Brain Evolution (_SUDOKU_INO)  */
 /* ============================================================ */
-.spb-board-wrapper {
+.amaze-board-wrapper {
   flex: 1;
   display: flex;
   align-items: center;
@@ -516,7 +516,7 @@ body {
 /* PAIRS SCREEN (Screenshot 3)                                  */
 /* ============================================================ */
 .pairs-screen {
-  background: var(--spb-sky-bg);
+  background: var(--amaze-sky-bg);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -549,7 +549,7 @@ body {
   padding: 8px 12px;
 }
 
-.spb-pairs-frame {
+.amaze-pairs-frame {
   width: 100%;
   max-width: 380px;
   background: #afd7fd;
@@ -560,12 +560,12 @@ body {
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.spb-pairs-frame.wrong-move {
+.amaze-pairs-frame.wrong-move {
   border-color: #ff0000 !important;
   box-shadow: 0 0 18px rgba(255, 0, 0, 0.85) !important;
 }
 
-.spb-pairs-grid {
+.amaze-pairs-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(8, 1fr);
@@ -577,7 +577,7 @@ body {
   overflow: hidden;
 }
 
-.spb-pairs-cell {
+.amaze-pairs-cell {
   position: relative;
   aspect-ratio: 1 / 1;
   user-select: none;
@@ -586,20 +586,20 @@ body {
   height: 100%;
 }
 
-.spb-pairs-cell.cell-empty {
+.amaze-pairs-cell.cell-empty {
   background-image: url('../assets/textures/disabled_item.png');
   background-size: cover;
   background-position: center;
   pointer-events: none;
 }
 
-.spb-pairs-cell.cell-card {
+.amaze-pairs-cell.cell-card {
   cursor: pointer;
   perspective: 600px;
   touch-action: manipulation;
 }
 
-.spb-pairs-cell.cell-card .card-inner {
+.amaze-pairs-cell.cell-card .card-inner {
   position: relative;
   width: 100%;
   height: 100%;
@@ -607,13 +607,13 @@ body {
   transition: transform 0.22s ease-out;
 }
 
-.spb-pairs-cell.cell-card.flipped .card-inner,
-.spb-pairs-cell.cell-card.matched .card-inner {
+.amaze-pairs-cell.cell-card.flipped .card-inner,
+.amaze-pairs-cell.cell-card.matched .card-inner {
   transform: rotateY(180deg);
 }
 
-.spb-pairs-cell.cell-card .card-front,
-.spb-pairs-cell.cell-card .card-back {
+.amaze-pairs-cell.cell-card .card-front,
+.amaze-pairs-cell.cell-card .card-back {
   position: absolute;
   inset: 0;
   backface-visibility: hidden;
@@ -624,21 +624,21 @@ body {
   background-repeat: no-repeat;
 }
 
-.spb-pairs-cell.cell-card .card-front {
+.amaze-pairs-cell.cell-card .card-front {
   background-image: url('../assets/textures/closed_item.png');
   box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.2);
 }
 
-.spb-pairs-cell.cell-card .card-back {
+.amaze-pairs-cell.cell-card .card-back {
   transform: rotateY(180deg);
   box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.15);
 }
 
-.spb-pairs-cell.cell-card.matched .card-back {
+.amaze-pairs-cell.cell-card.matched .card-back {
   box-shadow: inset 0 0 0 2px #5bb02e;
 }
 
-.spb-pairs-cell.has-cursor::after {
+.amaze-pairs-cell.has-cursor::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -689,7 +689,7 @@ body {
 /* ============================================================ */
 /* MODAL OVERLAY (Menu / Pause / Help)                          */
 /* ============================================================ */
-.spb-modal-overlay {
+.amaze-modal-overlay {
   position: absolute;
   inset: 0;
   background: rgba(0, 15, 35, 0.7);
@@ -706,7 +706,7 @@ body {
   to { opacity: 1; }
 }
 
-.spb-modal-card {
+.amaze-modal-card {
   width: 100%;
   max-width: 320px;
   background: linear-gradient(180deg, #1d334d 0%, #122133 100%);
@@ -742,7 +742,7 @@ body {
   width: 100%;
 }
 
-.spb-modal-btn {
+.amaze-modal-btn {
   width: 100%;
   padding: 12px;
   background: linear-gradient(180deg, #244b74 0%, #183350 100%);
@@ -755,16 +755,16 @@ body {
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 2px 4px rgba(0,0,0,0.3);
 }
 
-.spb-modal-btn:hover {
+.amaze-modal-btn:hover {
   background: #2b5685;
 }
 
-.spb-modal-btn.btn-resume {
+.amaze-modal-btn.btn-resume {
   background: linear-gradient(180deg, #27ae60 0%, #1e8449 100%);
   border-color: #2ecc71;
 }
 
-.spb-modal-btn.btn-exit-menu {
+.amaze-modal-btn.btn-exit-menu {
   background: linear-gradient(180deg, #962d22 0%, #78241b 100%);
   border-color: #c0392b;
 }
@@ -785,7 +785,7 @@ body {
 /* ============================================================ */
 /* AUTHENTIC MAIN MENU (CExMenuWnd from _SHELL_M_MENU_EX_INO)   */
 /* ============================================================ */
-.spb-main-menu {
+.amaze-main-menu {
   width: 100%;
   height: 100%;
   position: relative;
@@ -938,9 +938,9 @@ body {
 }
 
 /* ============================================================ */
-/* AUTHENTIC SPB OPTIONS / QUICK MENU DIALOG                    */
+/* AUTHENTIC Amaze OPTIONS / QUICK MENU DIALOG                    */
 /* ============================================================ */
-.spb-dialog-overlay {
+.amaze-dialog-overlay {
   position: absolute;
   inset: 0;
   background: rgba(0, 10, 20, 0.65);
@@ -953,7 +953,7 @@ body {
   animation: fadeIn 0.15s ease-out;
 }
 
-.spb-dialog-card {
+.amaze-dialog-card {
   width: 100%;
   max-width: 440px;
   background: #f1f8fc;
@@ -965,7 +965,7 @@ body {
   overflow: hidden;
 }
 
-.spb-dialog-header {
+.amaze-dialog-header {
   height: 44px;
   background: linear-gradient(180deg, #184c7b 0%, #0d3154 100%);
   color: #fff;
@@ -979,7 +979,7 @@ body {
   border-bottom: 2px solid #528bba;
 }
 
-.spb-dialog-close-x {
+.amaze-dialog-close-x {
   background: none;
   border: none;
   color: #fff;
@@ -989,7 +989,7 @@ body {
   line-height: 1;
 }
 
-.spb-dialog-body {
+.amaze-dialog-body {
   padding: 18px 20px;
   display: flex;
   flex-direction: column;
@@ -1298,7 +1298,7 @@ body {
   font-style: italic;
 }
 
-.btn-spb-action {
+.btn-amaze-action {
   width: 100%;
   padding: 12px;
   background: linear-gradient(180deg, #3aa776 0%, #207750 100%);
@@ -1313,7 +1313,7 @@ body {
   transition: transform 0.08s ease;
 }
 
-.btn-spb-action:active {
+.btn-amaze-action:active {
   transform: scale(0.97);
   background: #196041;
 }
@@ -1811,9 +1811,9 @@ body {
 }
 
 /* ============================================================ */
-/* COMMON SPB GAME CONTROLS & STRIPS                            */
+/* COMMON Amaze GAME CONTROLS & STRIPS                            */
 /* ============================================================ */
-.spb-game-info-strip {
+.amaze-game-info-strip {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1825,12 +1825,12 @@ body {
   color: #0d3862;
 }
 
-.spb-game-info-strip strong {
+.amaze-game-info-strip strong {
   color: #062444;
   font-size: 14px;
 }
 
-.spb-instruction-footer {
+.amaze-instruction-footer {
   padding: 10px 16px calc(var(--safe-bottom) + 10px);
   text-align: center;
   font-size: 12px;
@@ -1844,7 +1844,7 @@ body {
 /* QUADRONICA (Color Rects / Znax) - Authentic 8x11 Field       */
 /* ============================================================ */
 .quadronica-screen {
-  background: var(--spb-sky-bg);
+  background: var(--amaze-sky-bg);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -1894,7 +1894,7 @@ body {
   overflow: hidden;
 }
 
-.spb-quad-frame {
+.amaze-quad-frame {
   position: relative;
   width: 100%;
   max-width: 410px;
@@ -1907,7 +1907,7 @@ body {
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.spb-quad-frame.wrong-move {
+.amaze-quad-frame.wrong-move {
   border-color: #ff0000 !important;
   box-shadow: 0 0 18px rgba(255, 0, 0, 0.85) !important;
 }
@@ -1921,7 +1921,7 @@ body {
   z-index: 10;
 }
 
-.spb-quad-grid {
+.amaze-quad-grid {
   display: grid;
   width: 100%;
   height: 100%;
@@ -1931,7 +1931,7 @@ body {
   overflow: hidden;
 }
 
-.spb-quad-tile {
+.amaze-quad-tile {
   position: relative;
   aspect-ratio: 1 / 1;
   width: 100%;
@@ -1946,11 +1946,11 @@ body {
   transition: transform 0.1s ease;
 }
 
-.spb-quad-tile:active {
+.amaze-quad-tile:active {
   transform: scale(0.92);
 }
 
-.spb-quad-tile.corner-selected::after {
+.amaze-quad-tile.corner-selected::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -1974,7 +1974,7 @@ body {
   }
 }
 
-.spb-quad-tile.has-cursor::before {
+.amaze-quad-tile.has-cursor::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -1985,7 +1985,7 @@ body {
   box-shadow: 0 0 4px rgba(255, 255, 0, 0.8);
 }
 
-.spb-quad-tile.popping {
+.amaze-quad-tile.popping {
   transform: scale(0);
   opacity: 0;
   transition: transform 0.2s ease, opacity 0.2s ease;
@@ -2075,10 +2075,10 @@ body {
 /* MATCHES (Спички)                                             */
 /* ============================================================ */
 .matches-screen {
-  background: var(--spb-sky-bg);
+  background: var(--amaze-sky-bg);
 }
 
-.spb-matches-task-card {
+.amaze-matches-task-card {
   margin: 10px 14px 4px;
   padding: 10px 14px;
   background: linear-gradient(180deg, #ffffff 0%, #edf5fc 100%);
@@ -2090,20 +2090,20 @@ body {
   gap: 6px;
 }
 
-.spb-task-text {
+.amaze-task-text {
   font-size: 13px;
   color: #0b2f52;
   font-weight: 600;
   line-height: 1.4;
 }
 
-.spb-matches-hand {
+.amaze-matches-hand {
   font-size: 12px;
   color: #3b6b96;
   font-weight: 700;
 }
 
-.spb-matches-hand strong {
+.amaze-matches-hand strong {
   color: #d63031;
   font-size: 14px;
 }
@@ -2138,7 +2138,7 @@ body {
   font-size: 15px;
 }
 
-.spb-matches-frame {
+.amaze-matches-frame {
   position: relative;
   border-radius: 8px;
   box-shadow: 0 4px 16px rgba(0, 20, 50, 0.35);
@@ -2148,7 +2148,7 @@ body {
   transition: border-color 0.15s ease;
 }
 
-.spb-matches-frame.wrong-move {
+.amaze-matches-frame.wrong-move {
   border-color: #e74c3c !important;
   box-shadow: 0 0 16px rgba(231, 76, 60, 0.8) !important;
 }
@@ -2170,7 +2170,7 @@ body {
   cursor: grabbing;
 }
 
-.spb-matches-toolbar {
+.amaze-matches-toolbar {
   display: flex;
   gap: 8px;
   padding: 8px 12px calc(var(--safe-bottom) + 8px);
@@ -2215,7 +2215,7 @@ body {
 /* ROADBLOCKS (Ball Rom)                                        */
 /* ============================================================ */
 .roadblocks-screen {
-  background: var(--spb-sky-bg);
+  background: var(--amaze-sky-bg);
 }
 
 #rbCanvas {
@@ -2267,10 +2267,10 @@ body {
 /* NUMBERS (Числа)                                              */
 /* ============================================================ */
 .numbers-screen {
-  background: var(--spb-sky-bg);
+  background: var(--amaze-sky-bg);
 }
 
-.spb-numbers-frame {
+.amaze-numbers-frame {
   width: 100%;
   max-width: 360px;
   background: #5084b0;
@@ -2280,7 +2280,7 @@ body {
   border: 1px solid #3c6e99;
 }
 
-.spb-numbers-grid {
+.amaze-numbers-grid {
   display: grid;
   gap: 4px;
   width: 100%;
@@ -2331,10 +2331,10 @@ body {
 /* ARITHMETICS (Connected Calc)                                 */
 /* ============================================================ */
 .arithmetics-screen {
-  background: var(--spb-sky-bg);
+  background: var(--amaze-sky-bg);
 }
 
-.spb-arith-card-wrap {
+.amaze-arith-card-wrap {
   flex: 1;
   display: flex;
   align-items: center;
@@ -2342,7 +2342,7 @@ body {
   padding: 16px;
 }
 
-.spb-arith-card {
+.amaze-arith-card {
   width: 100%;
   max-width: 340px;
   background: linear-gradient(180deg, #ffffff 0%, #edf5fc 100%);
@@ -2355,7 +2355,7 @@ body {
   align-items: center;
 }
 
-.spb-arith-equation {
+.amaze-arith-equation {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2365,7 +2365,7 @@ body {
   color: #0a335c;
 }
 
-.spb-arith-equation .answer {
+.amaze-arith-equation .answer {
   min-width: 54px;
   height: 48px;
   display: inline-flex;
@@ -2376,7 +2376,7 @@ body {
   padding: 0 4px;
 }
 
-.spb-arith-keypad {
+.amaze-arith-keypad {
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -2385,7 +2385,7 @@ body {
   border-top: 1px solid #82b1d8;
 }
 
-.spb-arith-row {
+.amaze-arith-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 6px;
@@ -2426,10 +2426,10 @@ body {
 /* MINESWEEPER (Сапер)                                          */
 /* ============================================================ */
 .minesweeper-screen {
-  background: var(--spb-sky-bg);
+  background: var(--amaze-sky-bg);
 }
 
-.spb-mines-frame {
+.amaze-mines-frame {
   width: 100%;
   max-width: 360px;
   aspect-ratio: 1;
@@ -2440,7 +2440,7 @@ body {
   border: 1px solid #3c6e99;
 }
 
-.spb-mines-grid {
+.amaze-mines-grid {
   display: grid;
   width: 100%;
   height: 100%;
@@ -2476,7 +2476,7 @@ body {
   color: #fff;
 }
 
-.spb-flag-toggle-bar {
+.amaze-flag-toggle-bar {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -2508,10 +2508,10 @@ body {
 /* GUESS WHO / ANTHEAD                                          */
 /* ============================================================ */
 .guesswho-screen {
-  background: var(--spb-sky-bg);
+  background: var(--amaze-sky-bg);
 }
 
-.spb-target-ant-card {
+.amaze-target-ant-card {
   margin: 10px 14px;
   padding: 12px;
   background: #fff;
@@ -2560,10 +2560,10 @@ body {
 /* ZNAX                                                         */
 /* ============================================================ */
 .znax-screen {
-  background: var(--spb-sky-bg);
+  background: var(--amaze-sky-bg);
 }
 
-.spb-znax-frame {
+.amaze-znax-frame {
   width: 100%;
   max-width: 360px;
   aspect-ratio: 1;
@@ -2574,7 +2574,7 @@ body {
   border: 1px solid #3c6e99;
 }
 
-.spb-znax-grid {
+.amaze-znax-grid {
   display: grid;
   width: 100%;
   height: 100%;
@@ -2609,10 +2609,10 @@ body {
 /* GEOMETRY                                                     */
 /* ============================================================ */
 .geometry-screen {
-  background: var(--spb-sky-bg);
+  background: var(--amaze-sky-bg);
 }
 
-.spb-geo-stage {
+.amaze-geo-stage {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -2681,7 +2681,7 @@ body {
 /* ENCYCLOPEDIA                                                 */
 /* ============================================================ */
 .encyclopedia-screen {
-  background: var(--spb-sky-bg);
+  background: var(--amaze-sky-bg);
 }
 
 .enc-card-wrap {
@@ -2736,7 +2736,7 @@ body {
 .restored-footer { padding:14px; text-align:center; color:#173854; background:linear-gradient(#dceefe 50%,#cce6fd 50%); border-top:1px solid #4f89b9; }
 .restored-footer p { font-size:13px; line-height:1.5; margin:6px 0 12px; }
 .restored-actions { display:flex; gap:10px; justify-content:center; }
-.restored-screen .spb-action-btn { min-height:44px; font-size:15px; padding:8px 16px; }
+.restored-screen .amaze-action-btn { min-height:44px; font-size:15px; padding:8px 16px; }
 .restored-screen button:disabled { opacity:.55; cursor:default; }
 .restored-results { display:flex; flex-direction:column; gap:20px; align-items:center; padding:36px 16px; color:#173854; }
 .iv-study { padding:10px 20px; min-height:330px; }
@@ -2753,17 +2753,17 @@ body {
 .numbers-accept:active { background-image:var(--pr); }
 .numbers-task { position:absolute; display:flex; align-items:center; justify-content:center; text-align:center; color:#000; font:bold clamp(13px,4.6cqw,22px)/1.25 Arial,sans-serif; pointer-events:none; }
 .numbers-time { position:absolute; right:12px; top:50%; transform:translateY(-50%); color:#0b2c4d; font:bold 15px Arial,sans-serif; }
-.numbers-screen .spb-pause-bar { position:relative; }
+.numbers-screen .amaze-pause-bar { position:relative; }
 .numbers-total { white-space:pre-line; font-weight:bold; }
-.spb-total { white-space:pre-line; font-weight:bold; }
+.amaze-total { white-space:pre-line; font-weight:bold; }
 /* Shared canvas stage for restored games drawn in original 480-wide layout units. */
-.restored-screen:has(.spb-stage) .restored-status, .restored-screen:has(.spb-stage) .restored-footer:empty { display:none; }
-.restored-screen:has(.spb-stage) .spb-pause-bar { position:relative; }
-.spb-stage { position:relative; width:100%; max-width:480px; margin:0 auto; container-type:inline-size; }
-.spb-stage-canvas { display:block; width:100%; height:100%; touch-action:none; outline:none; }
-.spb-stage-text { position:absolute; display:flex; align-items:center; justify-content:center; text-align:center; color:#000; font:bold clamp(13px,4.4cqw,21px)/1.25 Arial,sans-serif; pointer-events:none; }
-.spb-stage-text[hidden], .cr-btn[hidden] { display:none; }
-.spb-stage-time { position:absolute; right:12px; top:50%; transform:translateY(-50%); color:#0b2c4d; font:bold 15px Arial,sans-serif; }
+.restored-screen:has(.amaze-stage) .restored-status, .restored-screen:has(.amaze-stage) .restored-footer:empty { display:none; }
+.restored-screen:has(.amaze-stage) .amaze-pause-bar { position:relative; }
+.amaze-stage { position:relative; width:100%; max-width:480px; margin:0 auto; container-type:inline-size; }
+.amaze-stage-canvas { display:block; width:100%; height:100%; touch-action:none; outline:none; }
+.amaze-stage-text { position:absolute; display:flex; align-items:center; justify-content:center; text-align:center; color:#000; font:bold clamp(13px,4.4cqw,21px)/1.25 Arial,sans-serif; pointer-events:none; }
+.amaze-stage-text[hidden], .cr-btn[hidden] { display:none; }
+.amaze-stage-time { position:absolute; right:12px; top:50%; transform:translateY(-50%); color:#0b2c4d; font:bold 15px Arial,sans-serif; }
 .cr-btn { position:absolute; padding:0; border:0; background:var(--rel) center/100% 100% no-repeat; cursor:pointer; }
 .cr-btn:active { background-image:var(--pr); }
 .cc-key { position:absolute; padding:0 0 2%; border:0; background:var(--rel) center/100% 100% no-repeat; cursor:pointer; color:#000; font:bold clamp(22px,9cqw,44px) Arial,sans-serif; }
@@ -2783,19 +2783,19 @@ body {
 .ant-clues div { width:76px; font-size:12px; }
 .ant-clues canvas { width:70px; height:70px; display:block; }
 .mine-cell.revealed, .mine-cell.revealed.has-mine { background-color:#9fd6ff!important; background-image:url('../assets/textures/restored/ms_sprite_big.png')!important; border:0!important; box-shadow:none; }
-.spb-mines-frame { max-width:444px; }
+.amaze-mines-frame { max-width:444px; }
 #rbCanvas { max-width:100%; height:auto; aspect-ratio:18/22; touch-action:none; }
 /* Keep controls reachable on short browser and phone viewports. */
 #appHeader { width:100%; background-size:100% 77px; }
 .restored-screen { flex:0 0 auto; min-height:100%; height:auto; overflow:visible; }
-.restored-screen > .spb-header-bar, .restored-screen > .spb-pause-bar, .restored-field { flex-shrink:0; }
+.restored-screen > .amaze-header-bar, .restored-screen > .amaze-pause-bar, .restored-field { flex-shrink:0; }
 .restored-screen .restored-footer { margin-top:auto; }
-.restored-screen .spb-action-btn { color:#173854; font-weight:600; border:1px solid #6fa1cc; border-radius:8px; background:linear-gradient(#fff,#d3e9fc 55%,#a6cdec); box-shadow:inset 0 1px #fff,0 1px 2px #4778a744; cursor:pointer; }
-.restored-screen .spb-action-btn:active { background:#a6cdec; }
+.restored-screen .amaze-action-btn { color:#173854; font-weight:600; border:1px solid #6fa1cc; border-radius:8px; background:linear-gradient(#fff,#d3e9fc 55%,#a6cdec); box-shadow:inset 0 1px #fff,0 1px 2px #4778a744; cursor:pointer; }
+.restored-screen .amaze-action-btn:active { background:#a6cdec; }
 #rbCanvas { max-height:none; }
 
 /* Keep game endings inside the visible board, including short mobile screens. */
-.minesweeper-screen .spb-mines-frame, .rb-field-wrap { position:relative; }
+.minesweeper-screen .amaze-mines-frame, .rb-field-wrap { position:relative; }
 .rb-field-wrap { width:100%; max-width:468px; line-height:0; }
 .game-ending-overlay { position:absolute; inset:0; z-index:20; display:flex; align-items:center; justify-content:center; padding:12px; background:rgba(9,34,62,.48); line-height:1.4; }
 .game-ending-card { width:100%; max-width:300px; padding:20px 16px; border:2px solid #5c94c4; border-radius:12px; background:#e5f3ff; box-shadow:0 8px 24px #09223e66; text-align:center; color:#173854; }
@@ -2821,7 +2821,7 @@ body {
 .mg-results-btn:active { border-image-source:url('../assets/textures/Trainer_Next_Btn_Pr.png'); color:#fff; }
 .game-ending-overlay:has(> .restored-results) { align-items:flex-start; overflow:auto; padding:0; }
 .game-ending-overlay > .restored-results { width:100%; padding-top:2%; }
-.spb-modal-overlay > .restored-results { width:min(480px,100%); max-height:100%; overflow:auto; }
+.amaze-modal-overlay > .restored-results { width:min(480px,100%); max-height:100%; overflow:auto; }
 .restored-screen:has(.mg-results) .restored-status { display:none; }
 
 /* Brain Training list ([b_train2_wnd]): difficulty text, 10-item level bar, marks, locked rows. */

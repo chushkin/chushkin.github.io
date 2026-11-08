@@ -560,8 +560,8 @@
     "ru": "Вам предстоит пройти пять простых тестов для оценки вашего уровня.\\nНажмите \"Далее\" для продолжения."
   },
   {
-    "en": "SPB @APP_NAME @URL:\\nMy Brain Mark Index is @PERCENT (@STATUS)",
-    "ru": "SPB @APP_NAME @URL:\\nМой индекс умственных способностей составляет @PERCENT (@STATUS)"
+    "en": "Amaze @APP_NAME @URL:\\nMy Brain Mark Index is @PERCENT (@STATUS)",
+    "ru": "Amaze @APP_NAME @URL:\\nМой индекс умственных способностей составляет @PERCENT (@STATUS)"
   },
   {
     "en": "This is the fifth of seven stages in the game. Incredible! Keep working hard and you'll earn Professor Status.",
@@ -668,8 +668,8 @@
     "ru": "Вы пропустили тест!\\nРезультат будет засчитан как нулевой.\\nНажмите \"Далее\" для продолжения."
   },
   {
-    "en": "Welcome to SPB Brain Evolution!\\nThis program will help you to improve your mental knowledge!\\n",
-    "ru": "Добро пожаловать в\\nSPB Brain Evolution!\\nЭта программа позволит вам улучшить способности вашего мозга!\\n"
+    "en": "Welcome to Amaze Brain Evolution!\\nThis program will help you to improve your mental knowledge!\\n",
+    "ru": "Добро пожаловать в\\nAmaze Brain Evolution!\\nЭта программа позволит вам улучшить способности вашего мозга!\\n"
   },
   {
     "en": "iPod is now playing.\\nAll game sounds are disabled.",
@@ -684,12 +684,12 @@
     "ru": "Чтобы получить доступ к этой возможности, вам нужна полная версия игры."
   },
   {
-    "en": "Unregistered copy.\\nTo disable time limit, please purchase now at\\nwww.spb.com",
-    "ru": "Незарегистрированная копия.\\nДля снятия ограничений, пожалуйста, купите игру на\\nwww.spb.com"
+    "en": "Unregistered copy.\\nTo disable time limit, please purchase now at\\nchushkin.github.io/brain-evolution",
+    "ru": "Незарегистрированная копия.\\nДля снятия ограничений, пожалуйста, купите игру на\\nchushkin.github.io/brain-evolution"
   },
   {
-    "en": "Unregistered copy.\\nTo get a full version please open MarketPlace, find \"SPB @APP_NAME\" there and purchase it.",
-    "ru": "Незарегистрированная копия.\\nДля приобретения полной версии откройте Marketplace и найдите там \"SPB @APP_NAME\"."
+    "en": "Unregistered copy.\\nTo get a full version please open MarketPlace, find \"Amaze @APP_NAME\" there and purchase it.",
+    "ru": "Незарегистрированная копия.\\nДля приобретения полной версии откройте Marketplace и найдите там \"Amaze @APP_NAME\"."
   },
   {
     "en": "Here you will see all awards you got. To get new ones, complete more daily training programs. \\n \\n",
@@ -784,8 +784,8 @@
     "ru": "В этом окне вы можете посмотреть все полученные вами интересные факты. Проходите тренировки для получения новых фактов. \\n \\n"
   },
   {
-    "en": "In this window you can see the highest scores for all games.\\nTo get to the high scores table you should publish your results to spb.com at the end of the Mini-Game/Brain Traning/Brain Marking by pressing the \"Publish\" button.\\n \\nAlso you can find these high scores at www.spb.com\\n \\n",
-    "ru": "В этом окне вы можете видеть таблицы рекордов для всех игр.\\nЧтобы попасть в таблицу рекордов, воспользуйтесь кнопкой \"Публиковать\" в конце каждого упражнения, тестирования или тренировки.\\n \\nТак же вы можете найти таблицу рекордов на сайте www.spb.com\\n \\n"
+    "en": "In this window you can see the highest scores for all games.\\nTo get to the high scores table you should publish your results to chushkin.github.io/brain-evolution at the end of the Mini-Game/Brain Traning/Brain Marking by pressing the \"Publish\" button.\\n \\nAlso you can find these high scores at chushkin.github.io/brain-evolution\\n \\n",
+    "ru": "В этом окне вы можете видеть таблицы рекордов для всех игр.\\nЧтобы попасть в таблицу рекордов, воспользуйтесь кнопкой \"Публиковать\" в конце каждого упражнения, тестирования или тренировки.\\n \\nТак же вы можете найти таблицу рекордов на сайте chushkin.github.io/brain-evolution\\n \\n"
   },
   {
     "en": "Internal server error, please try again later!\\n \\n",
@@ -880,11 +880,11 @@
     "ru": "Для развития образного мышления и ориентирования мы советуем поиграть в игру Balltracker."
   },
   {
-    "en": "To get the full version use the button below, or go to\\nwww.spb.com",
-    "ru": "Чтобы получить полную версию, нажмите кнопку внизу или перейдите по ссылке\\nwww.spb.com"
+    "en": "To get the full version use the button below, or go to\\nchushkin.github.io/brain-evolution",
+    "ru": "Чтобы получить полную версию, нажмите кнопку внизу или перейдите по ссылке\\nchushkin.github.io/brain-evolution"
   },
   {
-    "en": "SPB Quads expands your Quadronica experience with tons of new features.\\nDon't miss it!",
-    "ru": "SPB Quads это расширенная версия Quadronica с различными новыми возможностями.\\nНе пропустите!"
+    "en": "Amaze Quads expands your Quadronica experience with tons of new features.\\nDon't miss it!",
+    "ru": "Amaze Quads это расширенная версия Quadronica с различными новыми возможностями.\\nНе пропустите!"
   }
 ]

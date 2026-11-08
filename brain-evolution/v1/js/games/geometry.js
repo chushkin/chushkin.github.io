@@ -35,9 +35,9 @@ export class GeometryGame extends RestoredGame {
       <p class="geometry-feedback" aria-live="polite">${this.phase==='compare' ? `${this.accuracy}% · +${this.roundScore}` : ''}</p>`,
       `<p>${i18n.t("Tip: The size and position of the figure you draw don't matter, only the angles!")}</p>
       <div class="restored-actions">
-      ${this.phase==='remember' ? `<button class="spb-action-btn" data-ready>${tr('Запомнил','Ready')}</button>` : ''}
-      ${['draw','edit'].includes(this.phase) ? `<button class="spb-action-btn" data-undo>${tr('Отменить точку','Undo point')}</button><button class="spb-action-btn" data-check ${this.points.length!==this.target.length ? 'disabled' : ''}>${tr('Готово','Done')}</button>` : ''}
-      ${this.phase==='compare' ? `<button class="spb-action-btn" data-next>${tr('Далее','Next')}</button>` : ''}</div>`);
+      ${this.phase==='remember' ? `<button class="amaze-action-btn" data-ready>${tr('Запомнил','Ready')}</button>` : ''}
+      ${['draw','edit'].includes(this.phase) ? `<button class="amaze-action-btn" data-undo>${tr('Отменить точку','Undo point')}</button><button class="amaze-action-btn" data-check ${this.points.length!==this.target.length ? 'disabled' : ''}>${tr('Готово','Done')}</button>` : ''}
+      ${this.phase==='compare' ? `<button class="amaze-action-btn" data-next>${tr('Далее','Next')}</button>` : ''}</div>`);
     this.draw(); this.updateStatus();
     this.container.querySelector('[data-ready]')?.addEventListener('click',() => { if(this.playable) this.startDrawing(); });
     this.container.querySelector('[data-undo]')?.addEventListener('click',() => {

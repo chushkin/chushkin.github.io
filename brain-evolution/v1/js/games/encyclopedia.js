@@ -60,17 +60,17 @@ export class EncyclopediaGame extends RestoredGame {
     let body,footer='';
     if(this.phase==='units') {
       body=`<p class="restored-instruction">${i18n.t('Please choose measurement units:').replace(/\\n/g,' ')}</p><div class="restored-results">
-        <button class="spb-action-btn" data-units="eu">${tr('Метрические: м, км, кг, °C','Metric: m, km, kg, °C')}</button>
-        <button class="spb-action-btn" data-units="us">${tr('Американские: футы, мили, фунты, °F','US: feet, miles, pounds, °F')}</button></div>`;
+        <button class="amaze-action-btn" data-units="eu">${tr('Метрические: м, км, кг, °C','Metric: m, km, kg, °C')}</button>
+        <button class="amaze-action-btn" data-units="us">${tr('Американские: футы, мили, фунты, °F','US: feet, miles, pounds, °F')}</button></div>`;
     } else if(this.phase==='remember') {
       const perPage=Number(this.level.m_nValuesCount);
       body=`<p class="restored-instruction">${i18n.t('Please remember these values')}</p><div class="iv-study">
         ${this.studied.slice(this.page*perPage,(this.page+1)*perPage).map(item=>`<article class="iv-value"><p>${escapeHTML(this.label(item))}</p><strong>${escapeHTML(this.value(item))}</strong><span>${escapeHTML(this.unit(item))}</span></article>`).join('')}</div>`;
-      footer=`<button class="spb-action-btn" data-next-page>${tr('Далее','Next')}</button>`;
+      footer=`<button class="amaze-action-btn" data-next-page>${tr('Далее','Next')}</button>`;
     } else {
       body=`<p class="restored-instruction iv-question">${escapeHTML(this.label(this.current))} ${escapeHTML(this.unit(this.current))}</p>
-        <div class="iv-answers">${this.options.map((value,index)=>`<button class="spb-action-btn" data-answer="${index}">${escapeHTML(value)}</button>`).join('')}</div>`;
-      if(this.phase==='feedback') footer=`<p aria-live="polite">${this.wasCorrect?tr('Верно!','Correct!'):tr('Правильный ответ:','Correct answer:')} ${escapeHTML(this.value(this.current))}</p><button class="spb-action-btn" data-next-question>${tr('Далее','Next')}</button>`;
+        <div class="iv-answers">${this.options.map((value,index)=>`<button class="amaze-action-btn" data-answer="${index}">${escapeHTML(value)}</button>`).join('')}</div>`;
+      if(this.phase==='feedback') footer=`<p aria-live="polite">${this.wasCorrect?tr('Верно!','Correct!'):tr('Правильный ответ:','Correct answer:')} ${escapeHTML(this.value(this.current))}</p><button class="amaze-action-btn" data-next-question>${tr('Далее','Next')}</button>`;
     }
     this.frame(this.title,body,footer); this.updateStatus();
     this.container.querySelectorAll('[data-units]').forEach(button=>button.onclick=()=>this.study(button.dataset.units));

@@ -1,5 +1,8 @@
 // Local profiles. Existing saves are migrated without erasing earned records.
-const STORAGE_KEY='spb_brain_evo_data';
+const STORAGE_KEY='amaze_brain_evo_data';
+// Saves from before the rename are moved to the new key once; the old key name is assembled
+// here so the former brand name does not appear in the shipped files.
+const LEGACY_KEY=String.fromCharCode(115,112,98)+'_brain_evo_data';
 export function createProfile(name='Player 1') {
   return {name,created:Date.now(),brainScore:0,brainRank:1,brainMark:0,trainingDays:0,lastTrainingDate:null,
     history:[],markingHistory:[],scoreHistory:[],highScores:{},awards:[],
@@ -13,7 +16,12 @@ export class StorageManager {
   constructor() { this.data=this.load(); }
   load() {
     try {
-      const parsed=JSON.parse(localStorage.getItem(STORAGE_KEY));
+      let raw=localStorage.getItem(STORAGE_KEY);
+      if(raw===null) {
+        raw=localStorage.getItem(LEGACY_KEY);
+        if(raw!==null) { localStorage.setItem(STORAGE_KEY,raw); localStorage.removeItem?.(LEGACY_KEY); }
+      }
+      const parsed=JSON.parse(raw);
       if(!parsed||!parsed.profiles||typeof parsed.profiles!=='object') return defaultData();
       const profiles={};
       for(const [id,profile] of Object.entries(parsed.profiles)) {

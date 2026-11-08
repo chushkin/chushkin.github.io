@@ -34,13 +34,13 @@ export class RestoredGame {
     this.timers.add(timer);
   }
   frame(title, body, footer = '') {
-    this.container.innerHTML = `<div class="spb-game-container restored-screen ${this.id}-screen">
-      <div class="spb-header-bar">
-        <button class="spb-header-btn spb-menu-btn" data-game-menu aria-label="${tr('Меню','Menu')}"><span class="bar-icon">☰</span></button>
-        <div class="spb-header-title">${title}</div>
-        <button class="spb-header-btn spb-help-btn" data-game-help aria-label="${tr('Справка','Help')}"><span class="help-q">?</span></button>
+    this.container.innerHTML = `<div class="amaze-game-container restored-screen ${this.id}-screen">
+      <div class="amaze-header-bar">
+        <button class="amaze-header-btn amaze-menu-btn" data-game-menu aria-label="${tr('Меню','Menu')}"><span class="bar-icon">☰</span></button>
+        <div class="amaze-header-title">${title}</div>
+        <button class="amaze-header-btn amaze-help-btn" data-game-help aria-label="${tr('Справка','Help')}"><span class="help-q">?</span></button>
       </div>
-      <div class="spb-pause-bar"><button class="spb-pause-capsule" data-game-pause aria-label="${i18n.t('Paused')}">❚❚</button></div>
+      <div class="amaze-pause-bar"><button class="amaze-pause-capsule" data-game-pause aria-label="${i18n.t('Paused')}">❚❚</button></div>
       <div class="restored-status"><span>${tr('Очки','Score')}: <strong data-score>${Math.max(0,this.score)}</strong></span><span data-status></span></div>
       ${body}<div class="restored-footer">${footer}</div></div>`;
     this.container.querySelector('[data-game-menu]').onclick = () => this.menu();
@@ -77,7 +77,7 @@ export class RestoredGame {
       ? `<div class="restored-results">${resultsMarkup(results.section, built, tr('Продолжить','Continue'))}</div>`
       : `<div class="restored-results"><h2>${tr('Результат','Results')}</h2>
       <p>${tr('Очки','Score')}: <strong>${this.score}</strong></p>
-      <button class="spb-action-btn" data-finish>${tr('Продолжить','Continue')}</button></div>`);
+      <button class="amaze-action-btn" data-finish>${tr('Продолжить','Continue')}</button></div>`);
     revealResults(this.container);
     this.container.querySelector('[data-finish]').onclick=() => { this.destroy(); this.onComplete(this.score); };
   }

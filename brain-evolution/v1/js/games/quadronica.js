@@ -1,5 +1,5 @@
-// SPB Brain Evolution - Authentic Quadronica (Квадроника / Znax) Mini-Game
-// Pixel-perfect restoration based on original binary and layout specs (_ZNAX_INO.ino & SpbBE.elf)
+// Amaze Brain Evolution - Authentic Quadronica (Квадроника / Znax) Mini-Game
+// Pixel-perfect restoration based on original binary and layout specs (_ZNAX_INO.ino & original game binary)
 
 import { audio } from '../audio.js';
 import { storage } from '../storage.js';
@@ -169,24 +169,24 @@ export class QuadronicaGame {
   render() {
     const titleText = i18n.t('Quadronica', 'Квадроника');
     this.container.innerHTML = `
-      <div class="spb-game-container quadronica-screen">
-        <!-- Authentic SPB Top Header Bar -->
-        <div class="spb-header-bar">
-          <button class="spb-header-btn spb-menu-btn" id="btnQuadMenu" title="${i18n.t('Menu', 'Меню')}">
+      <div class="amaze-game-container quadronica-screen">
+        <!-- Authentic Amaze Top Header Bar -->
+        <div class="amaze-header-bar">
+          <button class="amaze-header-btn amaze-menu-btn" id="btnQuadMenu" title="${i18n.t('Menu', 'Меню')}">
             <span class="bar-icon">☰</span>
           </button>
-          <div class="spb-header-title">${titleText}</div>
-          <button class="spb-header-btn spb-help-btn" id="btnQuadHelp" title="${i18n.t('Help', 'Справка')}">
+          <div class="amaze-header-title">${titleText}</div>
+          <button class="amaze-header-btn amaze-help-btn" id="btnQuadHelp" title="${i18n.t('Help', 'Справка')}">
             <span class="help-q">?</span>
           </button>
         </div>
 
         <!-- Authentic Sub-header Pause Bar with Progress Fill -->
-        <div class="spb-pause-bar quad-pause-bar">
+        <div class="amaze-pause-bar quad-pause-bar">
           <div class="quad-info-left" id="quadRectCount">
             ${i18n.t('Score', 'Очки')}: <strong id="quadScoreVal">0</strong>
           </div>
-          <button class="spb-pause-capsule" id="btnQuadPause" title="${i18n.t('Pause', 'Пауза')}">
+          <button class="amaze-pause-capsule" id="btnQuadPause" title="${i18n.t('Pause', 'Пауза')}">
             <span class="pause-bars">❚❚</span>
           </button>
           <div class="quad-info-right" id="quadTimeVal">
@@ -198,11 +198,11 @@ export class QuadronicaGame {
         </div>
 
         <!-- Quadronica 8x11 Board Wrapper -->
-        <div class="spb-board-wrapper quad-board-wrapper">
-          <div class="spb-quad-frame" id="quadBoardFrame">
+        <div class="amaze-board-wrapper quad-board-wrapper">
+          <div class="amaze-quad-frame" id="quadBoardFrame">
             <!-- SVG overlay for rendering dashed connection lines between corners -->
             <svg class="quad-selection-svg" id="quadSvgOverlay"></svg>
-            <div class="spb-quad-grid" id="quadGrid"></div>
+            <div class="amaze-quad-grid" id="quadGrid"></div>
           </div>
         </div>
 
@@ -233,7 +233,7 @@ export class QuadronicaGame {
       for (let c = 0; c < this.cols; c++) {
         const color = this.grid[r][c];
         const cell = document.createElement('div');
-        cell.className = 'spb-quad-tile';
+        cell.className = 'amaze-quad-tile';
         cell.dataset.r = r;
         cell.dataset.c = c;
         cell.dataset.color = color;
@@ -650,15 +650,15 @@ export class QuadronicaGame {
 
   showResultsModal() {
     const modal = document.createElement('div');
-    modal.className = 'spb-modal-overlay active';
+    modal.className = 'amaze-modal-overlay active';
 
     const mins = Math.floor((this.totalTime - this.timeLeft) / 60);
     const secs = (this.totalTime - this.timeLeft) % 60;
     const timeFormatted = `${mins > 0 ? mins + ' ' + i18n.t('min.', 'мин.') + ' ' : ''}${secs} ${i18n.t('sec.', 'сек.')}`;
 
     modal.innerHTML = `
-      <div class="spb-modal-card quad-results-card">
-        <div class="spb-modal-title">🎉 ${i18n.t('Time Is Up!', 'Время вышло!')}</div>
+      <div class="amaze-modal-card quad-results-card">
+        <div class="amaze-modal-title">🎉 ${i18n.t('Time Is Up!', 'Время вышло!')}</div>
         <div class="quad-results-body">
           <div class="quad-result-row">
             <span class="result-label">${i18n.t('Rectangles found:', 'Найдено прямоугольников:')}</span>
@@ -678,8 +678,8 @@ export class QuadronicaGame {
             <span class="result-score-val">${this.score}</span>
           </div>
         </div>
-        <div class="spb-modal-buttons">
-          <button class="spb-modal-btn default-btn" id="btnQuadDone">
+        <div class="amaze-modal-buttons">
+          <button class="amaze-modal-btn default-btn" id="btnQuadDone">
             ${i18n.t('Continue', 'Продолжить')}
           </button>
         </div>

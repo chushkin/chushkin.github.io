@@ -1,4 +1,4 @@
-// SPB Brain Evolution - Internationalization (i18n)
+// Amaze Brain Evolution - Internationalization (i18n)
 // The original ships 13 languages (languages.erc: LANGUAGES.cfg + <CODE>_TXT.txt with lines
 // "English text|translation"); scripts/extract_languages.py writes them to data/locales.
 

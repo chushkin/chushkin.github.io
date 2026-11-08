@@ -1,4 +1,4 @@
-// Arithmetics (Connected Calc, CCC_*) — exact port of the original SpbBE.s3e chain generator:
+// Arithmetics (Connected Calc, CCC_*) — exact port of the original original game binary chain generator:
 //   firstValue / nextStep   FUN_4a11080c   next operation of the chain
 //   acceptable              FUN_4a10ea90   difficulty-dependent operand rules
 //   totalScore              FUN_4a11423c   right*R + wrong*W + seconds*T

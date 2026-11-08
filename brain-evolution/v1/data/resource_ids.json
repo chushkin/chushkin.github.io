@@ -2494,9 +2494,9 @@
   "erc": "Shell_R_480x800"
  },
  "1500": {
-  "entry": "SPB_QUADS_BANNER_EBM.banner",
+  "entry": "Amaze_QUADS_BANNER_EBM.banner",
   "erc": "Shell_R_480x800",
-  "file": "Spb_Quads_Banner.bmp",
+  "file": "Amaze_Quads_Banner.bmp",
   "frame_height": 351,
   "frames": 1,
   "height": 351,

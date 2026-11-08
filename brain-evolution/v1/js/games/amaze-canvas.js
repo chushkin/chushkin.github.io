@@ -1,4 +1,4 @@
-// Canvas helpers that reproduce the original SPB widget drawing (480x800 layout units).
+// Canvas helpers that reproduce the original Amaze widget drawing (480x800 layout units).
 // Resource IDs from INO configs resolve through data/resource_ids.json (scripts/extract_resource_ids.py)
 // to textures decoded into assets/textures/restored/.
 

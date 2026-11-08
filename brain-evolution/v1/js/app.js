@@ -1,4 +1,4 @@
-// SPB Brain Evolution - Main Application Controller (Authentic Remaster)
+// Amaze Brain Evolution - Main Application Controller (Authentic Remaster)
 
 import { audio } from './audio.js';
 import { storage } from './storage.js';
@@ -114,7 +114,7 @@ class App {
     }
 
     if (viewName === 'play') {
-      // Mini-game has its own in-game SPB header
+      // Mini-game has its own in-game Amaze header
       if (headerEl) headerEl.style.display = 'none';
       this.launchGame(mainEl, params.gameId, params.difficulty, params.mode);
       return;
@@ -162,8 +162,8 @@ class App {
 
   renderIntroScreen(container) {
     container.innerHTML = `
-      <div class="spb-intro-view" id="introView">
-        <img src="assets/textures/intro.png" class="spb-intro-img" alt="SPB Brain Evolution 2" />
+      <div class="amaze-intro-view" id="introView">
+        <img src="assets/textures/intro.png" class="amaze-intro-img" alt="Amaze Brain Evolution 2" />
         <div class="intro-touch-hint">
           <span class="pulsing-tap">${i18n.t('Tap anywhere to start', 'Нажмите в любом месте для старта')}</span>
         </div>
@@ -182,7 +182,7 @@ class App {
     if (!headerEl) return;
 
     const isMain = this.currentView === 'main';
-    let title = 'SPB Brain Evolution';
+    let title = 'Amaze Brain Evolution';
     if (!isMain) {
       switch (this.currentView) {
         case 'training': title = i18n.t('Brain Training', 'Тренировка'); break;
@@ -235,7 +235,7 @@ class App {
     const rankTitle = this.getRankTitle(prof.brainRank);
 
     container.innerHTML = `
-      <div class="spb-main-menu">
+      <div class="amaze-main-menu">
         <div class="menu-grid">
           <button class="ex-menu-btn" id="btnTrain" title="${i18n.t('Brain Training', 'Тренировка')}">
             <span class="btn-num">1.</span>
@@ -380,16 +380,16 @@ class App {
 
     const settings = storage.getSettings();
     const modal = document.createElement('div');
-    modal.className = 'spb-dialog-overlay';
+    modal.className = 'amaze-dialog-overlay';
 
     const renderModalContent = () => {
       modal.innerHTML = `
-        <div class="spb-dialog-card">
-          <div class="spb-dialog-header">
+        <div class="amaze-dialog-card">
+          <div class="amaze-dialog-header">
             <span>${i18n.t('Options', 'Настройки')}</span>
-            <button class="spb-dialog-close-x" id="btnOptClose">✕</button>
+            <button class="amaze-dialog-close-x" id="btnOptClose">✕</button>
           </div>
-          <div class="spb-dialog-body">
+          <div class="amaze-dialog-body">
             <div class="option-row">
               <span class="option-label">${i18n.t('Sound Volume', 'Громкость звука')}</span>
               <div class="vol-control-wrap">
@@ -518,10 +518,10 @@ class App {
 
     const helpTexts = {
       main: {
-        title: i18n.t('SPB Brain Evolution Help', 'Помощь: SPB Brain Evolution'),
+        title: i18n.t('Amaze Brain Evolution Help', 'Помощь: Amaze Brain Evolution'),
         body: i18n.t(
-          'SPB Brain Evolution is an intellectual software suite designed to train and evaluate brain fitness.\n\n• Brain Training: Complete daily workouts to evolve your mind.\n• Brain Marking: 5 comprehensive tests to measure your Evolutionary Rank.\n• Interesting Facts: Over 200 amazing facts unlocked through training.\n• My Awards: Diplomas and trophies for your achievements.\n• Manage Profiles: Track progress across family and friends.\n• High Scores: Hall of fame with top records.',
-          'SPB Brain Evolution — это интеллектуальный комплекс для тренировки и тестирования способностей мозга.\n\n• Тренировка: Выполняйте ежедневные упражнения для развития способностей.\n• Тестирование: 5 комплексных тестов для определения ранга эволюции.\n• Интересные факты: Более 200 поразительных фактов, открываемых в процессе игры.\n• Награды: Дипломы и кубки за ваши успехи.\n• Профили: Ведение раздельной статистики для друзей и семьи.\n• Рекорды: Таблицы лучших результатов.'
+          'Amaze Brain Evolution is an intellectual software suite designed to train and evaluate brain fitness.\n\n• Brain Training: Complete daily workouts to evolve your mind.\n• Brain Marking: 5 comprehensive tests to measure your Evolutionary Rank.\n• Interesting Facts: Over 200 amazing facts unlocked through training.\n• My Awards: Diplomas and trophies for your achievements.\n• Manage Profiles: Track progress across family and friends.\n• High Scores: Hall of fame with top records.',
+          'Amaze Brain Evolution — это интеллектуальный комплекс для тренировки и тестирования способностей мозга.\n\n• Тренировка: Выполняйте ежедневные упражнения для развития способностей.\n• Тестирование: 5 комплексных тестов для определения ранга эволюции.\n• Интересные факты: Более 200 поразительных фактов, открываемых в процессе игры.\n• Награды: Дипломы и кубки за ваши успехи.\n• Профили: Ведение раздельной статистики для друзей и семьи.\n• Рекорды: Таблицы лучших результатов.'
         )
       },
       training: {
@@ -575,14 +575,14 @@ class App {
       ? {title: escapeHTML(i18n.t(section['1_value'])), body: escapeHTML(i18n.t(section['2_value'])).replace(/\\n/g, '\n').trim()}
       : helpTexts[screenKey] || helpTexts.main;
     const modal = document.createElement('div');
-    modal.className = 'spb-dialog-overlay';
+    modal.className = 'amaze-dialog-overlay';
     modal.innerHTML = `
-      <div class="spb-dialog-card">
-        <div class="spb-dialog-header">
+      <div class="amaze-dialog-card">
+        <div class="amaze-dialog-header">
           <span>${content.title}</span>
-          <button class="spb-dialog-close-x" id="btnHelpClose">✕</button>
+          <button class="amaze-dialog-close-x" id="btnHelpClose">✕</button>
         </div>
-        <div class="spb-dialog-body">
+        <div class="amaze-dialog-body">
           <p style="font-size: 13px; line-height: 1.5; color: #173854; white-space: pre-line;">${content.body}</p>
           <button class="btn-dialog-primary" id="btnHelpOk">${i18n.t('OK')}</button>
         </div>
@@ -654,7 +654,7 @@ class App {
         <div class="train-games-scroll">${rows}</div>
         <p class="train-progress-text ${session.complete ? 'complete' : ''}">${escapeHTML(status).replace(/\\n/g, '<br>')}</p>
         <button class="options-nav-btn train-calendar-btn" id="btnTrainCalendar"><span>${escapeHTML(i18n.t('Calendar', 'Календарь'))}</span><span>➔</span></button>
-        <button class="btn-spb-action" id="btnStartNewTrain">${escapeHTML(i18n.t('Start New Training'))}</button>
+        <button class="btn-amaze-action" id="btnStartNewTrain">${escapeHTML(i18n.t('Start New Training'))}</button>
       </div>`;
 
     container.querySelectorAll('.train-game-row').forEach(row => {
@@ -803,7 +803,7 @@ class App {
   showTrainerMessage(text, buttons = null, isHTML = false) {
     this.trainerModal?.remove();
     const modal = document.createElement('div');
-    modal.className = 'spb-modal-overlay trainer-message';
+    modal.className = 'amaze-modal-overlay trainer-message';
     const body = isHTML ? text : escapeHTML(text).replace(/\\n/g, '<br>');
     const list = buttons || [{label: i18n.t('Next')}];
     modal.innerHTML = `<div class="restored-results"><div class="mg-results"><div class="mg-results-body">
@@ -854,7 +854,7 @@ class App {
           </div>
         </div>
 
-        <button class="btn-spb-action" id="btnStartBrainMark">${prof.marking ? tr('Продолжить тестирование','Resume test') : i18n.t('Start New Brain Mark')}</button>
+        <button class="btn-amaze-action" id="btnStartBrainMark">${prof.marking ? tr('Продолжить тестирование','Resume test') : i18n.t('Start New Brain Mark')}</button>
       </div>
     `;
 
@@ -946,14 +946,14 @@ class App {
 
   showDiplomaModal(imgUrl) {
     const modal = document.createElement('div');
-    modal.className = 'spb-dialog-overlay';
+    modal.className = 'amaze-dialog-overlay';
     modal.innerHTML = `
-      <div class="spb-dialog-card" style="text-align: center;">
-        <div class="spb-dialog-header">
+      <div class="amaze-dialog-card" style="text-align: center;">
+        <div class="amaze-dialog-header">
           <span>${i18n.t('Official Diploma', 'Почетный диплом')}</span>
-          <button class="spb-dialog-close-x" id="btnCloseDip">✕</button>
+          <button class="amaze-dialog-close-x" id="btnCloseDip">✕</button>
         </div>
-        <div class="spb-dialog-body" style="align-items: center;">
+        <div class="amaze-dialog-body" style="align-items: center;">
           <img src="${imgUrl}" style="width: 100%; max-height: 380px; object-fit: contain; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);" />
           <button class="btn-dialog-primary" id="btnOkDip">${i18n.t('Close', 'Закрыть')}</button>
         </div>
@@ -997,7 +997,7 @@ class App {
           </div>
         </div>
 
-        <button class="btn-spb-action" id="btnCreateProf">${i18n.t('Create New Profile', 'Создать новый профиль')}</button>
+        <button class="btn-amaze-action" id="btnCreateProf">${i18n.t('Create New Profile', 'Создать новый профиль')}</button>
       </div>
     `;
 
@@ -1086,31 +1086,26 @@ class App {
   }
 
   // Authentic About Screen (CAboutWnd from _SHELL_M_ABOUT_INO)
+  // About: the game, its version and the rights holder (names in Russian and English only).
   renderAboutView(container) {
+    const ru = i18n.getLang() === 'ru';
     container.innerHTML = `
       <div class="sub-view-container">
         <div class="about-scroll-card">
-          <img src="assets/textures/Br_Mark_Rank_7.png" class="about-header-logo" alt="Logo" />
-          <h2 class="about-title">SPB Brain Evolution</h2>
-          <span class="about-copy">Version 2.3.0 Modern Remaster (2026)<br>Copyright © 2007-2011 SPB Software</span>
+          <img src="assets/textures/Br_Mark_Rank_7.png" class="about-header-logo" alt="" />
+          <h2 class="about-title">Amaze Brain Evolution</h2>
+          <span class="about-copy">${escapeHTML(i18n.t('Version', 'Версия'))} 2.3.0</span>
 
           <div class="dialog-splitter"></div>
 
           <div class="about-credits-box">
-            <span class="credits-sec-title">Programming Team:</span>
-            <span class="credits-sec-names">Vitaliy Alekseev<br>Denis Byzov</span>
+            <span class="credits-sec-title">${ru ? 'Автор и правообладатель' : 'Author and copyright holder'}</span>
+            <span class="credits-sec-names">Евгений Чушкин<br>Yevhen Chushkin</span>
 
-            <span class="credits-sec-title">Graphics and Design:</span>
-            <span class="credits-sec-names">Pavel Galkin<br>Alexey Chorny</span>
-
-            <span class="credits-sec-title">Audio and Sound:</span>
-            <span class="credits-sec-names">Evgeniy Galkin</span>
-
-            <span class="credits-sec-title">Product Manager:</span>
-            <span class="credits-sec-names">Denis Byzov</span>
-
-            <span class="credits-sec-title">Special Thanks to:</span>
-            <span class="credits-sec-names">Vassili Philippov<br>Alexander Dovgaluk<br>Evgeny Golotvin<br>Nadine Alisawi<br>Serg Podtynnyi<br>Vladimir Nestorovich<br>Eugene Nikulin</span>
+            <span class="credits-sec-title">© 2007–2026 ${ru ? 'Евгений Чушкин' : 'Yevhen Chushkin'}</span>
+            <span class="credits-sec-names">${ru
+              ? 'Все права защищены. Копирование, распространение и изменение игры и её материалов (кода, графики, звуков и текстов) без письменного разрешения правообладателя запрещены.'
+              : 'All rights reserved. Copying, distributing or modifying the game and its materials (code, graphics, sounds and texts) without the written permission of the copyright holder is prohibited.'}</span>
           </div>
         </div>
       </div>
@@ -1256,14 +1251,14 @@ class App {
   showInGameMenu(opts = {}, gameId, difficulty) {
     this.activeModal?.remove();
     const modal = document.createElement('div');
-    modal.className = 'spb-dialog-overlay';
+    modal.className = 'amaze-dialog-overlay';
     modal.innerHTML = `
-      <div class="spb-dialog-card">
-        <div class="spb-dialog-header">
+      <div class="amaze-dialog-card">
+        <div class="amaze-dialog-header">
           <span>${opts.isPauseMenu ? i18n.t('Paused') : i18n.t('Menu')}</span>
-          <button class="spb-dialog-close-x" id="modalBtnClosePause">✕</button>
+          <button class="amaze-dialog-close-x" id="modalBtnClosePause">✕</button>
         </div>
-        <div class="spb-dialog-body">
+        <div class="amaze-dialog-body">
           ${opts.isPauseMenu ? `
             <button class="btn-dialog-primary" id="modalBtnResume">${i18n.t('Resume', 'Продолжить')}</button>
           ` : ''}
@@ -1317,14 +1312,14 @@ class App {
     const desc = help?.['2_value'] ? i18n.t(help['2_value']).replace(/\\n/g, ' ') : (meta ? (meta.desc[lang] || meta.desc.en) : '');
 
     const modal = document.createElement('div');
-    modal.className = 'spb-dialog-overlay';
+    modal.className = 'amaze-dialog-overlay';
     modal.innerHTML = `
-      <div class="spb-dialog-card">
-        <div class="spb-dialog-header">
+      <div class="amaze-dialog-card">
+        <div class="amaze-dialog-header">
           <span>📖 ${title}</span>
-          <button class="spb-dialog-close-x" id="modalBtnCloseHelpX">✕</button>
+          <button class="amaze-dialog-close-x" id="modalBtnCloseHelpX">✕</button>
         </div>
-        <div class="spb-dialog-body">
+        <div class="amaze-dialog-body">
           <p style="font-size: 13px; line-height: 1.5; color: #173854;">${desc}</p>
           <button class="btn-dialog-primary" id="modalBtnCloseHelp">${i18n.t('OK', 'Понятно')}</button>
         </div>

@@ -1,4 +1,4 @@
-// Memorics (ColorRects, CCR_*) — exact port of the original SpbBE.s3e logic (see re/README.md):
+// Memorics (ColorRects, CCR_*) — exact port of the original original game binary logic (see re/README.md):
 //   createRound   FUN_4a0feb88   figures, field placement and question for one round
 //   matches       FUN_4a0f5034   which figures answer the question
 //   tap           FUN_4a0f5034 / FUN_4a0f4ebc / FUN_4a0f4d30   one tap = one try, right or wrong

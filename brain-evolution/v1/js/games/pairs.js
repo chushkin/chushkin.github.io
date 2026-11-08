@@ -1,4 +1,4 @@
-// SPB Brain Evolution - Authentic Pairs (Пары / Memorics) Mini-Game
+// Amaze Brain Evolution - Authentic Pairs (Пары / Memorics) Mini-Game
 // Pixel-perfect restoration based on original binary and layout specs (_PAIRS_INO.ino & _GEOMETRY_INO)
 
 import { audio } from '../audio.js';
@@ -502,24 +502,24 @@ export class PairsGame {
   render() {
     const titleText = i18n.t('Pairs', 'Пары');
     this.container.innerHTML = `
-      <div class="spb-game-container pairs-screen">
-        <!-- Authentic SPB Top Header Bar -->
-        <div class="spb-header-bar">
-          <button class="spb-header-btn spb-menu-btn" id="btnPairsMenu" title="${i18n.t('Menu', 'Меню')}">
+      <div class="amaze-game-container pairs-screen">
+        <!-- Authentic Amaze Top Header Bar -->
+        <div class="amaze-header-bar">
+          <button class="amaze-header-btn amaze-menu-btn" id="btnPairsMenu" title="${i18n.t('Menu', 'Меню')}">
             <span class="bar-icon">☰</span>
           </button>
-          <div class="spb-header-title">${titleText}</div>
-          <button class="spb-header-btn spb-help-btn" id="btnPairsHelp" title="${i18n.t('Help', 'Справка')}">
+          <div class="amaze-header-title">${titleText}</div>
+          <button class="amaze-header-btn amaze-help-btn" id="btnPairsHelp" title="${i18n.t('Help', 'Справка')}">
             <span class="help-q">?</span>
           </button>
         </div>
 
         <!-- Authentic Sub-header Pause / Progress Bar -->
-        <div class="spb-pause-bar pairs-pause-bar">
+        <div class="amaze-pause-bar pairs-pause-bar">
           <div class="pairs-info-left" id="pairsFieldIndicator">
             ${i18n.t('Field', 'Поле')} 1/${this.totalFields}
           </div>
-          <button class="spb-pause-capsule" id="btnPairsPause" title="${i18n.t('Paused')}">
+          <button class="amaze-pause-capsule" id="btnPairsPause" title="${i18n.t('Paused')}">
             <span class="pause-bars">❚❚</span>
           </button>
           <div class="pairs-info-right" id="pairsTimeIndicator">
@@ -528,9 +528,9 @@ export class PairsGame {
         </div>
 
         <!-- Authentic 6x8 Board Frame -->
-        <div class="spb-board-wrapper pairs-board-wrapper">
-          <div class="spb-pairs-frame" id="pairsBoardFrame">
-            <div class="spb-pairs-grid" id="pairsGrid"></div>
+        <div class="amaze-board-wrapper pairs-board-wrapper">
+          <div class="amaze-pairs-frame" id="pairsBoardFrame">
+            <div class="amaze-pairs-grid" id="pairsGrid"></div>
           </div>
         </div>
       </div>
@@ -550,10 +550,10 @@ export class PairsGame {
 
       if (!cellData.isActive) {
         // Disabled / empty board space
-        cell.className = 'spb-pairs-cell cell-empty';
+        cell.className = 'amaze-pairs-cell cell-empty';
       } else {
         // Active interactive card
-        cell.className = 'spb-pairs-cell cell-card';
+        cell.className = 'amaze-pairs-cell cell-card';
         if (idx === this.cursorIndex) {
           cell.classList.add('has-cursor');
         }
@@ -729,7 +729,7 @@ export class PairsGame {
     try { section = (await loadOriginalConfig()).games.pairs_show_results; } catch (e) { console.warn('Original config unavailable:', e); }
     if (this.destroyed) return;
     const modal = document.createElement('div');
-    modal.className = 'spb-modal-overlay active pairs-results';
+    modal.className = 'amaze-modal-overlay active pairs-results';
     const diff = {easy: 0, medium: 1, hard: 2}[this.difficulty] ?? 0;
     modal.innerHTML = `<div class="restored-results">${section
       ? resultsMarkup(section, buildResults(section, {DIST: levelSum, P1: levelSum, P2: this.wrongPairsCount, P7: this.config.wrongPairCost, TIME: 1, TOTAL: total}, diff), i18n.t('Continue', 'Продолжить'))

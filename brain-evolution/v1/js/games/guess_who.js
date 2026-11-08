@@ -73,7 +73,7 @@ export class GuessWhoGame extends RestoredGame {
       <div class="guess-field guess-scatter restored-field">${this.candidates.map((_,i)=>`<button class="guess-cell" data-ant="${i}" style="left:${(this.positions[i].x-50)/438*100}%;top:${(this.positions[i].y-50)/438*100}%" aria-label="${tr('Объект','Object')} ${i+1}"><canvas width="100" height="100"></canvas></button>`).join('')}</div>
       <p class="geometry-feedback" data-feedback aria-live="polite"></p>`,
       `<div class="ant-clues">${this.clues.map(key=>`<div><canvas width="100" height="100" data-clue="${key}"></canvas><span>${({shape:tr('Форма','Shape'),color:tr('Цвет','Color'),texture:tr('Узор','Pattern'),antenna:tr('Усики','Antennae')})[key]}</span></div>`).join('')}</div>
-      ${this.phase==='feedback'?`<button class="spb-action-btn" data-next>${tr('Далее','Next')}</button>`:''}`);
+      ${this.phase==='feedback'?`<button class="amaze-action-btn" data-next>${tr('Далее','Next')}</button>`:''}`);
     this.container.querySelectorAll('[data-ant]').forEach(button=> {
       this.renderObject(button.querySelector('canvas'),this.candidates[Number(button.dataset.ant)]);
       button.disabled=this.phase!=='answer';

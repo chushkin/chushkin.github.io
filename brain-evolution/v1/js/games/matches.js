@@ -1,4 +1,4 @@
-// SPB Brain Evolution - Authentic Matches (Спички) Mini-Game
+// Amaze Brain Evolution - Authentic Matches (Спички) Mini-Game
 // Pixel-perfect restoration based on original binary and layout specs (_MATCHES_INO.ino & _MATCHES_LEVELS_INO.ino)
 
 import { audio } from '../audio.js';
@@ -184,24 +184,24 @@ export class MatchesGame {
     const titleText = i18n.t('Matches', 'Спички');
 
     this.container.innerHTML = `
-      <div class="spb-game-container matches-screen">
-        <!-- Authentic SPB Top Header Bar -->
-        <div class="spb-header-bar">
-          <button class="spb-header-btn spb-menu-btn" id="btnMatchesMenu" title="${i18n.t('Menu', 'Меню')}">
+      <div class="amaze-game-container matches-screen">
+        <!-- Authentic Amaze Top Header Bar -->
+        <div class="amaze-header-bar">
+          <button class="amaze-header-btn amaze-menu-btn" id="btnMatchesMenu" title="${i18n.t('Menu', 'Меню')}">
             <span class="bar-icon">☰</span>
           </button>
-          <div class="spb-header-title">${titleText}</div>
-          <button class="spb-header-btn spb-help-btn" id="btnMatchesHelp" title="${i18n.t('Help', 'Справка')}">
+          <div class="amaze-header-title">${titleText}</div>
+          <button class="amaze-header-btn amaze-help-btn" id="btnMatchesHelp" title="${i18n.t('Help', 'Справка')}">
             <span class="help-q">?</span>
           </button>
         </div>
 
         <!-- Authentic Sub-header Pause Bar -->
-        <div class="spb-pause-bar matches-pause-bar">
+        <div class="amaze-pause-bar matches-pause-bar">
           <div class="matches-info-left" id="matchesHandInfo">
             ${i18n.t('In hand', 'В руке')}: <strong id="matchesHandCount">${this.heldMatches}</strong>
           </div>
-          <button class="spb-pause-capsule" id="btnMatchesPause" title="${i18n.t('Paused')}">
+          <button class="amaze-pause-capsule" id="btnMatchesPause" title="${i18n.t('Paused')}">
             <span class="pause-bars">❚❚</span>
           </button>
           <div class="matches-info-right" id="matchesTimeVal">
@@ -210,19 +210,19 @@ export class MatchesGame {
         </div>
 
         <!-- Matches Task Card -->
-        <div class="spb-matches-task-card">
-          <p class="spb-task-text">${taskText}</p>
+        <div class="amaze-matches-task-card">
+          <p class="amaze-task-text">${taskText}</p>
         </div>
 
         <!-- Matches Board Wrapper -->
-        <div class="spb-board-wrapper matches-board-wrap">
-          <div class="spb-matches-frame" id="matchesBoardFrame">
+        <div class="amaze-board-wrapper matches-board-wrap">
+          <div class="amaze-matches-frame" id="matchesBoardFrame">
             <canvas id="matchesCanvas" width="442" height="442"></canvas>
           </div>
         </div>
 
-        <!-- Authentic SPB Bottom Control Toolbar -->
-        <div class="spb-matches-toolbar">
+        <!-- Authentic Amaze Bottom Control Toolbar -->
+        <div class="amaze-matches-toolbar">
           <button class="matches-tool-btn" id="btnResetMatches" title="${i18n.t('Reset', 'Сброс')}">
             <img src="assets/textures/Matches_ResetBtn_Rel.png" alt="Reset" />
           </button>
@@ -784,7 +784,7 @@ export class MatchesGame {
     if (finalScore > 0) storage.recordGameScore('matches', finalScore);
     this.score = finalScore;
     const modal = document.createElement('div');
-    modal.className = 'spb-modal-overlay active matches-results';
+    modal.className = 'amaze-modal-overlay active matches-results';
     modal.innerHTML = `<div class="restored-results">${section
       ? resultsMarkup(section, buildResults(section, {DIST: prize, P1: this.mistakesCount, TOTAL: total}, this.diff), i18n.t('Continue', 'Продолжить'))
       : `<p>${finalScore}</p><button data-finish>${i18n.t('Continue', 'Продолжить')}</button>`}</div>`;

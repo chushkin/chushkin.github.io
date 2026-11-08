@@ -622,7 +622,7 @@
       "3_link": "cr_help"
     },
     "com_game_texts": {
-      "publish_game_to_web": "SPB @APP_NAME @URL:\\nI get @SCORES in @MG_NAME!",
+      "publish_game_to_web": "Amaze @APP_NAME @URL:\\nI get @SCORES in @MG_NAME!",
       "dif_0": "Easy",
       "dif_1": "Medium",
       "dif_2": "Hard",
@@ -4697,11 +4697,11 @@
       "word_wrap": "on",
       "item_count": "15",
       "1_type": "1 3 0 10 -1 -1 0x21007001",
-      "1_value": "SPB Brain Evolution@LITE",
+      "1_value": "Amaze Brain Evolution@LITE",
       "2_type": "1 3 0 4 -1 -1 0x21007001",
       "2_value": "@V",
       "3_type": "1 3 0 16 -1 -1 0x20002002",
-      "3_value": "Copyright 2007-2011\\nSPB Software",
+      "3_value": "Copyright 2007-2011\\nYevhen Chushkin",
       "4_type": "2 -1 16 0 0",
       "4_value": "362",
       "5_type": "1 3 0 15 -1 -1 0x21007001",
@@ -4865,7 +4865,7 @@
       "status7_param": "90 101 0 0",
       "max_brain_mark": "10000",
       "def_mg_start_dif": "1",
-      "publish_bm_to_web": "SPB @APP_NAME @URL:\\nMy Brain Mark Index is @PERCENT (@STATUS)"
+      "publish_bm_to_web": "Amaze @APP_NAME @URL:\\nMy Brain Mark Index is @PERCENT (@STATUS)"
     },
     "b_mark_b_graphic": {
       "rect": "11 167 0 0",
@@ -5092,7 +5092,7 @@
       "mark_game_v_rect": "378 23 0 0",
       "mark_game_v_img": "750",
       "brain_power_param": "20 20 15 -5",
-      "publish_brain_power_to_web": "SPB @APP_NAME @URL:\\nMy Brain Power is @SCORES."
+      "publish_brain_power_to_web": "Amaze @APP_NAME @URL:\\nMy Brain Power is @SCORES."
     },
     "b_train_index_graphic": {
       "rect": "0 12 0 0",
@@ -5312,14 +5312,14 @@
       "1_value": "Brain Training Help",
       "2_value": "In this mode you can improve your mental awareness by playing mini-games. \\nBy achieving better results in these games, you will get new ones in the list, with new difficulty levels added in opened games. \\n \\nYou can always check your Brain Status in the Brain Marking mode. \\n \\n"
     },
-    "b_train_Spb_Quads_Banner_msg": {
+    "b_train_Amaze_Quads_Banner_msg": {
       "debug_mode": "false",
       "word_wrap": "on",
       "item_count": "3",
       "1_type": "2 -1 12 0 0",
       "1_value": "1500",
       "2_type": "1 3 0 12 -1 -1 0x21002001",
-      "2_value": "SPB Quads expands your Quadronica experience with tons of new features.\\nDon't miss it!",
+      "2_value": "Amaze Quads expands your Quadronica experience with tons of new features.\\nDon't miss it!",
       "3_type": "1 3 0 14 0 0 0",
       "3_value": "View On Android Market",
       "3_link": "^quads_banner_click",
@@ -5631,7 +5631,7 @@
       "parent": "shell_common_help",
       "item_count": "2",
       "1_value": "High Scores Help",
-      "2_value": "In this window you can see the highest scores for all games.\\nTo get to the high scores table you should publish your results to spb.com at the end of the Mini-Game/Brain Traning/Brain Marking by pressing the \"Publish\" button.\\n \\nAlso you can find these high scores at www.spb.com\\n \\n"
+      "2_value": "In this window you can see the highest scores for all games.\\nTo get to the high scores table you should publish your results to chushkin.github.io/brain-evolution at the end of the Mini-Game/Brain Traning/Brain Marking by pressing the \"Publish\" button.\\n \\nAlso you can find these high scores at chushkin.github.io/brain-evolution\\n \\n"
     },
     "highscores_in_parse_error": {
       "debug_mode": "false",
@@ -5742,7 +5742,7 @@
       "word_wrap": "on",
       "item_count": "1",
       "1_type": "1 3 0 30 -1 -1 0x21002001",
-      "1_value": "Welcome to SPB Brain Evolution!\\nThis program will help you to improve your mental knowledge!\\n"
+      "1_value": "Welcome to Amaze Brain Evolution!\\nThis program will help you to improve your mental knowledge!\\n"
     },
     "intro_tr_eula": {
       "debug_mode": "false",
@@ -6203,7 +6203,7 @@
     "init_facebook": {
       "logo": "1320"
     },
-    "init_spb": {
+    "init_amaze": {
       "logo": "1320"
     },
     "publish_wnd": {
@@ -6485,10 +6485,10 @@
     "register_wnd": {
       "key_head_text": "Registration",
       "lite_head_text": "Lite Version",
-      "lite_body_text": "To get the full version use the button below, or go to\\nwww.spb.com",
+      "lite_body_text": "To get the full version use the button below, or go to\\nchushkin.github.io/brain-evolution",
       "lite_register_btn": "Full Version",
-      "ms_body_text": "Unregistered copy.\\nTo get a full version please open MarketPlace, find \"SPB @APP_NAME\" there and purchase it.",
-      "samsung_body_text": "Unregistered copy.\\nTo get a full version please open MarketPlace, find \"SPB @APP_NAME\" there and purchase it.",
+      "ms_body_text": "Unregistered copy.\\nTo get a full version please open MarketPlace, find \"Amaze @APP_NAME\" there and purchase it.",
+      "samsung_body_text": "Unregistered copy.\\nTo get a full version please open MarketPlace, find \"Amaze @APP_NAME\" there and purchase it.",
       "rect": "0 0 1 1",
       "center": "true",
       "scale_fit_size_up": "0 17",
@@ -6512,7 +6512,7 @@
     },
     "register_bodey_txt": {
       "text_rect": "24 75 400 0",
-      "text": "Unregistered copy.\\nTo disable time limit, please purchase now at\\nwww.spb.com",
+      "text": "Unregistered copy.\\nTo disable time limit, please purchase now at\\nchushkin.github.io/brain-evolution",
       "text_font": "0x21002001",
       "text_align": "3",
       "text_color": "0 0 0 0"
@@ -6587,7 +6587,7 @@
     },
     "trainer_head_txt": {
       "text_rect": "84  7  312 28",
-      "text": "SPB Brain Evolution@LITE",
+      "text": "Amaze Brain Evolution@LITE",
       "text_align": "3",
       "text_color": "0 0 0 0",
       "text_font": "0x20003002"

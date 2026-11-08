@@ -1,4 +1,4 @@
-// Minesweeper Mini-game (Сапер) - Authentic SPB Brain Evolution UI
+// Minesweeper Mini-game (Сапер) - Authentic Amaze Brain Evolution UI
 import { audio } from '../audio.js';
 import { storage } from '../storage.js';
 import { i18n } from '../i18n.js';
@@ -118,40 +118,40 @@ export class MinesweeperGame {
 
   render() {
     this.container.innerHTML = `
-      <div class="spb-game-container minesweeper-screen">
-        <!-- Authentic SPB Top Header Bar -->
-        <div class="spb-header-bar">
-          <button class="spb-header-btn spb-menu-btn" id="btnMinesMenu" title="${i18n.t('Menu', 'Меню')}">
+      <div class="amaze-game-container minesweeper-screen">
+        <!-- Authentic Amaze Top Header Bar -->
+        <div class="amaze-header-bar">
+          <button class="amaze-header-btn amaze-menu-btn" id="btnMinesMenu" title="${i18n.t('Menu', 'Меню')}">
             <span class="bar-icon">☰</span>
           </button>
-          <div class="spb-header-title">Minesweeper</div>
-          <button class="spb-header-btn spb-help-btn" id="btnMinesHelp" title="${i18n.t('Help', 'Справка')}">
+          <div class="amaze-header-title">Minesweeper</div>
+          <button class="amaze-header-btn amaze-help-btn" id="btnMinesHelp" title="${i18n.t('Help', 'Справка')}">
             <span class="help-q">?</span>
           </button>
         </div>
 
         <!-- Authentic Sub-header Pause Bar -->
-        <div class="spb-pause-bar">
-          <button class="spb-pause-capsule" id="btnMinesPause" title="${i18n.t('Paused')}">
+        <div class="amaze-pause-bar">
+          <button class="amaze-pause-capsule" id="btnMinesPause" title="${i18n.t('Paused')}">
             <span class="pause-bars">❚❚</span>
           </button>
         </div>
 
         <!-- Info Strip -->
-        <div class="spb-game-info-strip">
+        <div class="amaze-game-info-strip">
           <span>${i18n.t('Mines', 'Мины')}: <strong id="minesRemaining">${this.getRemainingFlags()}</strong></span>
           <span>${i18n.t('Time', 'Время')}: <strong id="minesTime">${this.timer}s</strong></span>
         </div>
 
         <!-- Mines Board Wrap -->
-        <div class="spb-board-wrapper">
-          <div class="spb-mines-frame" style="aspect-ratio:${this.cols}/${this.rows}">
-            <div class="spb-mines-grid" id="minesGrid"></div>
+        <div class="amaze-board-wrapper">
+          <div class="amaze-mines-frame" style="aspect-ratio:${this.cols}/${this.rows}">
+            <div class="amaze-mines-grid" id="minesGrid"></div>
           </div>
         </div>
 
         <!-- Mode Toggle Bar -->
-        <div class="spb-flag-toggle-bar">
+        <div class="amaze-flag-toggle-bar">
           <button class="mode-toggle-btn ${this.flagMode ? 'flag-active' : ''}" id="btnToggleFlag">
             ${this.flagMode ? '🚩 ' + i18n.t('Mode: Flagging', 'Режим: Флажки') : '⛏ ' + i18n.t('Mode: Digging', 'Режим: Раскопки')}
           </button>
@@ -327,7 +327,7 @@ export class MinesweeperGame {
       <button class="options-nav-btn" data-mines-done>${i18n.t('Back')}</button>
     </div>`;
     if (won) panel.querySelector('[data-finish]').setAttribute('data-mines-done', '');
-    this.container.querySelector('.spb-mines-frame').appendChild(panel);
+    this.container.querySelector('.amaze-mines-frame').appendChild(panel);
     revealResults(panel);
     panel.querySelector('[data-mines-restart]')?.addEventListener('click', () => this.init(this.difficulty));
     panel.querySelector('[data-mines-done]').onclick = () => {

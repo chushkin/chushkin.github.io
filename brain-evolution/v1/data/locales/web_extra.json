@@ -10,7 +10,7 @@
   "Sound OFF": ["Désactivé", "Aus", "Desactivado", "Disattivato", "Av", "Fra", "Av", "Desligado", "Uit", "Vypnuto", "Wyłączony"],
   "Language": ["Langue", "Sprache", "Idioma", "Lingua", "Språk", "Sprog", "Språk", "Idioma", "Taal", "Jazyk", "Język"],
   "Free Play & 12 Games": ["Jeu libre : 12 jeux", "Freies Spiel: 12 Spiele", "Juego libre: 12 juegos", "Gioco libero: 12 giochi", "Fritt spel: 12 spel", "Frit spil: 12 spil", "Fritt spill: 12 spill", "Jogo livre: 12 jogos", "Vrij spelen: 12 spellen", "Volná hra: 12 her", "Wolna gra: 12 gier"],
-  "SPB Brain Evolution Help": ["Aide SPB Brain Evolution", "Hilfe zu SPB Brain Evolution", "Ayuda de SPB Brain Evolution", "Guida di SPB Brain Evolution", "Hjälp för SPB Brain Evolution", "Hjælp til SPB Brain Evolution", "Hjelp for SPB Brain Evolution", "Ajuda SPB Brain Evolution", "Help bij SPB Brain Evolution", "Nápověda SPB Brain Evolution", "Pomoc SPB Brain Evolution"],
+  "Amaze Brain Evolution Help": ["Aide Amaze Brain Evolution", "Hilfe zu Amaze Brain Evolution", "Ayuda de Amaze Brain Evolution", "Guida di Amaze Brain Evolution", "Hjälp för Amaze Brain Evolution", "Hjælp til Amaze Brain Evolution", "Hjelp for Amaze Brain Evolution", "Ajuda Amaze Brain Evolution", "Help bij Amaze Brain Evolution", "Nápověda Amaze Brain Evolution", "Pomoc Amaze Brain Evolution"],
   "Overall progress": ["Progression générale", "Gesamtfortschritt", "Progreso general", "Progresso generale", "Total framgång", "Samlet fremskridt", "Total fremgang", "Progresso geral", "Totale voortgang", "Celkový pokrok", "Postęp ogólny"],
   "Official Diploma": ["Diplôme officiel", "Offizielles Diplom", "Diploma oficial", "Diploma ufficiale", "Officiellt diplom", "Officielt diplom", "Offisielt diplom", "Diploma oficial", "Officieel diploma", "Oficiální diplom", "Oficjalny dyplom"],
   "Close": ["Fermer", "Schließen", "Cerrar", "Chiudi", "Stäng", "Luk", "Lukk", "Fechar", "Sluiten", "Zavřít", "Zamknij"],
@@ -75,5 +75,6 @@
   "Ready": ["Prêt", "Fertig", "Listo", "Pronto", "Klar", "Klar", "Klar", "Pronto", "Klaar", "Hotovo", "Gotowe"],
   "Undo point": ["Annuler le point", "Punkt zurücknehmen", "Deshacer punto", "Annulla punto", "Ångra punkt", "Fortryd punkt", "Angre punkt", "Desfazer ponto", "Punt ongedaan maken", "Vrátit bod", "Cofnij punkt"],
   "Done": ["Terminé", "Fertig", "Hecho", "Fatto", "Klar", "Færdig", "Ferdig", "Concluído", "Klaar", "Hotovo", "Gotowe"],
-  "Calendar": ["Calendrier", "Kalender", "Calendario", "Calendario", "Kalender", "Kalender", "Kalender", "Calendário", "Kalender", "Kalendář", "Kalendarz"]
+  "Calendar": ["Calendrier", "Kalender", "Calendario", "Calendario", "Kalender", "Kalender", "Kalender", "Calendário", "Kalender", "Kalendář", "Kalendarz"],
+  "Version": ["Version", "Version", "Versión", "Versione", "Version", "Version", "Versjon", "Versão", "Versie", "Verze", "Wersja"]
 }

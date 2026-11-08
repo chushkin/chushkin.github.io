@@ -1,4 +1,4 @@
-// Numbers (CNumbers_GameField) — exact port of the original SpbBE.s3e logic.
+// Numbers (CNumbers_GameField) — exact port of the original original game binary logic.
 // Addresses refer to the decompiled image (see re/README.md):
 //   createField   FUN_4a035d78   field generation
 //   chooseDigit   FUN_4a037344   next task digit

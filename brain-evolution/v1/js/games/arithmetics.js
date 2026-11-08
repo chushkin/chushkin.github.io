@@ -2,7 +2,7 @@ import { RestoredGame, tr, escapeHTML } from './restored-game.js';
 import { arrayValue, createRandom } from '../original.js';
 import { audio } from '../audio.js';
 import { i18n } from '../i18n.js';
-import { loadResources, drawFrame, drawBorderSection, rect, numbers, rgba } from './spb-canvas.js';
+import { loadResources, drawFrame, drawBorderSection, rect, numbers, rgba } from './amaze-canvas.js';
 import * as M from './arithmetics-model.js';
 
 // cc_game_wnd: 480x715 layout units. The chain is shown in the edit window with the cc_numbers sprite:
@@ -57,15 +57,15 @@ export class ArithmeticsGame extends RestoredGame {
       return `<button class="cc-key" data-digit="${cfg.text}" style="${place(r, rel.width, rel.height)};--rel:url('${rel.image.src}');--pr:url('${pr.image.src}')">${escapeHTML(cfg.text)}</button>`;
     }).join('');
     const ops = rect(g.cc_operations_txt.text_rect);
-    this.frame(this.title, `<div class="spb-stage cc-stage" style="aspect-ratio:${WIDTH}/${HEIGHT}">
-        <canvas class="spb-stage-canvas" width="${WIDTH}" height="${HEIGHT}" data-cc-canvas role="img" aria-label="${tr('Цепочка вычислений', 'Calculation chain')}"></canvas>
-        <div class="spb-stage-text" data-operations style="${place(ops, ops.w, ops.h)}" aria-live="polite"></div>
+    this.frame(this.title, `<div class="amaze-stage cc-stage" style="aspect-ratio:${WIDTH}/${HEIGHT}">
+        <canvas class="amaze-stage-canvas" width="${WIDTH}" height="${HEIGHT}" data-cc-canvas role="img" aria-label="${tr('Цепочка вычислений', 'Calculation chain')}"></canvas>
+        <div class="amaze-stage-text" data-operations style="${place(ops, ops.w, ops.h)}" aria-live="polite"></div>
         <div class="visually-hidden" id="answerDisplay" aria-live="polite"></div>
         ${keys}
         <button class="cc-key cc-backspace" data-backspace aria-label="${tr('Стереть цифру', 'Backspace')}"
           style="${place(rect(back.rect), backRel.width, backRel.height)};--rel:url('${backRel.image.src}');--pr:url('${backPr.image.src}')">${escapeHTML(back.text)}</button>
       </div>`);
-    this.container.querySelector('.spb-pause-bar').insertAdjacentHTML('beforeend', '<span class="spb-stage-time" data-time></span>');
+    this.container.querySelector('.amaze-pause-bar').insertAdjacentHTML('beforeend', '<span class="amaze-stage-time" data-time></span>');
     this.canvas = this.container.querySelector('[data-cc-canvas]');
     this.ctx = this.canvas.getContext('2d');
     this.container.querySelectorAll('[data-digit]').forEach(button => button.onclick = () => this.press(button.dataset.digit));

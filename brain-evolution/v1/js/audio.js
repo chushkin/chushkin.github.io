@@ -1,4 +1,4 @@
-// SPB Brain Evolution - Authentic Audio Engine
+// Amaze Brain Evolution - Authentic Audio Engine
 
 import { storage } from './storage.js';
 

@@ -1,4 +1,4 @@
-// SPB Brain Evolution - Authentic Sudoku (Судоку) Mini-Game
+// Amaze Brain Evolution - Authentic Sudoku (Судоку) Mini-Game
 // Restored from the original layout & config files:
 //   _SUDOKU_INO.ino          — window/field/keypad rects, theme sprites, scoring coefficients
 //   _SUDOKU_PUZZLES2_INO.ino — 300 original puzzle patterns (+ _SUDOKU_PUZZLES3_INO.ino)
@@ -205,25 +205,25 @@ export class SudokuGame {
 
   render() {
     const keyBtn = (n) => `
-      <button class="sud-key sud-num-key spb-key-btn num-key" data-val="${n}" title="${n}">
+      <button class="sud-key sud-num-key amaze-key-btn num-key" data-val="${n}" title="${n}">
         <span class="sud-key-digit" style="background-position: 0 ${(n - 1) * 12.5}%"></span>
       </button>`;
 
     this.container.innerHTML = `
-      <div class="spb-game-container sudoku-screen sud-screen">
-        <div class="spb-header-bar">
-          <button class="spb-header-btn spb-menu-btn" id="btnSudokuMenu" title="${i18n.t('Menu', 'Меню')}">
+      <div class="amaze-game-container sudoku-screen sud-screen">
+        <div class="amaze-header-bar">
+          <button class="amaze-header-btn amaze-menu-btn" id="btnSudokuMenu" title="${i18n.t('Menu', 'Меню')}">
             <span class="bar-icon">☰</span>
           </button>
-          <div class="spb-header-title">${i18n.t('Sudoku', 'Судоку')}</div>
-          <button class="spb-header-btn spb-help-btn" id="btnSudokuHelp" title="${i18n.t('Help', 'Справка')}">
+          <div class="amaze-header-title">${i18n.t('Sudoku', 'Судоку')}</div>
+          <button class="amaze-header-btn amaze-help-btn" id="btnSudokuHelp" title="${i18n.t('Help', 'Справка')}">
             <span class="help-q">?</span>
           </button>
         </div>
 
-        <div class="spb-pause-bar sud-pause-bar">
+        <div class="amaze-pause-bar sud-pause-bar">
           <button class="sud-undo-btn" id="btnSudokuUndo" title="${i18n.t('Undo', 'Отменить')}"></button>
-          <button class="spb-pause-capsule" id="btnSudokuPause" title="${i18n.t('Paused')}">
+          <button class="amaze-pause-capsule" id="btnSudokuPause" title="${i18n.t('Paused')}">
             <span class="pause-bars">❚❚</span>
           </button>
           <div class="sud-time" id="sudTimeVal">00:00</div>
@@ -231,7 +231,7 @@ export class SudokuGame {
 
         <div class="sud-field-wrap">
           <div class="sud-field-border">
-            <div class="sud-grid spb-sudoku-grid" id="sudokuGrid"></div>
+            <div class="sud-grid amaze-sudoku-grid" id="sudokuGrid"></div>
           </div>
         </div>
 
@@ -239,9 +239,9 @@ export class SudokuGame {
           <div class="sud-keypad">
             ${[1, 2, 3, 4, 5, 6].map(keyBtn).join('')}
             ${[7, 8, 9].map(keyBtn).join('')}
-            <button class="sud-key sud-icon-key spb-key-btn" id="btnKeyPencil" data-tex="Pencil" title="${i18n.t('Pencilmarks', 'Карандаш')}"></button>
-            <button class="sud-key sud-icon-key spb-key-btn" id="btnKeyEraser" data-tex="Eraser" title="${i18n.t('Eraser', 'Ластик')}"></button>
-            <button class="sud-key sud-icon-key spb-key-btn" id="btnKeyAutoPM" data-tex="AutoPM" title="${i18n.t('Autoset Pencilmarks', 'Расставить пометки')}"></button>
+            <button class="sud-key sud-icon-key amaze-key-btn" id="btnKeyPencil" data-tex="Pencil" title="${i18n.t('Pencilmarks', 'Карандаш')}"></button>
+            <button class="sud-key sud-icon-key amaze-key-btn" id="btnKeyEraser" data-tex="Eraser" title="${i18n.t('Eraser', 'Ластик')}"></button>
+            <button class="sud-key sud-icon-key amaze-key-btn" id="btnKeyAutoPM" data-tex="AutoPM" title="${i18n.t('Autoset Pencilmarks', 'Расставить пометки')}"></button>
           </div>
         </div>
       </div>
@@ -311,7 +311,7 @@ export class SudokuGame {
         const boxEven = (Math.floor(r / 3) + Math.floor(c / 3)) % 2 === 0;
 
         const cell = document.createElement('div');
-        cell.className = `sud-cell spb-sudoku-cell ${isGiven ? 'given' : 'user'}${isSelected ? ' selected' : ''}${isWrong ? ' wrong' : ''}`;
+        cell.className = `sud-cell amaze-sudoku-cell ${isGiven ? 'given' : 'user'}${isSelected ? ' selected' : ''}${isWrong ? ' wrong' : ''}`;
         cell.dataset.r = r;
         cell.dataset.c = c;
         cell.dataset.val = val;
@@ -504,14 +504,14 @@ export class SudokuGame {
     const wasPaused = this.isPaused;
     this.isPaused = true;
     const modal = document.createElement('div');
-    modal.className = 'spb-modal-overlay active';
+    modal.className = 'amaze-modal-overlay active';
     modal.innerHTML = `
-      <div class="spb-modal-card sud-msgbox">
-        <div class="spb-modal-title">${title}</div>
+      <div class="amaze-modal-card sud-msgbox">
+        <div class="amaze-modal-title">${title}</div>
         <div class="sud-msgbox-text">${text.replace(/\n/g, '<br>')}</div>
-        <div class="spb-modal-buttons">
-          <button class="spb-modal-btn" id="sudMsgNo">${i18n.t('No', 'Нет')}</button>
-          <button class="spb-modal-btn default-btn" id="sudMsgYes">${i18n.t('Yes', 'Да')}</button>
+        <div class="amaze-modal-buttons">
+          <button class="amaze-modal-btn" id="sudMsgNo">${i18n.t('No', 'Нет')}</button>
+          <button class="amaze-modal-btn default-btn" id="sudMsgYes">${i18n.t('Yes', 'Да')}</button>
         </div>
       </div>`;
     document.body.appendChild(modal);
@@ -555,7 +555,7 @@ export class SudokuGame {
     const diff = {easy: 0, medium: 1, hard: 2}[this.difficulty] ?? 0;
     const built = section ? buildResults(section, {DIST: res.levelCost, P1: this.wrongMoves, TIME: this.timer, P2: this.pmCheats, TOTAL: res.raw}, diff) : null;
     const modal = document.createElement('div');
-    modal.className = 'spb-modal-overlay active';
+    modal.className = 'amaze-modal-overlay active';
     modal.innerHTML = `<div class="restored-results">${built
       ? resultsMarkup(section, built, i18n.t('Continue', 'Продолжить'))
       : `<p>${res.total}</p><button data-finish>${i18n.t('Continue', 'Продолжить')}</button>`}</div>`;
