@@ -80,15 +80,18 @@ export function updateSkill(stat,score,params) {
   else if(params.up>=0&&params.up<=score) progress=Math.min(previous+1,params.required);
   return {lres,aver,progress};
 }
+// FUN_4a0209e4: the next difficulty is diff+1, but "bVar1 = 2 < next" keeps training at hard (2);
+// reaching the goal there gives the Best Play award. Sudoku's "ultra" section is never reached.
+export const MAX_TRAINING_DIFF=2;
 function gameState(profile,gameId) {
   const state=profile.progress[gameId] ||= {difficulty:0};
   state.stats ||= {};
-  state.difficulty=Number(state.difficulty)||0;
+  state.difficulty=Math.min(MAX_TRAINING_DIFF,Number(state.difficulty)||0);
   state.maxDifficulty=Math.max(Number(state.maxDifficulty)||0,state.difficulty);
   return state;
 }
 export function trainingInfo(profile,config,gameId) {
-  const state=profile.progress[gameId]||{difficulty:0},diff=Number(state.difficulty)||0;
+  const state=profile.progress[gameId]||{difficulty:0},diff=Math.min(MAX_TRAINING_DIFF,Number(state.difficulty)||0);
   const params=levelParams(gameSection(config,gameId,diff));
   const progress=Math.max(0,state.stats?.[diff]?.progress||0);
   return {diff,params,progress,open:profile.unlockedGames.includes(gameId),champion:profile.awards.includes(`best_${gameId}`)};
@@ -137,7 +140,7 @@ export async function recordTraining(gameId,score) {
     stat.progress=0;
     if(diff>0) { state.difficulty=diff-1; events.levelDown.push(gameId); }
   } else if(params.required>0&&stat.progress>=params.required) {
-    if(gameSection(config,gameId,diff+1)) {
+    if(diff+1<=MAX_TRAINING_DIFF&&gameSection(config,gameId,diff+1)) {
       state.difficulty=diff+1;
       if(state.difficulty>state.maxDifficulty) {
         state.maxDifficulty=state.difficulty; profile.promotions=(profile.promotions||0)+1; events.levelUp.push(gameId);

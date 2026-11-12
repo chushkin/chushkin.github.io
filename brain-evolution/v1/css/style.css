@@ -1985,10 +1985,11 @@ body {
   box-shadow: 0 0 4px rgba(255, 255, 0, 0.8);
 }
 
+/* The original shrinks and fades a removed cell in place (number_disappear_speed per tick). */
 .amaze-quad-tile.popping {
   transform: scale(0);
   opacity: 0;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition: transform var(--vanish-ms, 0.99s) linear, opacity var(--vanish-ms, 0.99s) linear;
 }
 
 .quad-floating-score {

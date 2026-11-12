@@ -4,6 +4,11 @@
 import { audio } from '../audio.js';
 import { storage } from '../storage.js';
 import { i18n } from '../i18n.js';
+import { loadOriginalConfig, createRandom } from '../original.js';
+import { buildResults, resultsMarkup, revealResults } from './results-window.js';
+import * as Q from './quadronica-model.js';
+
+const TICK_MS = 66;
 
 // Configuration parameters from _ZNAX_INO.ino
 // field_width 8, field_height 11, field_number_size 58 58
@@ -74,13 +79,28 @@ export class QuadronicaGame {
     return this.selectedCorners;
   }
 
-  init(difficulty = 'easy') {
-    this.difficulty = difficulty;
-    this.config = QUAD_CONFIG[difficulty] || QUAD_CONFIG.easy;
-    this.cols = this.config.cols;
-    this.rows = this.config.rows;
-    this.totalTime = this.config.maxTime;
+  // Field size, colours, time and points come from [znax_game_field] (see quadronica-model.js);
+  // QUAD_CONFIG is only the fallback when the original configuration cannot be loaded.
+  async init(difficulty = 'easy') {
+    const generation = this._initGeneration = (this._initGeneration || 0) + 1;
+    this.difficulty = QUAD_CONFIG[difficulty] ? difficulty : 'easy';
+    this.config = QUAD_CONFIG[this.difficulty];
+    const diff = {easy: 0, medium: 1, hard: 2}[this.difficulty];
+    let games = null;
+    try { games = (await loadOriginalConfig()).games; } catch (e) { console.warn('Original config unavailable:', e); }
+    if (generation !== this._initGeneration) return;
+    this.original = games;
+    const fallback = {cols: this.config.cols, rows: this.config.rows, minRects: 5, maxRects: 10, colors: this.config.colorsCount,
+      time: this.mode === 'marking' ? 90 : this.config.maxTime, good: this.config.costPerTile, wrong: -this.config.penalty, disappearSpeed: 2};
+    this.params = games?.znax_game_field ? Q.fieldParams(games.znax_game_field, diff, this.mode === 'marking') : fallback;
+    this.diffIndex = diff;
+    this.rand = createRandom(Date.now());
+    this.cols = this.params.cols;
+    this.rows = this.params.rows;
+    this.totalTime = this.params.time;
     this.timeLeft = this.totalTime;
+    this.ended = false;
+    clearTimeout(this.vanishTimer);
 
     this.score = 0;
     this.rectanglesFound = 0;
@@ -99,63 +119,17 @@ export class QuadronicaGame {
   }
 
   generateBoard() {
-    this.grid = [];
-    for (let r = 0; r < this.rows; r++) {
-      this.grid[r] = [];
-      for (let c = 0; c < this.cols; c++) {
-        this.grid[r][c] = Math.floor(Math.random() * this.config.colorsCount);
-      }
-    }
-    // Ensure the generated field contains at least 3 valid rectangles
-    this.ensureAvailableRectangles(3);
-  }
-
-  ensureAvailableRectangles(minCount = 2) {
-    let available = this.findAllRectangles();
-    let attempts = 0;
-    while (available.length < minCount && attempts < 10) {
-      // Pick a random rectangle and force its 4 corners to have the same color
-      const r1 = Math.floor(Math.random() * (this.rows - 2));
-      const r2 = r1 + 1 + Math.floor(Math.random() * (this.rows - r1 - 1));
-      const c1 = Math.floor(Math.random() * (this.cols - 2));
-      const c2 = c1 + 1 + Math.floor(Math.random() * (this.cols - c1 - 1));
-      const color = Math.floor(Math.random() * this.config.colorsCount);
-
-      this.grid[r1][c1] = color;
-      this.grid[r1][c2] = color;
-      this.grid[r2][c1] = color;
-      this.grid[r2][c2] = color;
-
-      available = this.findAllRectangles();
-      attempts++;
-    }
+    this.grid = Q.newField(this.params, this.rand);
   }
 
   findAllRectangles() {
-    const list = [];
-    for (let r1 = 0; r1 < this.rows; r1++) {
-      for (let r2 = r1 + 1; r2 < this.rows; r2++) {
-        for (let c1 = 0; c1 < this.cols; c1++) {
-          for (let c2 = c1 + 1; c2 < this.cols; c2++) {
-            const color = this.grid[r1][c1];
-            if (
-              this.grid[r1][c2] === color &&
-              this.grid[r2][c1] === color &&
-              this.grid[r2][c2] === color
-            ) {
-              list.push({ r1, c1, r2, c2, color });
-            }
-          }
-        }
-      }
-    }
-    return list;
+    return Q.findRectangles(this.grid);
   }
 
   startTimer() {
     clearInterval(this.timerInterval);
     this.timerInterval = setInterval(() => {
-      if (!this.isPaused && !this.isLocked) {
+      if (!this.isPaused && !this.ended) {
         this.timeLeft--;
         this.updateStatsBar();
 
@@ -409,10 +383,8 @@ export class QuadronicaGame {
     const height = rMax - rMin + 1;
     const totalTilesCleared = width * height;
 
-    // Authentic scoring formula from _ZNAX_INO.ino:
-    // Area * costPerTile + size bonus
-    const sizeBonus = (width + height > 4) ? (width + height - 4) * 20 : 0;
-    const pointsAwarded = totalTilesCleared * this.config.costPerTile + sizeBonus;
+    // FUN_4a142b4c: points per cell x removed cells (cells beyond half of the field count half).
+    const pointsAwarded = Q.rectanglePoints(totalTilesCleared, this.rows * this.cols, this.params.good);
 
     this.score += pointsAwarded;
     this.rectanglesFound++;
@@ -432,33 +404,37 @@ export class QuadronicaGame {
     // Draw dashed success box on SVG overlay
     this.drawSuccessBox(rMin, cMin, rMax, cMax);
 
-    // Animate tiles popping / shrinking
+    // Every cell of the rectangle shrinks and fades where it is: the inset grows by
+    // number_disappear_speed per tick until it reaches half of a 58-unit cell.
+    const vanishMs = Math.ceil(29 / this.params.disappearSpeed) * TICK_MS;
     for (let r = rMin; r <= rMax; r++) {
       for (let c = cMin; c <= cMax; c++) {
-        const idx = r * this.cols + c;
-        const cellEl = gridEl?.children[idx];
+        const cellEl = gridEl?.children[r * this.cols + c];
         if (cellEl) {
+          cellEl.style.setProperty('--vanish-ms', `${vanishMs}ms`);
           cellEl.classList.add('popping');
         }
       }
     }
 
-    // After pop animation (220ms), apply gravity and refill
-    setTimeout(() => {
-      this.cascadeAndRefill(rMin, cMin, rMax, cMax);
+    // FUN_4a140784: the emptied cells get new colours in place; nothing falls.
+    clearTimeout(this.vanishTimer);
+    this.vanishTimer = setTimeout(() => {
+      if (this.ended) return;
+      this.refillInPlace(rMin, cMin, rMax, cMax);
       this.selectedCorners = [];
       this.updateSvgSelection();
       this.isLocked = false;
-    }, 220);
+    }, vanishMs);
   }
 
   handleWrongMove(errorPos = null) {
     audio.play('wrong');
     this.mistakesCount++;
 
-    // Deduct penalty
-    const penalty = this.config.penalty;
-    this.score = Math.max(0, this.score - penalty);
+    // points_wrong_move_arr is added as it is: the total may go below zero.
+    const penalty = -this.params.wrong;
+    this.score += this.params.wrong;
     this.updateStatsBar();
 
     // Flash red frame border (matching wrong_move_color 255 0 0 from _ZNAX_INO.ino)
@@ -479,26 +455,12 @@ export class QuadronicaGame {
     this.updateSelectionVisuals();
   }
 
-  cascadeAndRefill(rMin, cMin, rMax, cMax) {
-    // In each column from cMin to cMax:
-    // Surviving tiles above rMin drop down by (rMax - rMin + 1) rows
-    const height = rMax - rMin + 1;
-
-    for (let c = cMin; c <= cMax; c++) {
-      // Shift down existing tiles above rMin
-      for (let r = rMax; r >= height; r--) {
-        this.grid[r][c] = this.grid[r - height][c];
-      }
-      // Fill the top `height` rows with new random tiles
-      for (let r = 0; r < height; r++) {
-        this.grid[r][c] = Math.floor(Math.random() * this.config.colorsCount);
-      }
+  refillInPlace(rMin, cMin, rMax, cMax) {
+    for (let r = rMin; r <= rMax; r++) {
+      for (let c = cMin; c <= cMax; c++) this.grid[r][c] = -1;
     }
-
-    // Ensure the board still has at least 2 valid rectangles
-    this.ensureAvailableRectangles(2);
-
-    // Re-render board with drop animation on refreshed columns
+    Q.fillEmpty(this.grid, this.params.colors, this.rand);
+    Q.ensureRectangles(this.grid, this.params, this.rand);
     this.renderGrid();
   }
 
@@ -638,61 +600,38 @@ export class QuadronicaGame {
 
   handleGameOver() {
     clearInterval(this.timerInterval);
+    clearTimeout(this.vanishTimer);
+    this.ended = true;
     this.isLocked = true;
     audio.play('levelUp');
 
-    storage.recordGameScore('quadronica', this.score);
+    storage.recordGameScore('quadronica', Math.max(0, this.score));
 
     setTimeout(() => {
       this.showResultsModal();
     }, 400);
   }
 
+  // [znax_show_results] has no items: the original results window shows only the total
+  // ("Too bad!" below 1).
   showResultsModal() {
+    const section = this.original?.znax_show_results;
+    const total = this.score;
     const modal = document.createElement('div');
     modal.className = 'amaze-modal-overlay active';
-
-    const mins = Math.floor((this.totalTime - this.timeLeft) / 60);
-    const secs = (this.totalTime - this.timeLeft) % 60;
-    const timeFormatted = `${mins > 0 ? mins + ' ' + i18n.t('min.', 'мин.') + ' ' : ''}${secs} ${i18n.t('sec.', 'сек.')}`;
-
-    modal.innerHTML = `
-      <div class="amaze-modal-card quad-results-card">
-        <div class="amaze-modal-title">🎉 ${i18n.t('Time Is Up!', 'Время вышло!')}</div>
-        <div class="quad-results-body">
-          <div class="quad-result-row">
-            <span class="result-label">${i18n.t('Rectangles found:', 'Найдено прямоугольников:')}</span>
-            <span class="result-val">${this.rectanglesFound}</span>
-          </div>
-          <div class="quad-result-row">
-            <span class="result-label">${i18n.t('Mistakes:', 'Ошибок:')}</span>
-            <span class="result-val">${this.mistakesCount}</span>
-          </div>
-          <div class="quad-result-row">
-            <span class="result-label">${i18n.t('Time played:', 'Время игры:')}</span>
-            <span class="result-val">${timeFormatted}</span>
-          </div>
-          <div class="quad-result-divider"></div>
-          <div class="quad-result-score-row">
-            <span class="result-score-label">${i18n.t('Total Scores:', 'Итого очков:')}</span>
-            <span class="result-score-val">${this.score}</span>
-          </div>
-        </div>
-        <div class="amaze-modal-buttons">
-          <button class="amaze-modal-btn default-btn" id="btnQuadDone">
-            ${i18n.t('Continue', 'Продолжить')}
-          </button>
-        </div>
-      </div>
-    `;
-
+    modal.innerHTML = section
+      ? `<div class="restored-results">${resultsMarkup(section, buildResults(section, {TOTAL: total}, this.diffIndex), i18n.t('Continue', 'Продолжить'))}</div>`
+      : `<div class="amaze-modal-card quad-results-card"><div class="amaze-modal-title">${total}</div><button class="amaze-modal-btn default-btn" data-finish>${i18n.t('Continue', 'Продолжить')}</button></div>`;
+    modal.querySelector('[data-finish]').id = 'btnQuadDone';
     document.body.appendChild(modal);
+    revealResults(modal);
+    this.resultsModal = modal;
 
     modal.querySelector('#btnQuadDone')?.addEventListener('click', () => {
       audio.play('click');
       modal.remove();
       this.destroy();
-      this.onComplete(this.score);
+      this.onComplete(Math.max(0, total));
     });
   }
 
@@ -742,6 +681,8 @@ export class QuadronicaGame {
 
   destroy() {
     clearInterval(this.timerInterval);
+    clearTimeout(this.vanishTimer);
+    this.ended = true;
     window.removeEventListener('keydown', this.handleKeyDown);
   }
 }
