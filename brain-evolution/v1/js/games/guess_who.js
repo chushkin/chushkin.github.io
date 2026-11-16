@@ -90,7 +90,7 @@ export class GuessWhoGame extends RestoredGame {
     if(!this.playable||this.phase!=='answer') return;
     const correct=G.satisfies(this.candidates[index],this.questionCode);
     if(correct) {this.correct++;this.phase='feedback';this.render();}
-    else {this.wrong++;this.container.querySelector('[data-feedback]').textContent=tr('Признаки не совпадают','The features do not match');}
+    else {this.wrong++;{const el=this.container.querySelector('[data-feedback]');if(el)el.textContent=tr('Признаки не совпадают','The features do not match');}}
     audio.play(correct?'good':'wrong');this.calculateScore();
   }
   finish(score=this.score) {

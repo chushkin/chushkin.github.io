@@ -83,6 +83,8 @@ export function updateSkill(stat,score,params) {
 // FUN_4a0209e4: the next difficulty is diff+1, but "bVar1 = 2 < next" keeps training at hard (2);
 // reaching the goal there gives the Best Play award. Sudoku's "ultra" section is never reached.
 export const MAX_TRAINING_DIFF=2;
+// FUN_4a01e2ac / FUN_4a0e4f0c: last_opened_fact_index starts at 3; every finished training opens the next fact.
+export const FIRST_FACTS=3;
 function gameState(profile,gameId) {
   const state=profile.progress[gameId] ||= {difficulty:0};
   state.stats ||= {};
@@ -159,7 +161,9 @@ export async function recordTraining(gameId,score) {
     const power=session.brainPower=brainPower(profile,session,config);
     profile.history.push({date:session.date,score:power,results:{...session.results}});
     profile.brainScore=power; profile.trainingDays=new Set(profile.history.map(item=>item.date)).size; profile.lastTrainingDate=session.date;
-    if(!profile.unlockedFacts.includes(profile.trainingDays-1)) profile.unlockedFacts.push(profile.trainingDays-1);
+    const factCount=Number(config.shell.interesting_facts?.count)||0,lastFact=profile.lastFact??FIRST_FACTS;
+    if(lastFact<factCount) { profile.lastFact=lastFact+1; events.fact=profile.lastFact; }
+    else if(!profile.allFactsShown) { profile.allFactsShown=true; events.allFacts=true; }
     events.complete=power;
   }
   storage.save();

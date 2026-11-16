@@ -4,7 +4,7 @@ import { audio } from './audio.js';
 import { storage } from './storage.js';
 import { loadOriginalConfig } from './original.js';
 import { attachGameLifetime } from './games/lifetime.js';
-import { startMarking, recordMarking, miniGameRoute, startTraining, recordTraining, trainingInfo, levelParams, gameSection, localDate } from './progression.js';
+import { startMarking, recordMarking, miniGameRoute, startTraining, recordTraining, trainingInfo, levelParams, gameSection, localDate, FIRST_FACTS } from './progression.js';
 import { pointsText } from './games/results-window.js';
 import { RestoredGame, escapeHTML, tr } from './games/restored-game.js';
 import { i18n } from './i18n.js';
@@ -46,6 +46,19 @@ class App {
     audio.preloadAll();
 
     window.addEventListener('hashchange', () => this.handleHashRoute());
+    // Phones: when the app goes to the background, the running game opens its pause menu (so the
+    // clock and time penalties stop) and the sound is suspended until it comes back.
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        const game = this.activeGameInstance;
+        if (this.currentView === 'play' && game && !game.isPaused && !game.destroyed && !document.querySelector('.amaze-dialog-overlay, .amaze-modal-overlay')) {
+          document.querySelector('[data-game-pause], #btnQuadPause, #btnMatchesPause, #btnSudokuPause, #btnPairsPause, #btnMinesPause')?.click();
+        }
+        audio.ctx?.suspend?.();
+      } else {
+        audio.ctx?.resume?.();
+      }
+    });
     this.bindGlobalEvents();
 
     if (window.location.hash) {
@@ -71,12 +84,7 @@ class App {
 
   async loadMeta() {
     try {
-      const [gamesResp, factsResp] = await Promise.all([
-        fetch('data/minigames.json'),
-        fetch('data/facts.json')
-      ]);
-      this.gamesMeta = await gamesResp.json();
-      this.facts = await factsResp.json();
+      this.gamesMeta = await (await fetch('data/minigames.json')).json();
     } catch (e) {
       console.warn('Failed to load metadata:', e);
     }
@@ -720,8 +728,11 @@ class App {
     if (events.opened.length) list.push(['Br_Train_Ico_Open_Game', 'Now your level is enough to play these new games:', names(events.opened)]);
     if (events.champion.length) list.push(['Br_Train_Ico_All_Done', 'Your are a real champion in the following games:', names(events.champion), 'All your awards may be found in the "My Awards" window.']);
     const messages = list.map(([icon, text, games, note]) => `<div class="trainer-event"><img src="assets/textures/${icon}.png" alt="" /><div><p>${escapeHTML(i18n.t(text))}</p><p class="trainer-event-games">${escapeHTML(games).replace(/\n/g, '<br>')}</p></div></div>${note ? `<p>${escapeHTML(i18n.t(note))}</p>` : ''}`);
+    const fact = events.fact ? `<img class="trainer-fact-img" src="assets/textures/Int_Fact_TopImg.png" alt="" /><p class="mg-results-total">${escapeHTML(i18n.t("It's interesting!"))}</p><p>${this.factText(events.fact)}</p><p>${escapeHTML(i18n.t('All new interesting facts may be found in the "Interesting Facts" window.@BLANK').replace('@BLANK', ''))}</p>`
+      : events.allFacts ? `<p class="mg-results-total">${escapeHTML(i18n.t("Congratulations!\\nYou've just opened the last interesting fact!")).replace(/\\n/g, '<br>')}</p>` : '';
     if (events.complete !== undefined)
       messages.push(`<p>${escapeHTML(i18n.t("You've successfully completed the daily training program.\\nGood job!")).replace(/\\n/g, '<br>')}</p><p class="mg-results-total">${escapeHTML(i18n.t('Your Brain Power is\\n@SCORE').replace('@SCORE', events.complete)).replace(/\\n/g, '<br>')}</p>`);
+    if (fact) messages.push(fact);
     this.pendingTrainerMessages = [...(this.pendingTrainerMessages || []), ...messages];
     // The old training window opened the calendar after a finished training (menu 0x4ecd).
     if (events.complete !== undefined) this.calendarAfterMessages = true;
@@ -867,21 +878,24 @@ class App {
   }
 
   // Authentic Interesting Facts Screen (CInterestingFactsMenuWnd)
-  renderFactsView(container) {
-    const lang = i18n.getLang();
+  // Interesting Facts (CInterestingFactsMenuWnd, [interesting_facts] 1..count): only the facts
+  // opened so far — three at the start, one more after every finished training.
+  factText(n) {
+    const raw = this.original?.shell?.interesting_facts?.[String(n)] || '';
+    return escapeHTML(i18n.t(raw).replace(/(\\n|\s)+$/, '')).replace(/\\n/g, '<br>');
+  }
 
+  renderFactsView(container) {
+    const prof = storage.getProfile();
+    const count = Math.min(Number(this.original?.shell?.interesting_facts?.count) || 0, prof.lastFact ?? FIRST_FACTS);
     container.innerHTML = `
       <div class="sub-view-container">
         <div class="facts-scroll-list">
-          ${this.facts.map((f, i) => {
-            const txt = lang === 'ru' ? f.ru : lang === 'en' ? f.en : i18n.t(f.en);
-            return `
+          ${Array.from({length: count}, (_, i) => `
               <div class="fact-item-card">
-                <div class="fact-item-num">#${i + 1}</div>
-                <div class="fact-item-text">${txt}</div>
-              </div>
-            `;
-          }).join('')}
+                <div class="fact-item-num">${i + 1}</div>
+                <div class="fact-item-text">${this.factText(i + 1)}</div>
+              </div>`).join('')}
         </div>
       </div>
     `;
@@ -966,26 +980,32 @@ class App {
   }
 
   // Authentic Manage Profiles Screen (CProfileMenuWnd)
+  // Profiles (CProfileMenuWnd with the original Select / Load / Rename / Delete / Create actions),
+  // laid out for phones: big cards, in-app dialogs instead of prompt()/alert() (Android WebView
+  // shows no native prompt).
   renderProfilesView(container) {
     const prof = storage.getProfile();
-
+    const profiles = Object.entries(storage.data.profiles);
     container.innerHTML = `
       <div class="sub-view-container">
-        <div class="profiles-list-card">
-          <label>${tr('Профиль','Profile')} <select id="profileSelect">${Object.entries(storage.data.profiles).map(([id, profile]) => `<option value="${escapeHTML(id)}" ${id === storage.data.activeProfile ? 'selected' : ''}>${escapeHTML(profile.name)}</option>`).join('')}</select></label>
-          <div class="profile-item-row active">
-            <div class="prof-item-left">
-              <img src="assets/textures/Profile_Marker_Cur.png" class="prof-marker-img" alt="" />
-              <input type="text" id="inputProfName" value="${escapeHTML(prof.name)}" style="font-size: 15px; font-weight: 800; color: #174872; border: 1px solid #7eaed6; border-radius: 6px; padding: 4px 8px; background: #fff;" />
-            </div>
-            <button class="btn-dialog-primary" id="btnSaveProf" style="width: auto; padding: 6px 12px; font-size: 13px;">${i18n.t('Save', 'Ок')}</button>
-          </div>
+        <p class="prof-section-title">${escapeHTML(i18n.t('Select Profile:'))}</p>
+        <div class="prof-cards">
+          ${profiles.map(([id, p]) => `
+            <button class="prof-card ${id === storage.data.activeProfile ? 'active' : ''}" data-profile="${escapeHTML(id)}">
+              <img src="assets/textures/${id === storage.data.activeProfile ? 'Profile_Marker_Cur' : 'Profile_Marker'}.png" class="prof-marker-img" alt="" />
+              <span class="prof-card-name">${escapeHTML(p.name)}</span>
+              <span class="prof-card-meta">⚡ ${p.brainScore} · 📅 ${p.trainingDays}</span>
+            </button>`).join('')}
+        </div>
+        <div class="prof-actions">
+          <button class="mx-btn" id="btnRenameProf"><span class="mx-ico">✎</span><span>${escapeHTML(i18n.t('Rename Profile'))}</span></button>
+          <button class="mx-btn" id="btnDeleteProf" ${profiles.length < 2 ? 'disabled' : ''}><span class="mx-ico">🗑</span><span>${escapeHTML(i18n.t('Delete Profile'))}</span></button>
         </div>
 
         <div class="profile-stats-panel">
           <div class="prof-stat-row">
             <span>${i18n.t('Evolution Score', 'Индекс развития')}:</span>
-            <span class="prof-stat-val">⚡ ${prof.brainScore} pts</span>
+            <span class="prof-stat-val">⚡ ${prof.brainScore}</span>
           </div>
           <div class="prof-stat-row">
             <span>${i18n.t('Evolutionary Rank', 'Ранг эволюции')}:</span>
@@ -997,30 +1017,77 @@ class App {
           </div>
         </div>
 
-        <button class="btn-amaze-action" id="btnCreateProf">${i18n.t('Create New Profile', 'Создать новый профиль')}</button>
+        <button class="btn-amaze-action" id="btnCreateProf">${escapeHTML(i18n.t('Create New Profile'))}</button>
       </div>
     `;
 
-    container.querySelector('#profileSelect')?.addEventListener('change', (event) => { storage.selectProfile(event.target.value); this.renderProfilesView(container); });
-
-    container.querySelector('#btnSaveProf')?.addEventListener('click', () => {
-      const val = container.querySelector('#inputProfName')?.value?.trim();
-      if (val) {
-        storage.updateProfile(p => p.name = val);
-        audio.play('click');
+    container.querySelectorAll('[data-profile]').forEach(card => card.addEventListener('click', () => {
+      audio.play('click');
+      storage.selectProfile(card.dataset.profile);
+      this.renderHeader();
+      this.renderProfilesView(container);
+    }));
+    container.querySelector('#btnRenameProf')?.addEventListener('click', () => {
+      audio.play('click');
+      this.showInputDialog(i18n.t('Rename Profile'), storage.getProfile().name, name => {
+        storage.updateProfile(p => p.name = name);
         this.renderHeader();
-        alert(i18n.t('Profile name saved!', 'Имя профиля сохранено!'));
-      }
+        this.renderProfilesView(container);
+      });
     });
-
+    container.querySelector('#btnDeleteProf')?.addEventListener('click', () => {
+      audio.play('click');
+      const name = storage.getProfile().name;
+      this.showConfirmDialog(`${i18n.t('Delete Profile')}: «${name}»?`, () => {
+        storage.deleteProfile(storage.data.activeProfile);
+        this.renderHeader();
+        this.renderProfilesView(container);
+      });
+    });
     container.querySelector('#btnCreateProf')?.addEventListener('click', () => {
       audio.play('click');
-      const name = prompt(i18n.t('Enter new profile name:', 'Введите имя нового профиля:'));
-      if (name && name.trim()) {
-        storage.createProfile(name.trim());
+      this.showInputDialog(i18n.t('Create New Profile'), '', name => {
+        storage.createProfile(name);
+        this.renderHeader();
         this.renderProfilesView(container);
-      }
+      });
     });
+  }
+
+  // In-app text input (the name keyboard stays clear of the dialog: it sits at the top).
+  showInputDialog(title, value, onOk) {
+    this.activeModal?.remove();
+    const modal = document.createElement('div');
+    modal.className = 'amaze-dialog-overlay app-input-dialog';
+    modal.innerHTML = `
+      <div class="amaze-dialog-card">
+        <div class="amaze-dialog-header"><span>${escapeHTML(title)}</span></div>
+        <form class="amaze-dialog-body" novalidate>
+          <input class="app-input" type="text" maxlength="40" autocomplete="off" autocapitalize="words" enterkeyhint="done" value="${escapeHTML(value)}" />
+          <div class="app-dialog-buttons">
+            <button type="button" class="options-nav-btn" data-cancel>${escapeHTML(i18n.t('Cancel'))}</button>
+            <button type="submit" class="btn-dialog-primary">${escapeHTML(i18n.t('OK'))}</button>
+          </div>
+        </form>
+      </div>`;
+    const input = modal.querySelector('input');
+    const close = () => { modal.remove(); if (this.activeModal === modal) this.activeModal = null; };
+    modal.querySelector('[data-cancel]').addEventListener('click', () => { audio.play('click'); close(); });
+    modal.querySelector('form').addEventListener('submit', event => {
+      event.preventDefault();
+      const name = input.value.trim();
+      if (!name) { input.focus(); input.classList.add('invalid'); return; }
+      audio.play('click');
+      close();
+      onOk(name.slice(0, 40));
+    });
+    document.getElementById('appWrapper').appendChild(modal);
+    this.activeModal = modal;
+    setTimeout(() => { input.focus(); input.select(); }, 50);
+  }
+
+  showConfirmDialog(text, onYes) {
+    this.showTrainerMessage(escapeHTML(text), [{label: i18n.t('Yes'), onClick: onYes}, {label: i18n.t('No')}], true);
   }
 
   // Authentic High Scores Screen (CHighscoresMenuWnd)

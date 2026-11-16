@@ -7,7 +7,7 @@ export function createProfile(name='Player 1') {
   return {name,created:Date.now(),brainScore:0,brainRank:1,brainMark:0,trainingDays:0,lastTrainingDate:null,
     history:[],markingHistory:[],scoreHistory:[],highScores:{},awards:[],
     unlockedGames:[],progress:{},promotions:0,
-    training:null,marking:null,unlockedFacts:[]};
+    training:null,marking:null,unlockedFacts:[],lastFact:3};
 }
 const defaultSettings={sound:true,volume:0.8,locale:'ru',difficulty:'easy'};
 const defaultData=()=>({version:2,activeProfile:'Player 1',profiles:{'Player 1':createProfile()},settings:{...defaultSettings}});
@@ -53,6 +53,13 @@ export class StorageManager {
     if(!name) return null;
     const id=`profile_${Date.now()}_${Math.random().toString(36).slice(2,8)}`;
     this.data.profiles[id]=createProfile(name); this.data.activeProfile=id; this.save(); return id;
+  }
+  // The last profile cannot be deleted; deleting the active one switches to the first left.
+  deleteProfile(id) {
+    if(!Object.hasOwn(this.data.profiles,id)||Object.keys(this.data.profiles).length<2) return false;
+    delete this.data.profiles[id];
+    if(this.data.activeProfile===id) this.data.activeProfile=Object.keys(this.data.profiles)[0];
+    this.save(); return true;
   }
   selectProfile(id) {
     if(!Object.hasOwn(this.data.profiles,id)) return false;

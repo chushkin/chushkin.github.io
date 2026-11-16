@@ -67,7 +67,7 @@ export class GeometryGame extends RestoredGame {
       field.setPointerCapture(event.pointerId);
       if(this.points.length===this.target.length) {
         this.phase='edit';
-        this.container.querySelector('[data-geo-message]').textContent=i18n.t(messages.edit);
+        {const el=this.container.querySelector('[data-geo-message]');if(el)el.textContent=i18n.t(messages.edit);}
       }
       this.draw();
       this.container.querySelector('[data-check]').disabled=this.points.length!==this.target.length;

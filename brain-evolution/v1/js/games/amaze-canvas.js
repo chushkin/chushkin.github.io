@@ -15,11 +15,15 @@ export function loadResourceTable() {
 
 function loadImage(src) {
   if (!images.has(src)) {
+    // One retry: a dropped connection or a slow WebView must not stop the game from starting.
     images.set(src, new Promise((resolve, reject) => {
-      const image = new Image();
-      image.onload = () => resolve(image);
-      image.onerror = () => reject(new Error(`Texture ${src} failed to load`));
-      image.src = src;
+      const load = retry => {
+        const image = new Image();
+        image.onload = () => resolve(image);
+        image.onerror = () => (retry ? setTimeout(() => load(false), 150) : (images.delete(src), reject(new Error(`Texture ${src} failed to load`))));
+        image.src = retry ? src : `${src}${src.includes('?') ? '&' : '?'}retry=1`;
+      };
+      load(true);
     }));
   }
   return images.get(src);

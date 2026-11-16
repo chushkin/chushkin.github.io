@@ -100,3 +100,47 @@ export function score(mips, wrongMoves, goodPoints, wrongPoints) {
   const prize = mips * goodPoints;
   return {prize, total: prize + wrongMoves * wrongPoints};
 }
+
+// ---- Places for matches (web controls) -------------------------------------------------------
+// Every level lays its matches on one lattice: horizontal matches sit on cells of one (row, column)
+// parity, vertical ones on another, vertices on a third. The free places a match can be put on are
+// the cells of those two parities around the figure and its solutions, plus every cell that holds a
+// match in the board or a solution (diagonals, and the few solutions off the lattice). A place
+// decides the orientation.
+const parityOf = (rows, ch) => {
+  const count = {};
+  rows.forEach((row, r) => [...row].forEach((v, c) => { if (v === ch) { const k = `${r % 2}${c % 2}`; count[k] = (count[k] || 0) + 1; } }));
+  const best = Object.entries(count).sort((a, b) => b[1] - a[1])[0];
+  return best ? best[0] : null;
+};
+
+export function slotMap(level) {
+  const all = [level.board || [], ...(level.solutions || [])];
+  const h = parityOf(level.board || [], '-') || parityOf(all.flat(), '-');
+  const v = parityOf(level.board || [], '|') || parityOf(all.flat(), '|');
+  let r0 = N, r1 = -1, c0 = N, c1 = -1;
+  for (const rows of all) rows.forEach((row, r) => [...row].forEach((ch, c) => {
+    if (ch !== '.') { r0 = Math.min(r0, r); r1 = Math.max(r1, r); c0 = Math.min(c0, c); c1 = Math.max(c1, c); }
+  }));
+  const slots = new Map();
+  if (r1 < 0) return slots;
+  r0 = Math.max(0, r0 - 2); r1 = Math.min(N - 1, r1 + 2); c0 = Math.max(0, c0 - 2); c1 = Math.min(N - 1, c1 + 2);
+  for (let r = r0; r <= r1; r++) for (let c = c0; c <= c1; c++) {
+    const k = `${r % 2}${c % 2}`;
+    if (k === h) slots.set(`${r},${c}`, '-');
+    else if (k === v) slots.set(`${r},${c}`, '|');
+  }
+  for (const rows of all) rows.forEach((row, r) => [...row].forEach((ch, c) => {
+    if (ch === '/' || ch === '\\') slots.set(`${r},${c}`, ch);
+    else if (ch !== '.' && !slots.has(`${r},${c}`)) slots.set(`${r},${c}`, ch);
+  }));
+  return slots;
+}
+
+// How many matches the task moves, removes or adds ("Move 3 matches ...", del, add).
+export function taskKind(level) {
+  if (Number(level.add) > 0) return {kind: 'add', count: Number(level.add)};
+  if (Number(level.del) > 0) return {kind: 'remove', count: Number(level.del)};
+  const m = /move\s+(\d+)/i.exec(level.task || '');
+  return {kind: 'move', count: m ? Number(m[1]) : 0};
+}

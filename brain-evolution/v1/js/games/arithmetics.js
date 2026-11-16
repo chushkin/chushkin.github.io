@@ -18,7 +18,8 @@ export class ArithmeticsGame extends RestoredGame {
   async init(difficulty = 'easy') {
     if (!await this.begin(difficulty)) return;
     const generation = this.generation, g = this.original;
-    this.level = M.levelParams(g[`cc_lev_${this.diff + (this.mode === 'marking' ? 3 : 0)}`]);
+    this.lightEasy = this.diff === 0 && this.mode !== 'marking';
+    this.level = this.lightEasy ? {...M.EASY_LEVEL} : M.levelParams(g[`cc_lev_${this.diff + (this.mode === 'marking' ? 3 : 0)}`]);
     this.edit = g.cc_edit_wnd;
     this.buttons = Array.from({length: Number(g.cc_lev_buttons.buttons_count)}, (_, i) => g[`cc_answer_lev_btn${i + 1}`]);
     const ids = [this.edit.edit_img, this.edit.numbers_img, clean(g.cc_answer_lev_bckspc_btn.rel_ID), clean(g.cc_answer_lev_bckspc_btn.pres_ID),
@@ -165,7 +166,8 @@ export class ArithmeticsGame extends RestoredGame {
   }
 
   finishGame() {
-    const r = this.original.cc_show_results;
+    let r = this.original.cc_show_results;
+    if (this.lightEasy) r = {...r, i3_points_arr: String(r.i3_points_arr).trim().split(/\s+/).map((v, i) => (i === 1 ? M.EASY_TIME_PENALTY : v)).join(' ')};
     const points = [r.i1_points_arr, r.i2_points_arr, r.i3_points_arr].map(v => arrayValue(v, this.diff));
     const seconds = Math.max(1, this.elapsed);
     const total = M.totalScore(this.right, this.wrong, seconds, ...points);

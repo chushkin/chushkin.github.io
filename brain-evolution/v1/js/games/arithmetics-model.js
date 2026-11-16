@@ -5,6 +5,11 @@
 // Operations: 0 '+', 1 '-', 2 '*', 3 '/'.
 export const OPS = ['+', '-', '*', '/'];
 
+// Owner's request (15 Nov 2026): the first training level is lighter than the original cc_lev_0
+// (values 10..60, 20 examples, -60 points per second). Brain Marking keeps cc_lev_3..5.
+export const EASY_LEVEL = {min: 5, max: 30, steps: 15, minOperand: 2, ops: [0, 1]};
+export const EASY_TIME_PENALTY = -30;
+
 const rnd = (rand, n) => n > 0 ? (rand() % 0x7fff) % n : 0;
 
 export function levelParams(level) {

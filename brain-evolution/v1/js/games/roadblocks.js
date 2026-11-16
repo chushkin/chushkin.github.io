@@ -15,7 +15,10 @@ export class RoadblocksGame extends RestoredGame {
     const levels=await response.json();
     this.images={};
     await Promise.all(['rb_field_tile','rb_ball','rb_pointer_up','rb_pointer_down','rb_pointer_left','rb_pointer_right'].map(name=>new Promise((resolve,reject)=> {
-      const image=new Image();image.onload=()=>{this.images[name]=image;resolve();};image.onerror=()=>reject(new Error(`Missing ball sprite ${name}`));image.src=`assets/textures/restored/${name}.png`;
+      // One retry: a slow WebView or a dropped connection must not leave the field without sprites.
+      const load=retry=>{const image=new Image();image.onload=()=>{this.images[name]=image;resolve();};
+        image.onerror=()=>retry?load(false):reject(new Error(`Missing ball sprite ${name}`));image.src=`assets/textures/restored/${name}.png${retry?'':'?retry=1'}`;};
+      load(true);
     })));
     if(this.destroyed||generation!==this.generation) return;
     this.levels=shuffle(levels[['easy','medium','hard'][this.diff]]).slice(0,Number(this.original[`rb_lev_${this.diff}`].m_nFieldsCount));
@@ -81,12 +84,12 @@ export class RoadblocksGame extends RestoredGame {
       const step=Math.min(result.path.length,progress),full=Math.floor(step),fraction=step-full;
       const from=full===0?origin:result.path[full-1],to=result.path[full]||from;
       this.ball={r:from.r+(to.r-from.r)*fraction,c:from.c+(to.c-from.c)*fraction};this.drawBoard();
-      if(progress<result.path.length||!this.playable){this.animation=requestAnimationFrame(animate);return;}
+      if(progress<result.path.length||!this.playable){this.animation=setTimeout(()=>animate(performance.now()),16);return;}
       this.isMoving=false;
       if(result.lost) {
         this.lost++;this.ball={...this.start};audio.play('wrong');
         const prefix=['Easy','Med','Hard'][this.diff];this.score+=Number(this.original.rb_game_wnd[`g_nRB${prefix}WrongCfx`]);
-        this.container.querySelector('[data-feedback]').textContent=tr('Шар потерян. Попробуйте другой путь.','Ball lost. Try another path.');
+        const feedback=this.container.querySelector('[data-feedback]');if(feedback)feedback.textContent=tr('Шар потерян. Попробуйте другой путь.','Ball lost. Try another path.');
         this.updateScore();this.drawBoard();this.updateStatus();
       } else if(result.goal) {
         // CRBGameWnd::v19 adds the field's max_score; g_nRB*TimeCfx is loaded but never used by the
@@ -96,7 +99,8 @@ export class RoadblocksGame extends RestoredGame {
         if(this.levelIndex===this.levels.length-1) { this.phase='complete';this.finish(); } else this.render();
       } else {audio.play('hitWall');this.updateStatus();}
     };
-    this.animation=requestAnimationFrame(animate);
+    // A 16 ms timer like the other games (requestAnimationFrame stops in hidden views).
+    this.animation=setTimeout(()=>animate(performance.now()),0);
   }
   finish(score=this.score) {
     super.finish(score,{section:this.original.rb_show_results,values:{DIST:this.summary,P1:this.lost,TOTAL:Math.round(score)}});
@@ -105,5 +109,5 @@ export class RoadblocksGame extends RestoredGame {
     const status=this.container.querySelector('[data-status]');
     if(status)status.textContent=`${this.levelIndex+1}/${this.levels.length} · ${tr('Потери','Lost')}: ${this.lost} · ${this.elapsed} ${tr('с','s')}`;
   }
-  destroy() {super.destroy();cancelAnimationFrame(this.animation);if(this.keyHandler)window.removeEventListener('keydown',this.keyHandler);}
+  destroy() {super.destroy();clearTimeout(this.animation);if(this.keyHandler)window.removeEventListener('keydown',this.keyHandler);}
 }

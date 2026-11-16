@@ -139,7 +139,7 @@ export class MemoricsGame extends RestoredGame {
     tries.hidden = this.phase === 'remember' || this.phase === 'review';
     tries.textContent = i18n.t(g.cr_tryesleft_txt.text).replace('%d', this.answer.tries);
     this.container.querySelector('[data-timer]').hidden = this.phase !== 'remember';
-    this.container.querySelector('[data-timer]').textContent = Math.max(0, this.remaining);
+    {const el=this.container.querySelector('[data-timer]');if(el)el.textContent=Math.max(0, this.remaining);}
     this.container.querySelector('[data-skip]').hidden = this.phase !== 'remember';
     this.container.querySelector('[data-next]').hidden = this.phase !== 'review';
   }

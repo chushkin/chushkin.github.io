@@ -4,7 +4,7 @@
 import { audio } from '../audio.js';
 import { storage } from '../storage.js';
 import { i18n } from '../i18n.js';
-import { isSolved, pickLevel, score as matchesScore } from './matches-model.js';
+import { isSolved, pickLevel, score as matchesScore, slotMap, taskKind } from './matches-model.js';
 import { loadOriginalConfig, arrayValue, createRandom, difficultyIndex } from '../original.js';
 import { buildResults, resultsMarkup, revealResults } from './results-window.js';
 
@@ -53,8 +53,6 @@ export class MatchesGame {
     this.difficulty = difficulty;
     this.diff = difficultyIndex(difficulty);
 
-    // Preload authentic match textures with cache-buster
-    await this.loadSprites();
 
     // Load authentic level database
     try {
@@ -123,35 +121,34 @@ export class MatchesGame {
     this.startTimer();
   }
 
-  async loadSprites() {
-    if (this.spritesLoaded) return;
-    const v = '20261021_3';
-    const loadImg = (src) => new Promise((resolve) => {
-      const img = new Image();
-      img.onload = () => resolve(img);
-      img.onerror = () => resolve(null);
-      img.src = `${src}?v=${v}`;
-    });
-
-    const [matchesImg, matchesSelImg, fieldTileImg] = await Promise.all([
-      loadImg('assets/textures/Matches_Matches_rgba.png'),
-      loadImg('assets/textures/Matches_Matches_Sel_rgba.png'),
-      loadImg('assets/textures/Matches_Field_Tile_clean.png')
-    ]);
-
-    this.matchesImg = matchesImg;
-    this.matchesSelImg = matchesSelImg;
-    this.fieldTileImg = fieldTileImg;
-    this.spritesLoaded = true;
-  }
+  // Controls of the web version (owner's request, 15 Nov 2026), like today's matchstick puzzle
+  // apps: drag a match to a free place, or tap it and then the place; free places are outlined and
+  // decide the orientation themselves. Remove tasks: tap a match to take it away. Add tasks: drag
+  // a match from the supply under the field or tap a free place. Undo, Reset and Check below.
+  // The puzzles, the solution check and the points stay the original ones.
+  async loadSprites() {}
 
   loadLevel(lev) {
     this.currentLevel = lev;
     this.board = (lev.board || []).map(r => r.split(''));
     this.initialBoard = (lev.board || []).map(r => r.split(''));
-    this.heldMatches = lev.add || 0;
-    this.initialHeld = lev.add || 0;
+    this.slots = slotMap(lev);
+    this.task = taskKind(lev);
+    // The view is zoomed to the places (plus half a cell), so the matches are as large as possible.
+    let r0 = 12, r1 = 0, c0 = 12, c1 = 0;
+    for (const key of this.slots.keys()) {
+      const [r, c] = key.split(',').map(Number);
+      r0 = Math.min(r0, r); r1 = Math.max(r1, r); c0 = Math.min(c0, c); c1 = Math.max(c1, c);
+    }
+    if (r1 < r0) { r0 = 0; r1 = 12; c0 = 0; c1 = 12; }
+    this.view = {r0, c0, span: Math.max(r1 - r0, c1 - c0) + 2, rows: r1 - r0 + 1, cols: c1 - c0 + 1};
+    this.heldMatches = this.task.kind === 'add' ? this.task.count : 0;
+    this.initialHeld = this.heldMatches;
+    this.removed = 0;
+    this.added = new Set();
+    this.history = [];
     this.selectedMatch = null;
+    this.trayArmed = false;
     this.dragState = null;
     this.render();
   }
@@ -175,17 +172,35 @@ export class MatchesGame {
     }
   }
 
+  // Matches moved away from their starting places (for "Moved X of N").
+  movedCount() {
+    let n = 0;
+    this.initialBoard.forEach((row, r) => row.forEach((ch, c) => { if (ch !== '.' && this.board[r][c] === '.') n++; }));
+    return n;
+  }
+
+  progressText() {
+    const {kind, count} = this.task;
+    if (kind === 'remove') return i18n.t('Removed: %d of %d', 'Убрано: %d из %d').replace('%d', this.removed).replace('%d', count);
+    if (kind === 'add') return i18n.t('Matches to add: %d', 'Осталось добавить: %d').replace('%d', this.heldMatches);
+    return i18n.t('Moved: %d of %d', 'Переложено: %d из %d').replace('%d', this.movedCount()).replace('%d', count);
+  }
+
+  hintText() {
+    if (this.task.kind === 'remove') return i18n.t('Tap a match to take it away.', 'Коснитесь спички, чтобы убрать её.');
+    if (this.task.kind === 'add') return i18n.t('Drag a match from the supply or tap a free place.', 'Перетащите спичку из запаса или коснитесь свободного места.');
+    return i18n.t('Drag a match to a free place, or tap it and then the place.', 'Перетащите спичку на свободное место или коснитесь её, а потом места.');
+  }
+
   render() {
     const lang = i18n.getLang();
     const taskText = lang === 'ru' && this.currentLevel?.task_ru
       ? this.currentLevel.task_ru
       : i18n.t(this.currentLevel?.task || 'Move matches to solve the puzzle');
-
     const titleText = i18n.t('Matches', 'Спички');
 
     this.container.innerHTML = `
       <div class="amaze-game-container matches-screen">
-        <!-- Authentic Amaze Top Header Bar -->
         <div class="amaze-header-bar">
           <button class="amaze-header-btn amaze-menu-btn" id="btnMatchesMenu" title="${i18n.t('Menu', 'Меню')}">
             <span class="bar-icon">☰</span>
@@ -196,484 +211,372 @@ export class MatchesGame {
           </button>
         </div>
 
-        <!-- Authentic Sub-header Pause Bar -->
         <div class="amaze-pause-bar matches-pause-bar">
-          <div class="matches-info-left" id="matchesHandInfo">
-            ${i18n.t('In hand', 'В руке')}: <strong id="matchesHandCount">${this.heldMatches}</strong>
-          </div>
+          <div class="matches-info-left" id="matchesProgress"></div>
           <button class="amaze-pause-capsule" id="btnMatchesPause" title="${i18n.t('Paused')}">
             <span class="pause-bars">❚❚</span>
           </button>
-          <div class="matches-info-right" id="matchesTimeVal">
-            00:00
-          </div>
+          <div class="matches-info-right" id="matchesTimeVal">00:00</div>
         </div>
 
-        <!-- Matches Task Card -->
         <div class="amaze-matches-task-card">
           <p class="amaze-task-text">${taskText}</p>
         </div>
 
-        <!-- Matches Board Wrapper -->
         <div class="amaze-board-wrapper matches-board-wrap">
           <div class="amaze-matches-frame" id="matchesBoardFrame">
             <canvas id="matchesCanvas" width="442" height="442"></canvas>
+            <div class="mx-toast" id="matchesToast" role="status"></div>
           </div>
         </div>
 
-        <!-- Authentic Amaze Bottom Control Toolbar -->
-        <div class="amaze-matches-toolbar">
-          <button class="matches-tool-btn" id="btnResetMatches" title="${i18n.t('Reset', 'Сброс')}">
-            <img src="assets/textures/Matches_ResetBtn_Rel.png" alt="Reset" />
-          </button>
+        <div class="mx-tray ${this.task.kind === 'add' ? '' : 'hidden'}" id="matchesTray" aria-label="${i18n.t('Matches to add: %d', 'Осталось добавить: %d').replace('%d', this.heldMatches)}"></div>
+        <p class="mx-hint">${this.hintText()}</p>
 
-          <button class="matches-tool-btn" id="btnRotLeftMatches" title="${i18n.t('Rotate Left', 'Поворот влево')}">
-            <img src="assets/textures/Matches_RotLeftBtn_Rel.png" alt="Rotate Left" />
-          </button>
-
-          <button class="matches-tool-btn" id="btnRotRightMatches" title="${i18n.t('Rotate Right', 'Поворот вправо')}">
-            <img src="assets/textures/Matches_RotRightBtn_Rel.png" alt="Rotate Right" />
-          </button>
-
-          <button class="matches-tool-btn" id="btnMinusMatches" title="${i18n.t('Remove Match', 'Убрать')}">
-            <img src="assets/textures/Matches_MinusBtn_Rel.png" id="imgMinusBtn" alt="Minus" />
-          </button>
-
-          <button class="matches-tool-btn" id="btnPlusMatches" title="${i18n.t('Place Match', 'Поставить')}">
-            <img src="assets/textures/Matches_PlusBtn_Rel.png" id="imgPlusBtn" alt="Plus" />
-          </button>
-
-          <button class="matches-tool-btn btn-ok" id="btnCheckMatches" title="${i18n.t('Check', 'Проверить')}">
-            <img src="assets/textures/Matches_OkBtn_Rel.png" alt="OK" />
-          </button>
+        <div class="mx-toolbar">
+          <button class="mx-btn" id="btnUndoMatches"><span class="mx-ico">↶</span><span>${i18n.t('Undo', 'Отменить')}</span></button>
+          <button class="mx-btn" id="btnResetMatches"><span class="mx-ico">⟲</span><span>${i18n.t('Reset', 'Заново')}</span></button>
+          <button class="mx-btn mx-check" id="btnCheckMatches"><span class="mx-ico">✓</span><span>${i18n.t('Check', 'Проверить')}</span></button>
         </div>
       </div>
     `;
 
     this.canvas = this.container.querySelector('#matchesCanvas');
     this.ctx = this.canvas.getContext('2d');
-
     this.drawCanvasBoard();
     this.bindEvents();
     this.bindPointerEvents();
     this.updateStatsBar();
-    this.updateToolbarButtons();
+    this.updatePanel();
+  }
+
+  updatePanel() {
+    const progress = this.container.querySelector('#matchesProgress');
+    if (progress) progress.textContent = this.progressText();
+    const tray = this.container.querySelector('#matchesTray');
+    if (tray) {
+      tray.innerHTML = Array.from({length: this.heldMatches}, () => '<span class="mx-tray-match"></span>').join('');
+      tray.classList.toggle('armed', this.trayArmed);
+    }
+    const undo = this.container.querySelector('#btnUndoMatches');
+    if (undo) undo.disabled = !this.history.length;
+    const {kind, count} = this.task;
+    const done = kind === 'remove' ? this.removed === count : kind === 'add' ? this.heldMatches === 0 : this.movedCount() >= count && count > 0;
+    this.container.querySelector('#btnCheckMatches')?.classList.toggle('ready', done);
+  }
+
+  toast(text) {
+    const el = this.container.querySelector('#matchesToast');
+    if (!el) return;
+    el.textContent = text;
+    el.classList.add('show');
+    clearTimeout(this.toastTimer);
+    this.toastTimer = setTimeout(() => el.classList.remove('show'), 1800);
+  }
+
+  // ---- drawing ----
+  cellSize() { return this.canvas.width / (this.view?.span || 13); }
+
+  center(r, c) {
+    const S = this.cellSize(), v = this.view || {r0: 0, c0: 0, span: 13, rows: 13, cols: 13};
+    const offX = (v.span - v.cols) / 2, offY = (v.span - v.rows) / 2;
+    return {x: (c - v.c0 + offX + 0.5) * S, y: (r - v.r0 + offY + 0.5) * S};
   }
 
   drawCanvasBoard() {
     if (!this.ctx || !this.board.length) return;
-    const w = this.canvas.width;
-    const h = this.canvas.height;
-    const S = w / 13;
+    const ctx = this.ctx, w = this.canvas.width, h = this.canvas.height, S = this.cellSize();
+    const bg = ctx.createLinearGradient(0, 0, 0, h);
+    bg.addColorStop(0, '#16465a');
+    bg.addColorStop(1, '#0b2a38');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, w, h);
 
-    // 1. Draw authentic seamless felt table background
-    if (this.fieldTileImg) {
-      const pat = this.ctx.createPattern(this.fieldTileImg, 'repeat');
-      this.ctx.fillStyle = pat;
-      this.ctx.fillRect(0, 0, w, h);
+    // Free places: faint outlines; brighter while a match can go there.
+    const placing = this.selectedMatch || this.trayArmed || this.dragState?.isDragging || (this.task.kind === 'add' && this.heldMatches > 0);
+    for (const [key, ch] of this.slots) {
+      const [r, c] = key.split(',').map(Number);
+      if (this.board[r][c] !== '.') continue;
+      const target = this.dragState?.isDragging && this.dragState.targetR === r && this.dragState.targetC === c;
+      this.drawSlot(r, c, ch, target ? 'target' : placing ? 'open' : 'idle');
+    }
+
+    for (let r = 0; r < 13; r++) for (let c = 0; c < 13; c++) {
+      const val = this.board[r][c];
+      if (val === '.') continue;
+      const dragged = this.dragState?.isDragging && this.dragState.originR === r && this.dragState.originC === c;
+      const selected = this.selectedMatch && this.selectedMatch.r === r && this.selectedMatch.c === c;
+      const p = this.center(r, c);
+      this.drawMatchAt(p.x, p.y, val, {alpha: dragged ? 0.25 : 1, selected, lifted: selected});
+    }
+
+    if (this.dragState?.isDragging) {
+      const {curX, curY, targetR, targetC, val} = this.dragState;
+      const shown = targetR !== null ? this.slots.get(`${targetR},${targetC}`) : val;
+      this.drawMatchAt(curX, curY, shown || val, {lifted: true, selected: true, scale: 1.06});
+    }
+  }
+
+  matchGeometry(ch) {
+    const S = this.cellSize();
+    const diag = ch === '/' || ch === '\\';
+    const angle = ch === '-' ? 0 : ch === '|' ? -Math.PI / 2 : ch === '/' ? -Math.PI / 4 : Math.PI / 4;
+    return {angle, len: (diag ? 2 * Math.SQRT2 : 2) * S * 0.9, thick: S * 0.24};
+  }
+
+  drawSlot(r, c, ch, state) {
+    const ctx = this.ctx, S = this.cellSize();
+    const {angle, len, thick} = this.matchGeometry(ch);
+    const p = this.center(r, c);
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(angle);
+    ctx.beginPath();
+    ctx.roundRect(-len / 2, -thick / 2, len, thick, thick / 2);
+    if (state === 'target') {
+      ctx.fillStyle = 'rgba(255, 214, 90, 0.45)';
+      ctx.fill();
     } else {
-      this.ctx.fillStyle = '#2b5278';
-      this.ctx.fillRect(0, 0, w, h);
+      ctx.setLineDash([4, 4]);
+      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = state === 'open' ? 'rgba(255, 236, 170, 0.55)' : 'rgba(255, 255, 255, 0.14)';
+      ctx.stroke();
     }
-
-    // 2. Draw subtle coordinate dots at grid vertices (intersections)
-    this.ctx.fillStyle = 'rgba(15, 75, 118, 0.35)';
-    for (let r = 1; r <= 11; r++) {
-      for (let c = 1; c <= 11; c++) {
-        const vx = c * S + S / 2;
-        const vy = r * S + S / 2;
-        this.ctx.beginPath();
-        this.ctx.arc(vx, vy, 1.5, 0, Math.PI * 2);
-        this.ctx.fill();
-      }
-    }
-
-    // 3. Highlight potential placement slots if hand has matches, a match is selected, or currently dragging
-    if (this.heldMatches > 0 || this.selectedMatch || (this.dragState && this.dragState.isDragging)) {
-      this.ctx.fillStyle = 'rgba(255, 255, 255, 0.16)';
-      for (let r = 1; r <= 11; r++) {
-        for (let c = 1; c <= 11; c++) {
-          if (this.board[r][c] === '.') {
-            const cx = c * S + S / 2;
-            const cy = r * S + S / 2;
-            this.ctx.fillRect(cx - S * 0.42, cy - S * 0.42, S * 0.84, S * 0.84);
-          }
-        }
-      }
-    }
-
-    // 4. Draw static matches on the board
-    for (let r = 0; r < 13; r++) {
-      for (let c = 0; c < 13; c++) {
-        const val = this.board[r][c];
-        if (val !== '.') {
-          const isBeingDragged = this.dragState && this.dragState.isDragging &&
-                                 this.dragState.originR === r && this.dragState.originC === c;
-          if (isBeingDragged) {
-            // Draw faint ghost at origin slot
-            this.ctx.save();
-            this.ctx.globalAlpha = 0.22;
-            this.drawMatch(r, c, val, false);
-            this.ctx.restore();
-          } else {
-            const isSelected = (this.selectedMatch && this.selectedMatch.r === r && this.selectedMatch.c === c);
-            this.drawMatch(r, c, val, isSelected);
-          }
-        }
-      }
-    }
-
-    // 5. If currently dragging, draw ghost preview at hover slot + lifted match following cursor
-    if (this.dragState && this.dragState.isDragging) {
-      const { targetR, targetC, val, curX, curY } = this.dragState;
-
-      // Ghost preview at target slot
-      if (targetR !== null && targetC !== null) {
-        this.ctx.save();
-        this.ctx.globalAlpha = 0.45;
-        this.drawMatch(targetR, targetC, this.inferOrientation(targetR, targetC, val), true);
-        this.ctx.restore();
-      }
-
-      // Lifted match following finger/cursor with realistic tactile drop-shadow
-      this.ctx.save();
-      this.ctx.shadowColor = 'rgba(0, 0, 0, 0.45)';
-      this.ctx.shadowBlur = 12;
-      this.ctx.shadowOffsetY = 8;
-      this.drawMatchAt(curX, curY, val, true, 1.08);
-      this.ctx.restore();
-    }
-
-    // Update hand counter in sub-bar
-    const countEl = this.container.querySelector('#matchesHandCount');
-    if (countEl) countEl.textContent = this.heldMatches;
+    ctx.restore();
   }
 
-  drawMatch(r, c, val, isSelected) {
-    const S = this.canvas.width / 13;
-    const cx = c * S + S / 2;
-    const cy = r * S + S / 2;
-    this.drawMatchAt(cx, cy, val, isSelected, 1.0);
+  // A wooden match with a red head, drawn along its place.
+  drawMatchAt(cx, cy, ch, {alpha = 1, selected = false, lifted = false, scale = 1} = {}) {
+    const ctx = this.ctx;
+    const {angle, len: baseLen, thick: baseThick} = this.matchGeometry(ch);
+    const len = baseLen * scale, thick = baseThick * scale;
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.translate(cx, cy);
+    ctx.rotate(angle);
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.45)';
+    ctx.shadowBlur = lifted ? 10 : 3;
+    ctx.shadowOffsetY = lifted ? 6 : 2;
+    const body = ctx.createLinearGradient(0, -thick / 2, 0, thick / 2);
+    body.addColorStop(0, '#fbe7bf');
+    body.addColorStop(0.5, '#e8bf7a');
+    body.addColorStop(1, '#b98443');
+    ctx.fillStyle = body;
+    ctx.beginPath();
+    ctx.roundRect(-len / 2, -thick / 2, len - thick * 0.6, thick, thick * 0.3);
+    ctx.fill();
+    ctx.shadowColor = 'transparent';
+    const hx = len / 2 - thick * 0.9, hr = thick * 0.82;
+    const head = ctx.createRadialGradient(hx - hr * 0.35, -hr * 0.35, hr * 0.15, hx, 0, hr);
+    head.addColorStop(0, '#ff9a7a');
+    head.addColorStop(0.45, '#e2352a');
+    head.addColorStop(1, '#8e130c');
+    ctx.fillStyle = head;
+    ctx.beginPath();
+    ctx.ellipse(hx, 0, hr * 1.25, hr, 0, 0, Math.PI * 2);
+    ctx.fill();
+    if (selected) {
+      ctx.lineWidth = 2.5;
+      ctx.strokeStyle = 'rgba(255, 221, 87, 0.95)';
+      ctx.beginPath();
+      ctx.roundRect(-len / 2 - 3, -thick / 2 - 3, len + 6, thick + 6, thick / 2 + 3);
+      ctx.stroke();
+    }
+    ctx.restore();
   }
 
-  drawMatchAt(cx, cy, val, isSelected, scale = 1.0) {
-    const img = isSelected ? (this.matchesSelImg || this.matchesImg) : this.matchesImg;
-    const S = this.canvas.width / 13;
-    const targetSpan = 2.0 * S;
+  // ---- hit testing ----
+  canvasPoint(clientX, clientY) {
+    const rect = this.canvas.getBoundingClientRect();
+    return {x: (clientX - rect.left) * (this.canvas.width / rect.width), y: (clientY - rect.top) * (this.canvas.height / rect.height)};
+  }
 
-    let frameIdx = 0;
-    let baseSpan = 82.0;
+  // Distance from a point to the segment of a match placed at (r, c) with orientation ch.
+  distanceToPlace(x, y, r, c, ch) {
+    const {angle, len} = this.matchGeometry(ch), {x: cx, y: cy} = this.center(r, c);
+    const dx = Math.cos(angle) * len / 2, dy = Math.sin(angle) * len / 2;
+    const vx = 2 * dx, vy = 2 * dy, ax = cx - dx, ay = cy - dy;
+    const t = Math.max(0, Math.min(1, ((x - ax) * vx + (y - ay) * vy) / (vx * vx + vy * vy)));
+    return Math.hypot(x - (ax + t * vx), y - (ay + t * vy));
+  }
 
-    if (val === '-') {
-      frameIdx = 2; // Horizontal, head right
-      baseSpan = 82.0;
-    } else if (val === '|') {
-      frameIdx = 0; // Vertical, head top
-      baseSpan = 82.0;
-    } else if (val === '/') {
-      frameIdx = 1; // Diagonal /, head top-right
-      baseSpan = 75.0;
-    } else if (val === '\\') {
-      frameIdx = 3; // Diagonal \, head bottom-right
-      baseSpan = 75.0;
+  nearest(x, y, occupied) {
+    const S = this.cellSize();
+    let best = null, bestD = S * 0.62;
+    for (const [key, ch] of this.slots) {
+      const [r, c] = key.split(',').map(Number);
+      const cell = this.board[r][c];
+      if (occupied ? cell === '.' : cell !== '.') continue;
+      const d = this.distanceToPlace(x, y, r, c, occupied ? cell : ch);
+      if (d < bestD) { bestD = d; best = {r, c}; }
     }
+    if (occupied) {
+      // Matches off the computed places (should not happen) can still be picked.
+      for (let r = 0; r < 13; r++) for (let c = 0; c < 13; c++) {
+        if (this.board[r][c] === '.' || this.slots.has(`${r},${c}`)) continue;
+        const d = this.distanceToPlace(x, y, r, c, this.board[r][c]);
+        if (d < bestD) { bestD = d; best = {r, c}; }
+      }
+    }
+    return best;
+  }
 
-    if (img) {
-      const dw = (98.0 / baseSpan) * targetSpan * scale;
-      const dh = dw;
-      const sy = frameIdx * 98;
-      this.ctx.drawImage(img, 0, sy, 98, 98, cx - dw / 2, cy - dh / 2, dw, dh);
+  // ---- actions ----
+  snapshot() {
+    this.history.push({board: this.board.map(row => row.slice()), held: this.heldMatches, removed: this.removed, added: new Set(this.added)});
+    if (this.history.length > 200) this.history.shift();
+  }
+
+  undo() {
+    const last = this.history.pop();
+    if (!last) return;
+    this.board = last.board; this.heldMatches = last.held; this.removed = last.removed; this.added = last.added;
+    this.selectedMatch = null; this.trayArmed = false;
+    audio.play('click');
+    this.refresh();
+  }
+
+  refresh() {
+    this.drawCanvasBoard();
+    this.updatePanel();
+  }
+
+  moveMatch(from, to) {
+    const ch = this.slots.get(`${to.r},${to.c}`);
+    if (!ch || this.board[to.r][to.c] !== '.') return false;
+    this.snapshot();
+    this.board[from.r][from.c] = '.';
+    this.board[to.r][to.c] = ch;
+    if (this.added.delete(`${from.r},${from.c}`)) this.added.add(`${to.r},${to.c}`);
+    this.selectedMatch = null;
+    audio.play('rotate');
+    this.refresh();
+    return true;
+  }
+
+  placeFromTray(to) {
+    const ch = this.slots.get(`${to.r},${to.c}`);
+    if (!ch || this.heldMatches <= 0 || this.board[to.r][to.c] !== '.') return false;
+    this.snapshot();
+    this.board[to.r][to.c] = ch;
+    this.added.add(`${to.r},${to.c}`);
+    this.heldMatches--;
+    if (!this.heldMatches) this.trayArmed = false;
+    audio.play('plusMatch');
+    this.refresh();
+    return true;
+  }
+
+  takeMatch(at) {
+    const key = `${at.r},${at.c}`;
+    if (this.task.kind === 'add') {
+      if (!this.added.has(key)) { this.toast(i18n.t('Only the added matches can be taken back.', 'Убрать можно только добавленные спички.')); return; }
+      this.snapshot();
+      this.board[at.r][at.c] = '.';
+      this.added.delete(key);
+      this.heldMatches++;
     } else {
-      this.drawFallbackMatch(cx, cy, val, S, S, isSelected);
+      if (this.removed >= this.task.count) { this.toast(i18n.t('Remove exactly %d matches.', 'Нужно убрать ровно %d.').replace('%d', this.task.count)); return; }
+      this.snapshot();
+      this.board[at.r][at.c] = '.';
+      this.removed++;
     }
+    audio.play('minusMatch');
+    this.refresh();
   }
 
-  drawFallbackMatch(cx, cy, val, cellW, cellH, isSelected) {
-    this.ctx.save();
-    this.ctx.translate(cx, cy);
-
-    let angle = 0;
-    if (val === '-') angle = Math.PI / 2;
-    else if (val === '/') angle = -Math.PI / 4;
-    else if (val === '\\') angle = Math.PI / 4;
-    this.ctx.rotate(angle);
-
-    const matchLen = cellH * 2.0;
-    const thickness = 6;
-
-    // Wood body
-    this.ctx.fillStyle = isSelected ? '#fffae0' : '#ecd5b3';
-    this.ctx.fillRect(-thickness / 2, -matchLen / 2, thickness, matchLen);
-
-    // Sulfur head
-    this.ctx.fillStyle = isSelected ? '#e74c3c' : '#c0392b';
-    this.ctx.beginPath();
-    this.ctx.arc(0, -matchLen / 2 + 3, thickness * 0.9, 0, Math.PI * 2);
-    this.ctx.fill();
-
-    this.ctx.restore();
+  // Tap on a match (r, c) or on a free place.
+  tapAt(r, c) {
+    if (this.isPaused || this.isLocked) return;
+    const occupied = this.board[r]?.[c] && this.board[r][c] !== '.';
+    if (occupied) {
+      if (this.task.kind !== 'move') { this.takeMatch({r, c}); return; }
+      if (this.selectedMatch && this.selectedMatch.r === r && this.selectedMatch.c === c) this.selectedMatch = null;
+      else this.selectedMatch = {r, c};
+      audio.play('click');
+      this.refresh();
+      return;
+    }
+    if (!this.slots.has(`${r},${c}`)) return;
+    if (this.task.kind === 'move' && this.selectedMatch) this.moveMatch(this.selectedMatch, {r, c});
+    else if (this.task.kind === 'add') this.placeFromTray({r, c});
   }
 
-  inferOrientation(r, c, fallbackVal) {
-    if (fallbackVal === '/' || fallbackVal === '\\') {
-      // If target is in a diagonal region, preserve diagonal slope
-      if ((r >= 8 && r <= 10) || (r % 2 === 1 && c % 2 === 1)) {
-        return fallbackVal;
-      }
-    }
-    // Standard orthogonal grid orientation rule
-    if (r % 2 === 1 && c % 2 === 0) return '|';
-    if (r % 2 === 0 && c % 2 === 1) return '-';
-    if (r % 2 === 1) return '-';
-    if (r % 2 === 0) return '|';
-    return fallbackVal || '-';
+  // Programmatic click (tests): canvas client coordinates.
+  handleCanvasClick(clientX, clientY) {
+    const {x, y} = this.canvasPoint(clientX, clientY);
+    const hit = this.nearest(x, y, true) || this.nearest(x, y, false);
+    if (hit) this.tapAt(hit.r, hit.c);
   }
 
   bindPointerEvents() {
-    const getCanvasPos = (clientX, clientY) => {
-      const rect = this.canvas.getBoundingClientRect();
-      const scaleX = this.canvas.width / rect.width;
-      const scaleY = this.canvas.height / rect.height;
-      return {
-        x: (clientX - rect.left) * scaleX,
-        y: (clientY - rect.top) * scaleY
-      };
+    const canvas = this.canvas;
+    const startDrag = (e, origin, fromTray) => {
+      const p = this.canvasPoint(e.clientX, e.clientY);
+      this.dragState = {pointerId: e.pointerId, startX: e.clientX, startY: e.clientY, isDragging: false, fromTray,
+        originR: origin?.r ?? null, originC: origin?.c ?? null, val: origin ? this.board[origin.r][origin.c] : '-',
+        curX: p.x, curY: p.y, targetR: null, targetC: null};
+      window.addEventListener('pointermove', this.onDragMove);
+      window.addEventListener('pointerup', this.onDragEnd);
+      window.addEventListener('pointercancel', this.onDragCancel);
     };
-
-    const getCellFromPos = (x, y) => {
-      const S = this.canvas.width / 13;
-      const c = Math.floor(x / S);
-      const r = Math.floor(y / S);
-      return { r, c };
+    this.onDragMove = e => {
+      const d = this.dragState;
+      if (!d || e.pointerId !== d.pointerId) return;
+      if (!d.isDragging && Math.hypot(e.clientX - d.startX, e.clientY - d.startY) < 7) return;
+      d.isDragging = true;
+      const p = this.canvasPoint(e.clientX, e.clientY);
+      d.curX = p.x; d.curY = p.y;
+      const target = this.nearest(p.x, p.y, false);
+      d.targetR = target?.r ?? null; d.targetC = target?.c ?? null;
+      this.drawCanvasBoard();
     };
-
-    this.canvas.addEventListener('pointerdown', (e) => {
-      if (this.isPaused || this.isLocked) return;
-      const pos = getCanvasPos(e.clientX, e.clientY);
-      const { r, c } = getCellFromPos(pos.x, pos.y);
-
-      if (r < 0 || r >= 13 || c < 0 || c >= 13) return;
-      const val = this.board[r][c];
-
-      if (val !== '.') {
-        // Player touched a matchstick on the board
-        this.dragState = {
-          isPointerDown: true,
-          isDragging: false,
-          originR: r,
-          originC: c,
-          val: val,
-          startX: e.clientX,
-          startY: e.clientY,
-          curX: pos.x,
-          curY: pos.y,
-          targetR: null,
-          targetC: null,
-          pointerId: e.pointerId
-        };
-        try { this.canvas.setPointerCapture(e.pointerId); } catch (_) {}
-      } else {
-        // Touched an empty slot directly
-        this.handleEmptySlotTouch(r, c);
-      }
-    });
-
-    this.canvas.addEventListener('pointermove', (e) => {
-      if (!this.dragState || !this.dragState.isPointerDown) return;
-      const dist = Math.hypot(e.clientX - this.dragState.startX, e.clientY - this.dragState.startY);
-
-      if (dist > 6 || this.dragState.isDragging) {
-        this.dragState.isDragging = true;
-        const pos = getCanvasPos(e.clientX, e.clientY);
-        this.dragState.curX = pos.x;
-        this.dragState.curY = pos.y;
-
-        const S = this.canvas.width / 13;
-        const targetC = Math.floor(pos.x / S);
-        const targetR = Math.floor(pos.y / S);
-
-        if (targetR >= 1 && targetR <= 11 && targetC >= 1 && targetC <= 11) {
-          if (this.board[targetR][targetC] === '.' || (targetR === this.dragState.originR && targetC === this.dragState.originC)) {
-            this.dragState.targetR = targetR;
-            this.dragState.targetC = targetC;
-          } else {
-            this.dragState.targetR = null;
-            this.dragState.targetC = null;
-          }
-        } else {
-          this.dragState.targetR = null;
-          this.dragState.targetC = null;
-        }
-
-        this.drawCanvasBoard();
-      }
-    });
-
-    const handlePointerEnd = (e) => {
-      if (!this.dragState) return;
-      const { isDragging, originR, originC, targetR, targetC, val, pointerId } = this.dragState;
-
-      try { this.canvas.releasePointerCapture(pointerId); } catch (_) {}
-
-      if (isDragging) {
-        if (targetR !== null && targetC !== null && (targetR !== originR || targetC !== originC)) {
-          // Successfully dragged to a new empty slot!
-          const newOrientation = this.inferOrientation(targetR, targetC, val);
-          this.board[originR][originC] = '.';
-          this.board[targetR][targetC] = newOrientation;
-          this.selectedMatch = { r: targetR, c: targetC };
-          audio.play('rotate');
-        } else {
-          // Snap back to origin
-          audio.play('click');
-        }
-      } else {
-        // Simple tap on the match
-        this.handleMatchTap(originR, originC);
-      }
-
+    const finish = () => {
+      window.removeEventListener('pointermove', this.onDragMove);
+      window.removeEventListener('pointerup', this.onDragEnd);
+      window.removeEventListener('pointercancel', this.onDragCancel);
+    };
+    this.onDragEnd = e => {
+      const d = this.dragState;
+      if (!d || e.pointerId !== d.pointerId) return;
+      finish();
       this.dragState = null;
-      this.updateToolbarButtons();
-      this.drawCanvasBoard();
+      if (d.isDragging) {
+        const target = d.targetR !== null ? {r: d.targetR, c: d.targetC} : null;
+        if (target && d.fromTray) this.placeFromTray(target);
+        else if (target && this.task.kind === 'remove') this.refresh();
+        else if (target) this.moveMatch({r: d.originR, c: d.originC}, target);
+        else this.refresh();
+      } else if (d.fromTray) {
+        this.trayArmed = !this.trayArmed && this.heldMatches > 0;
+        audio.play('click');
+        this.refresh();
+      } else if (d.originR !== null) {
+        this.tapAt(d.originR, d.originC);
+      }
     };
+    this.onDragCancel = () => { finish(); this.dragState = null; this.refresh(); };
 
-    this.canvas.addEventListener('pointerup', handlePointerEnd);
-    this.canvas.addEventListener('pointercancel', () => {
-      if (this.dragState) {
-        try { this.canvas.releasePointerCapture(this.dragState.pointerId); } catch (_) {}
-        this.dragState = null;
-        this.drawCanvasBoard();
+    canvas.addEventListener('pointerdown', e => {
+      if (this.isPaused || this.isLocked) return;
+      e.preventDefault();
+      const p = this.canvasPoint(e.clientX, e.clientY);
+      const match = this.nearest(p.x, p.y, true);
+      if (match) {
+        // Remove tasks take a match by tapping; move and add tasks can drag it.
+        if (this.task.kind === 'remove' || (this.task.kind === 'add' && !this.added.has(`${match.r},${match.c}`))) this.tapAt(match.r, match.c);
+        else startDrag(e, match, false);
+        return;
       }
+      const place = this.nearest(p.x, p.y, false);
+      if (place) this.tapAt(place.r, place.c);
     });
-  }
-
-  handleMatchTap(r, c) {
-    if (this.selectedMatch && this.selectedMatch.r === r && this.selectedMatch.c === c) {
-      // Tap on already selected match rotates it!
-      this.handleRotate('right');
-    } else {
-      // Select this match
-      this.selectedMatch = { r, c };
-      audio.play('click');
-    }
-  }
-
-  handleEmptySlotTouch(r, c) {
-    // If a match is selected, move it to this slot
-    if (this.selectedMatch) {
-      const oldR = this.selectedMatch.r;
-      const oldC = this.selectedMatch.c;
-      const oldVal = this.board[oldR][oldC];
-      const targetType = this.inferOrientation(r, c, oldVal);
-
-      this.board[oldR][oldC] = '.';
-      this.board[r][c] = targetType;
-      this.selectedMatch = { r, c };
-      audio.play('rotate');
-      this.updateToolbarButtons();
-      this.drawCanvasBoard();
-      return;
-    }
-
-    // If hand has matches, place one here
-    if (this.heldMatches > 0) {
-      const placeType = this.inferOrientation(r, c, '-');
-      this.board[r][c] = placeType;
-      this.heldMatches--;
-      this.selectedMatch = { r, c };
-      audio.play('plusMatch');
-      this.updateToolbarButtons();
-      this.drawCanvasBoard();
-      return;
-    }
-  }
-
-  handleCanvasClick(clientX, clientY) {
-    // Programmatic click handler for test runner and click events
-    if (this.isPaused || this.isLocked) return;
-    const rect = this.canvas.getBoundingClientRect();
-    const x = (clientX - rect.left) * (this.canvas.width / rect.width);
-    const y = (clientY - rect.top) * (this.canvas.height / rect.height);
-
-    const S = this.canvas.width / 13;
-    const c = Math.floor(x / S);
-    const r = Math.floor(y / S);
-
-    if (r < 0 || r >= 13 || c < 0 || c >= 13) return;
-
-    if (this.board[r][c] !== '.') {
-      this.handleMatchTap(r, c);
-    } else {
-      this.handleEmptySlotTouch(r, c);
-    }
-    this.updateToolbarButtons();
-    this.drawCanvasBoard();
-  }
-
-  handleRotate(direction = 'right') {
-    if (!this.selectedMatch) return;
-    const { r, c } = this.selectedMatch;
-    const curVal = this.board[r][c];
-    if (curVal === '.') return;
-
-    // Rotation cycle: '-' <-> '|' or '/' <-> '\'
-    audio.play('rotate');
-    if (curVal === '-') this.board[r][c] = '|';
-    else if (curVal === '|') this.board[r][c] = '-';
-    else if (curVal === '/') this.board[r][c] = '\\';
-    else if (curVal === '\\') this.board[r][c] = '/';
-
-    this.drawCanvasBoard();
-  }
-
-  handleMinus() {
-    if (!this.selectedMatch) return;
-    const { r, c } = this.selectedMatch;
-    if (this.board[r][c] !== '.') {
-      this.board[r][c] = '.';
-      this.heldMatches++;
-      this.selectedMatch = null;
-      audio.play('minusMatch');
-      this.updateToolbarButtons();
-      this.drawCanvasBoard();
-    }
-  }
-
-  handlePlus() {
-    if (this.heldMatches <= 0) return;
-    // Find first available slot in central region
-    for (let r = 5; r <= 7; r++) {
-      for (let c = 5; c <= 7; c++) {
-        if (this.board[r][c] === '.') {
-          const isHorizSlot = (r % 2 === 0 && c % 2 === 1);
-          const isVertSlot = (r % 2 === 1 && c % 2 === 0);
-          if (isHorizSlot || isVertSlot) {
-            this.board[r][c] = isHorizSlot ? '-' : '|';
-            this.heldMatches--;
-            this.selectedMatch = { r, c };
-            audio.play('plusMatch');
-            this.updateToolbarButtons();
-            this.drawCanvasBoard();
-            return;
-          }
-        }
-      }
-    }
-  }
-
-  updateToolbarButtons() {
-    const hasSelection = !!this.selectedMatch;
-    const hasHand = this.heldMatches > 0;
-
-    const minusBtn = this.container.querySelector('#btnMinusMatches');
-    const plusBtn = this.container.querySelector('#btnPlusMatches');
-    const rotLeftBtn = this.container.querySelector('#btnRotLeftMatches');
-    const rotRightBtn = this.container.querySelector('#btnRotRightMatches');
-
-    if (minusBtn) minusBtn.style.opacity = hasSelection ? '1' : '0.45';
-    if (plusBtn) plusBtn.style.opacity = hasHand ? '1' : '0.45';
-    if (rotLeftBtn) rotLeftBtn.style.opacity = hasSelection ? '1' : '0.45';
-    if (rotRightBtn) rotRightBtn.style.opacity = hasSelection ? '1' : '0.45';
+    const tray = this.container.querySelector('#matchesTray');
+    tray?.addEventListener('pointerdown', e => {
+      if (this.isPaused || this.isLocked || this.heldMatches <= 0) return;
+      e.preventDefault();
+      startDrag(e, null, true);
+    });
   }
 
   bindEvents() {
@@ -687,41 +590,20 @@ export class MatchesGame {
         }
       });
     });
-
     this.container.querySelector('#btnMatchesHelp')?.addEventListener('click', () => {
       audio.play('click');
       this.onOpenHelp?.('matches');
     });
-
     this.container.querySelector('#btnMatchesPause')?.addEventListener('click', () => {
       audio.play('click');
       this.togglePause();
     });
-
+    this.container.querySelector('#btnUndoMatches')?.addEventListener('click', () => this.undo());
     this.container.querySelector('#btnResetMatches')?.addEventListener('click', () => {
       audio.play('reset');
       this.loadLevel(this.currentLevel);
     });
-
-    this.container.querySelector('#btnRotLeftMatches')?.addEventListener('click', () => {
-      this.handleRotate('left');
-    });
-
-    this.container.querySelector('#btnRotRightMatches')?.addEventListener('click', () => {
-      this.handleRotate('right');
-    });
-
-    this.container.querySelector('#btnMinusMatches')?.addEventListener('click', () => {
-      this.handleMinus();
-    });
-
-    this.container.querySelector('#btnPlusMatches')?.addEventListener('click', () => {
-      this.handlePlus();
-    });
-
-    this.container.querySelector('#btnCheckMatches')?.addEventListener('click', () => {
-      this.checkSolution();
-    });
+    this.container.querySelector('#btnCheckMatches')?.addEventListener('click', () => this.checkSolution());
   }
 
   togglePause() {
@@ -740,13 +622,20 @@ export class MatchesGame {
   }
 
   checkSolution() {
-    // Player must use all required matches
-    if (this.heldMatches > 0) {
+    if (this.isLocked) return;
+    // A task with matches still in the supply, or with the wrong number removed, is only a hint
+    // (no wrong move) — the web version shows it instead of checking.
+    if (this.task.kind === 'add' && this.heldMatches > 0) {
       audio.play('wrong');
-      this.flashWrong();
-      alert(i18n.t('You must use all matches from your hand!', 'Используйте все спички из руки!'));
+      this.toast(i18n.t('You must use all matches from your hand!', 'Используйте все спички из запаса!'));
       return;
     }
+    if (this.task.kind === 'remove' && this.removed !== this.task.count) {
+      audio.play('wrong');
+      this.toast(i18n.t('Remove exactly %d matches.', 'Нужно убрать ровно %d.').replace('%d', this.task.count));
+      return;
+    }
+    this.selectedMatch = null;
 
     // Original check (FUN_4a0909a4): same cells as a solution, or as its rotations / mirrors
     // unless the level's no_mirror flags switch them off. See matches-model.js.
@@ -808,6 +697,12 @@ export class MatchesGame {
 
   destroy() {
     clearInterval(this.timerInterval);
+    clearTimeout(this.toastTimer);
+    if (this.onDragMove) {
+      window.removeEventListener('pointermove', this.onDragMove);
+      window.removeEventListener('pointerup', this.onDragEnd);
+      window.removeEventListener('pointercancel', this.onDragCancel);
+    }
     this.resultsModal?.remove();
     this.resultsModal = null;
   }
