@@ -6,7 +6,6 @@ import { audio } from '../audio.js';
 
 export class GeometryGame extends RestoredGame {
   id = 'geometry';
-  get title() { return tr('Геометрия', 'Geometry'); }
   async init(difficulty = 'easy') {
     if (!await this.begin(difficulty)) return;
     const section = this.original[`geometry_fig_d${this.diff}`];

@@ -4,15 +4,48 @@
     "mg_id": 110,
     "title": {
       "en": "Sudoku",
-      "ru": "Судоку"
+      "ru": "Судоку",
+      "fr": "Sudoku",
+      "de": "Sudoku",
+      "es": "Sudoku",
+      "it": "Sudoku",
+      "sv": "Sudoku",
+      "da": "Sudoku",
+      "nb": "Sudoku",
+      "pt": "Sudoku",
+      "nl": "Sudoku",
+      "cz": "Sudoku",
+      "pl": "Sudoku"
     },
     "category": {
       "en": "Logic",
-      "ru": "Логика"
+      "ru": "Логика",
+      "fr": "Logique",
+      "de": "Logik",
+      "es": "Lógica",
+      "it": "Logica",
+      "sv": "Logik",
+      "da": "Logik",
+      "nb": "Logikk",
+      "pt": "Lógica",
+      "nl": "Logica",
+      "cz": "Logika",
+      "pl": "Logika"
     },
     "desc": {
       "en": "Classic 9x9 Sudoku puzzles to improve your logic and pattern finding activities.",
-      "ru": "Классические головоломки судоку 9х9 для развития логики и внимания."
+      "ru": "Классические головоломки судоку 9х9 для развития логики и внимания.",
+      "fr": "Grilles de sudoku 9x9 classiques pour développer la logique et le sens des motifs.",
+      "de": "Klassische 9x9-Sudokus für Logik und das Erkennen von Mustern.",
+      "es": "Sudokus clásicos de 9x9 para mejorar la lógica y la búsqueda de patrones.",
+      "it": "Sudoku classici 9x9 per allenare la logica e la ricerca di schemi.",
+      "sv": "Klassiska 9x9-sudokun som tränar logik och mönsterseende.",
+      "da": "Klassiske 9x9-sudokuer, der træner logik og mønstergenkendelse.",
+      "nb": "Klassiske 9x9-sudokuer som trener logikk og mønstergjenkjenning.",
+      "pt": "Sudokus clássicos 9x9 para melhorar a lógica e a busca de padrões.",
+      "nl": "Klassieke 9x9-sudoku’s om logica en patroonherkenning te trainen.",
+      "cz": "Klasická sudoku 9x9 pro rozvoj logiky a hledání vzorů.",
+      "pl": "Klasyczne sudoku 9x9 rozwijające logikę i dostrzeganie wzorów."
     },
     "difficulties": [
       "easy",
@@ -25,15 +58,48 @@
     "mg_id": 106,
     "title": {
       "en": "Matches",
-      "ru": "Спички"
+      "ru": "Спички",
+      "fr": "Allumettes",
+      "de": "Streichhölzer",
+      "es": "Cerillas",
+      "it": "Fiammiferi",
+      "sv": "Tändstickor",
+      "da": "Tændstikker",
+      "nb": "Fyrstikker",
+      "pt": "Fósforos",
+      "nl": "Lucifers",
+      "cz": "Zápalky",
+      "pl": "Zapałki"
     },
     "category": {
       "en": "Logic & Spatial",
-      "ru": "Логика и геометрия"
+      "ru": "Логика и геометрия",
+      "fr": "Logique et espace",
+      "de": "Logik und Raum",
+      "es": "Lógica y espacio",
+      "it": "Logica e spazio",
+      "sv": "Logik och rum",
+      "da": "Logik og rum",
+      "nb": "Logikk og rom",
+      "pt": "Lógica e espaço",
+      "nl": "Logica en ruimte",
+      "cz": "Logika a prostor",
+      "pl": "Logika i przestrzeń"
     },
     "desc": {
       "en": "Move, add, or remove matchsticks to create geometric shapes and solve puzzles.",
-      "ru": "Перемещайте, добавляйте или убирайте спички для создания геометрических фигур."
+      "ru": "Перемещайте, добавляйте или убирайте спички для создания геометрических фигур.",
+      "fr": "Déplacez, ajoutez ou retirez des allumettes pour former des figures et résoudre l’énigme.",
+      "de": "Lege, ergänze oder entferne Streichhölzer, um Figuren zu bilden und das Rätsel zu lösen.",
+      "es": "Mueve, añade o quita cerillas para formar figuras y resolver el acertijo.",
+      "it": "Sposta, aggiungi o togli fiammiferi per formare figure e risolvere il rompicapo.",
+      "sv": "Flytta, lägg till eller ta bort tändstickor för att bilda figurer och lösa gåtan.",
+      "da": "Flyt, tilføj eller fjern tændstikker for at danne figurer og løse opgaven.",
+      "nb": "Flytt, legg til eller fjern fyrstikker for å lage figurer og løse oppgaven.",
+      "pt": "Mova, adicione ou retire fósforos para formar figuras e resolver o enigma.",
+      "nl": "Verplaats, voeg toe of haal lucifers weg om figuren te maken en de puzzel op te lossen.",
+      "cz": "Přesouvejte, přidávejte nebo odebírejte zápalky a skládejte z nich obrazce.",
+      "pl": "Przesuwaj, dodawaj lub usuwaj zapałki, aby ułożyć figury i rozwiązać zagadkę."
     },
     "difficulties": [
       "easy",
@@ -46,15 +112,48 @@
     "mg_id": 112,
     "title": {
       "ru": "Пары",
-      "en": "Pairs"
+      "en": "Pairs",
+      "fr": "Paires",
+      "de": "Paare",
+      "es": "Parejas",
+      "it": "Coppie",
+      "sv": "Par",
+      "da": "Par",
+      "nb": "Par",
+      "pt": "Pares",
+      "nl": "Paren",
+      "cz": "Páry",
+      "pl": "Pary"
     },
     "category": {
       "en": "Memory",
-      "ru": "Память"
+      "ru": "Память",
+      "fr": "Mémoire",
+      "de": "Gedächtnis",
+      "es": "Memoria",
+      "it": "Memoria",
+      "sv": "Minne",
+      "da": "Hukommelse",
+      "nb": "Hukommelse",
+      "pt": "Memória",
+      "nl": "Geheugen",
+      "cz": "Paměť",
+      "pl": "Pamięć"
     },
     "desc": {
       "en": "Flip cards and find matching pairs to train your short-term visual memory.",
-      "ru": "Открывайте карточки и находите совпадающие пары для тренировки зрительной памяти."
+      "ru": "Открывайте карточки и находите совпадающие пары для тренировки зрительной памяти.",
+      "fr": "Retournez les cartes et trouvez les paires pour entraîner la mémoire visuelle.",
+      "de": "Decke Karten auf und finde Paare, um das visuelle Gedächtnis zu trainieren.",
+      "es": "Da la vuelta a las cartas y encuentra parejas para entrenar la memoria visual.",
+      "it": "Gira le carte e trova le coppie per allenare la memoria visiva.",
+      "sv": "Vänd korten och hitta paren för att träna ditt visuella minne.",
+      "da": "Vend kortene og find parrene for at træne den visuelle hukommelse.",
+      "nb": "Snu kortene og finn parene for å trene den visuelle hukommelsen.",
+      "pt": "Vire as cartas e encontre os pares para treinar a memória visual.",
+      "nl": "Draai kaarten om en zoek de paren om je visuele geheugen te trainen.",
+      "cz": "Otáčejte karty a hledejte páry, cvičíte tím zrakovou paměť.",
+      "pl": "Odkrywaj karty i szukaj par, aby ćwiczyć pamięć wzrokową."
     },
     "difficulties": [
       "easy",
@@ -67,15 +166,48 @@
     "mg_id": 111,
     "title": {
       "en": "Quadronica",
-      "ru": "Квадроника"
+      "ru": "Квадроника",
+      "fr": "Quadronica",
+      "de": "Quadronica",
+      "es": "Quadronica",
+      "it": "Quadronica",
+      "sv": "Quadronica",
+      "da": "Quadronica",
+      "nb": "Quadronica",
+      "pt": "Quadronica",
+      "nl": "Quadronica",
+      "cz": "Quadronica",
+      "pl": "Quadronica"
     },
     "category": {
       "en": "Pattern Recognition",
-      "ru": "Образное мышление"
+      "ru": "Образное мышление",
+      "fr": "Pensée visuelle",
+      "de": "Bildhaftes Denken",
+      "es": "Pensamiento visual",
+      "it": "Pensiero visivo",
+      "sv": "Bildtänkande",
+      "da": "Billedtænkning",
+      "nb": "Bildetenkning",
+      "pt": "Pensamento visual",
+      "nl": "Beeldend denken",
+      "cz": "Obrazné myšlení",
+      "pl": "Myślenie obrazowe"
     },
     "desc": {
       "en": "Find rectangles where all 4 corners have identical colors to make them disappear.",
-      "ru": "Находите прямоугольники, все четыре вершины которых имеют одинаковый цвет."
+      "ru": "Находите прямоугольники, все четыре вершины которых имеют одинаковый цвет.",
+      "fr": "Trouvez des rectangles dont les quatre coins ont la même couleur pour les faire disparaître.",
+      "de": "Finde Rechtecke mit vier gleichfarbigen Ecken, damit sie verschwinden.",
+      "es": "Encuentra rectángulos con las cuatro esquinas del mismo color para que desaparezcan.",
+      "it": "Trova rettangoli con i quattro angoli dello stesso colore per farli sparire.",
+      "sv": "Hitta rektanglar där alla fyra hörn har samma färg så försvinner de.",
+      "da": "Find rektangler, hvor alle fire hjørner har samme farve, så forsvinder de.",
+      "nb": "Finn rektangler der alle fire hjørnene har samme farge, så forsvinner de.",
+      "pt": "Encontre retângulos com os quatro cantos da mesma cor para fazê-los desaparecer.",
+      "nl": "Zoek rechthoeken met vier hoeken in dezelfde kleur om ze te laten verdwijnen.",
+      "cz": "Hledejte obdélníky se čtyřmi rohy stejné barvy, pak zmizí.",
+      "pl": "Szukaj prostokątów o czterech rogach w tym samym kolorze, a znikną."
     },
     "difficulties": [
       "easy",
@@ -88,15 +220,48 @@
     "mg_id": 108,
     "title": {
       "en": "Numbers",
-      "ru": "Числа"
+      "ru": "Числа",
+      "fr": "Nombres",
+      "de": "Zahlen",
+      "es": "Números",
+      "it": "Numeri",
+      "sv": "Siffror",
+      "da": "Tal",
+      "nb": "Tall",
+      "pt": "Números",
+      "nl": "Getallen",
+      "cz": "Čísla",
+      "pl": "Liczby"
     },
     "category": {
       "en": "Speed & Calculation",
-      "ru": "Скорость и счет"
+      "ru": "Скорость и счет",
+      "fr": "Vitesse et calcul",
+      "de": "Tempo und Rechnen",
+      "es": "Velocidad y cálculo",
+      "it": "Velocità e calcolo",
+      "sv": "Snabbhet och räkning",
+      "da": "Hastighed og regning",
+      "nb": "Fart og regning",
+      "pt": "Velocidade e cálculo",
+      "nl": "Snelheid en rekenen",
+      "cz": "Rychlost a počty",
+      "pl": "Szybkość i liczenie"
     },
     "desc": {
       "ru": "Вставьте цифру в пустую ячейку: она должна равняться последней цифре суммы соседних чисел. Уберите с поля все числа.",
-      "en": "Place a digit in an empty cell equal to the last digit of the sum of its neighbors. Clear all the numbers."
+      "en": "Place a digit in an empty cell equal to the last digit of the sum of its neighbors. Clear all the numbers.",
+      "fr": "Placez dans une case vide le dernier chiffre de la somme de ses voisins. Videz le plateau.",
+      "de": "Setze in ein leeres Feld die letzte Ziffer der Summe seiner Nachbarn. Räume das Feld leer.",
+      "es": "Pon en una casilla vacía la última cifra de la suma de sus vecinas. Vacía el tablero.",
+      "it": "Metti in una casella vuota l’ultima cifra della somma delle vicine. Svuota il campo.",
+      "sv": "Sätt i en tom ruta sista siffran i summan av grannarna. Töm hela planen.",
+      "da": "Sæt i et tomt felt det sidste ciffer i summen af naboerne. Ryd hele pladen.",
+      "nb": "Sett i en tom rute det siste sifferet i summen av naboene. Tøm hele brettet.",
+      "pt": "Coloque numa casa vazia o último algarismo da soma das vizinhas. Esvazie o tabuleiro.",
+      "nl": "Zet in een leeg vak het laatste cijfer van de som van de buren. Maak het veld leeg.",
+      "cz": "Do prázdného pole vložte poslední číslici součtu sousedů. Vyčistěte celé pole.",
+      "pl": "Wstaw w puste pole ostatnią cyfrę sumy sąsiadów. Wyczyść całą planszę."
     },
     "difficulties": [
       "easy",
@@ -109,15 +274,48 @@
     "mg_id": 103,
     "title": {
       "en": "Arithmetics",
-      "ru": "Арифметика"
+      "ru": "Арифметика",
+      "fr": "Arithmétique",
+      "de": "Arithmetik",
+      "es": "Aritmética",
+      "it": "Aritmetica",
+      "sv": "Aritmetik",
+      "da": "Aritmetik",
+      "nb": "Aritmetikk",
+      "pt": "Aritmética",
+      "nl": "Rekenen",
+      "cz": "Aritmetika",
+      "pl": "Arytmetyka"
     },
     "category": {
       "en": "Calculation",
-      "ru": "Вычисления"
+      "ru": "Вычисления",
+      "fr": "Calcul",
+      "de": "Rechnen",
+      "es": "Cálculo",
+      "it": "Calcolo",
+      "sv": "Räkning",
+      "da": "Regning",
+      "nb": "Regning",
+      "pt": "Cálculo",
+      "nl": "Rekenen",
+      "cz": "Počítání",
+      "pl": "Liczenie"
     },
     "desc": {
       "en": "Solve chains of math operations quickly and accurately.",
-      "ru": "Быстро и безошибочно решайте цепочки математических операций."
+      "ru": "Быстро и безошибочно решайте цепочки математических операций.",
+      "fr": "Résolvez vite et sans erreur des chaînes d’opérations.",
+      "de": "Löse Rechenketten schnell und genau.",
+      "es": "Resuelve cadenas de operaciones rápido y sin errores.",
+      "it": "Risolvi catene di operazioni in fretta e senza errori.",
+      "sv": "Lös kedjor av räkneoperationer snabbt och rätt.",
+      "da": "Løs kæder af regnestykker hurtigt og præcist.",
+      "nb": "Løs kjeder av regnestykker raskt og riktig.",
+      "pt": "Resolva cadeias de operações com rapidez e precisão.",
+      "nl": "Los reeksen sommen snel en foutloos op.",
+      "cz": "Řešte řetězce početních operací rychle a přesně.",
+      "pl": "Rozwiązuj łańcuchy działań szybko i bezbłędnie."
     },
     "difficulties": [
       "easy",
@@ -130,15 +328,48 @@
     "mg_id": 107,
     "title": {
       "en": "Minesweeper",
-      "ru": "Сапер"
+      "ru": "Сапёр",
+      "fr": "Démineur",
+      "de": "Minensucher",
+      "es": "Buscaminas",
+      "it": "Campo minato",
+      "sv": "Minröjning",
+      "da": "Minestryger",
+      "nb": "Minesveiper",
+      "pt": "Campo minado",
+      "nl": "Mijnenveger",
+      "cz": "Hledání min",
+      "pl": "Saper"
     },
     "category": {
       "en": "Logic",
-      "ru": "Логика"
+      "ru": "Логика",
+      "fr": "Logique",
+      "de": "Logik",
+      "es": "Lógica",
+      "it": "Logica",
+      "sv": "Logik",
+      "da": "Logik",
+      "nb": "Logikk",
+      "pt": "Lógica",
+      "nl": "Logica",
+      "cz": "Logika",
+      "pl": "Logika"
     },
     "desc": {
       "en": "Clear the grid without detonating any hidden mines.",
-      "ru": "Очистите поле, избегая скрытых мин, ориентируясь по подсказкам-числам."
+      "ru": "Очистите поле, избегая скрытых мин, ориентируясь по подсказкам-числам.",
+      "fr": "Dégagez le terrain sans faire exploser les mines cachées.",
+      "de": "Räume das Feld, ohne versteckte Minen auszulösen.",
+      "es": "Despeja el campo sin hacer estallar las minas ocultas.",
+      "it": "Libera il campo senza far esplodere le mine nascoste.",
+      "sv": "Röj fältet utan att utlösa de dolda minorna.",
+      "da": "Ryd feltet uden at udløse de skjulte miner.",
+      "nb": "Rydd feltet uten å utløse de skjulte minene.",
+      "pt": "Limpe o campo sem detonar as minas escondidas.",
+      "nl": "Maak het veld vrij zonder de verborgen mijnen te laten ontploffen.",
+      "cz": "Odkryjte pole a nevybuchněte na skrytých minách.",
+      "pl": "Odkryj pole, nie wysadzając ukrytych min."
     },
     "difficulties": [
       "easy",
@@ -150,16 +381,49 @@
     "id": "roadblocks",
     "mg_id": 109,
     "title": {
-      "en": "Ball Rom",
-      "ru": "Препятствия"
+      "en": "Balltracker",
+      "ru": "Препятствия",
+      "fr": "Obstacles",
+      "de": "Hindernisse",
+      "es": "Obstáculos",
+      "it": "Ostacoli",
+      "sv": "Hinder",
+      "da": "Forhindringer",
+      "nb": "Hindringer",
+      "pt": "Obstáculos",
+      "nl": "Obstakels",
+      "cz": "Překážky",
+      "pl": "Przeszkody"
     },
     "category": {
       "en": "Spatial Orientation",
-      "ru": "Пространственное мышление"
+      "ru": "Пространственное мышление",
+      "fr": "Orientation spatiale",
+      "de": "Räumliches Denken",
+      "es": "Orientación espacial",
+      "it": "Orientamento spaziale",
+      "sv": "Rumsuppfattning",
+      "da": "Rumlig sans",
+      "nb": "Romforståelse",
+      "pt": "Orientação espacial",
+      "nl": "Ruimtelijk inzicht",
+      "cz": "Prostorová představivost",
+      "pl": "Orientacja przestrzenna"
     },
     "desc": {
       "en": "Roll the ball through the maze to reach the target arrow.",
-      "ru": "Прокатите шар через лабиринт к финишной стрелке."
+      "ru": "Прокатите шар через лабиринт к финишной стрелке.",
+      "fr": "Faites rouler la bille dans le labyrinthe jusqu’à la sortie fléchée.",
+      "de": "Rolle die Kugel durch das Labyrinth zum Ausgang mit dem Pfeil.",
+      "es": "Haz rodar la bola por el laberinto hasta la salida con la flecha.",
+      "it": "Fai rotolare la pallina nel labirinto fino all’uscita con la freccia.",
+      "sv": "Rulla kulan genom labyrinten till utgången med pilen.",
+      "da": "Rul kuglen gennem labyrinten hen til udgangen med pilen.",
+      "nb": "Rull kula gjennom labyrinten til utgangen med pilen.",
+      "pt": "Role a bola pelo labirinto até a saída com a seta.",
+      "nl": "Rol de bal door het doolhof naar de uitgang met de pijl.",
+      "cz": "Kutálejte kuličku bludištěm k východu se šipkou.",
+      "pl": "Tocz kulkę przez labirynt do wyjścia ze strzałką."
     },
     "difficulties": [
       "easy",
@@ -172,15 +436,48 @@
     "mg_id": 101,
     "title": {
       "en": "Guess Who",
-      "ru": "Голова муравья"
+      "ru": "Голова муравья",
+      "fr": "Tête de fourmi",
+      "de": "Ameisenkopf",
+      "es": "Cabeza de hormiga",
+      "it": "Testa di formica",
+      "sv": "Myrhuvud",
+      "da": "Myrehoved",
+      "nb": "Maurhode",
+      "pt": "Cabeça de formiga",
+      "nl": "Mierenkop",
+      "cz": "Mravenčí hlava",
+      "pl": "Głowa mrówki"
     },
     "category": {
       "en": "Pattern Finding",
-      "ru": "Внимание к деталям"
+      "ru": "Внимание к деталям",
+      "fr": "Attention aux détails",
+      "de": "Blick fürs Detail",
+      "es": "Atención al detalle",
+      "it": "Attenzione ai dettagli",
+      "sv": "Detaljseende",
+      "da": "Sans for detaljer",
+      "nb": "Blikk for detaljer",
+      "pt": "Atenção aos detalhes",
+      "nl": "Oog voor detail",
+      "cz": "Pozornost k detailům",
+      "pl": "Uwaga na szczegóły"
     },
     "desc": {
       "ru": "Найдите единственный объект, соответствующий признакам формы, цвета, узора и усиков внизу экрана.",
-      "en": "Find the unique object matching the shape, color, pattern and antenna features shown below the field."
+      "en": "Find the unique object matching the shape, color, pattern and antenna features shown below the field.",
+      "fr": "Trouvez le seul objet qui a la forme, la couleur, le motif et les antennes indiqués en bas.",
+      "de": "Finde das einzige Objekt mit Form, Farbe, Muster und Fühlern wie unten angegeben.",
+      "es": "Encuentra el único objeto con la forma, el color, el dibujo y las antenas indicados abajo.",
+      "it": "Trova l’unico oggetto con forma, colore, motivo e antenne indicati in basso.",
+      "sv": "Hitta det enda föremålet med den form, färg, mönster och antenner som visas nedanför.",
+      "da": "Find den eneste figur med den form, farve, mønster og de antenner, der vises nedenfor.",
+      "nb": "Finn den eneste figuren med formen, fargen, mønsteret og antennene som vises nedenfor.",
+      "pt": "Encontre o único objeto com a forma, a cor, o padrão e as antenas indicados abaixo.",
+      "nl": "Zoek het enige figuurtje met de vorm, kleur, het patroon en de voelsprieten die onderaan staan.",
+      "cz": "Najděte jediný předmět s tvarem, barvou, vzorem a tykadly podle zadání dole.",
+      "pl": "Znajdź jedyny obiekt o kształcie, kolorze, wzorze i czułkach podanych na dole."
     },
     "difficulties": [
       "easy",
@@ -193,15 +490,48 @@
     "mg_id": 102,
     "title": {
       "en": "Memorics",
-      "ru": "Запоминалка"
+      "ru": "Запоминалка",
+      "fr": "Mémoire",
+      "de": "Merkspiel",
+      "es": "Memoria",
+      "it": "Memoria",
+      "sv": "Minnesspel",
+      "da": "Huskespil",
+      "nb": "Huskespill",
+      "pt": "Memória",
+      "nl": "Geheugen",
+      "cz": "Pamatovák",
+      "pl": "Zapamiętywanie"
     },
     "category": {
       "en": "Short-Term Memory",
-      "ru": "Краткосрочная память"
+      "ru": "Краткосрочная память",
+      "fr": "Mémoire à court terme",
+      "de": "Kurzzeitgedächtnis",
+      "es": "Memoria a corto plazo",
+      "it": "Memoria a breve termine",
+      "sv": "Korttidsminne",
+      "da": "Korttidshukommelse",
+      "nb": "Korttidshukommelse",
+      "pt": "Memória de curto prazo",
+      "nl": "Kortetermijngeheugen",
+      "cz": "Krátkodobá paměť",
+      "pl": "Pamięć krótkotrwała"
     },
     "desc": {
       "en": "Memorize the positions of geometric figures on the field and answer questions.",
-      "ru": "Запоминайте расположение геометрических фигур на поле и отвечайте на вопросы."
+      "ru": "Запоминайте расположение геометрических фигур на поле и отвечайте на вопросы.",
+      "fr": "Mémorisez la place des figures sur le plateau, puis répondez aux questions.",
+      "de": "Merke dir, wo die Figuren auf dem Feld liegen, und beantworte dann die Fragen.",
+      "es": "Memoriza dónde están las figuras del tablero y responde a las preguntas.",
+      "it": "Memorizza la posizione delle figure sul campo e rispondi alle domande.",
+      "sv": "Lägg figurernas platser på planen på minnet och svara på frågorna.",
+      "da": "Husk, hvor figurerne står på pladen, og svar så på spørgsmålene.",
+      "nb": "Husk hvor figurene står på brettet, og svar så på spørsmålene.",
+      "pt": "Memorize a posição das figuras no tabuleiro e responda às perguntas.",
+      "nl": "Onthoud waar de figuren op het veld staan en beantwoord de vragen.",
+      "cz": "Zapamatujte si polohu obrazců na poli a odpovězte na otázky.",
+      "pl": "Zapamiętaj położenie figur na planszy i odpowiedz na pytania."
     },
     "difficulties": [
       "easy",
@@ -214,15 +544,48 @@
     "mg_id": 114,
     "title": {
       "en": "Geometry",
-      "ru": "Геометрия"
+      "ru": "Геометрия",
+      "fr": "Géométrie",
+      "de": "Geometrie",
+      "es": "Geometría",
+      "it": "Geometria",
+      "sv": "Geometri",
+      "da": "Geometri",
+      "nb": "Geometri",
+      "pt": "Geometria",
+      "nl": "Meetkunde",
+      "cz": "Geometrie",
+      "pl": "Geometria"
     },
     "category": {
       "en": "Visual Memory",
-      "ru": "Зрительная память"
+      "ru": "Зрительная память",
+      "fr": "Mémoire visuelle",
+      "de": "Visuelles Gedächtnis",
+      "es": "Memoria visual",
+      "it": "Memoria visiva",
+      "sv": "Visuellt minne",
+      "da": "Visuel hukommelse",
+      "nb": "Visuell hukommelse",
+      "pt": "Memória visual",
+      "nl": "Visueel geheugen",
+      "cz": "Zraková paměť",
+      "pl": "Pamięć wzrokowa"
     },
     "desc": {
       "ru": "Запомните фигуру и нарисуйте её копию по точкам. Важны углы, а не размер и положение.",
-      "en": "Remember the figure and draw a copy by placing vertices. Only the angles matter, not size or position."
+      "en": "Remember the figure and draw a copy by placing vertices. Only the angles matter, not size or position.",
+      "fr": "Retenez la figure et dessinez-en une copie point par point. Seuls les angles comptent.",
+      "de": "Merke dir die Figur und zeichne sie Punkt für Punkt nach. Nur die Winkel zählen.",
+      "es": "Recuerda la figura y dibuja una copia punto a punto. Solo cuentan los ángulos.",
+      "it": "Ricorda la figura e disegnane una copia punto per punto. Contano solo gli angoli.",
+      "sv": "Kom ihåg figuren och rita en kopia punkt för punkt. Bara vinklarna räknas.",
+      "da": "Husk figuren og tegn en kopi punkt for punkt. Kun vinklerne tæller.",
+      "nb": "Husk figuren og tegn en kopi punkt for punkt. Bare vinklene teller.",
+      "pt": "Memorize a figura e desenhe uma cópia ponto a ponto. Só os ângulos contam.",
+      "nl": "Onthoud de figuur en teken punt voor punt een kopie. Alleen de hoeken tellen.",
+      "cz": "Zapamatujte si obrazec a nakreslete jeho kopii po bodech. Rozhodují jen úhly.",
+      "pl": "Zapamiętaj figurę i narysuj jej kopię punkt po punkcie. Liczą się tylko kąty."
     },
     "difficulties": [
       "easy",
@@ -235,15 +598,323 @@
     "mg_id": 105,
     "title": {
       "en": "Encyclopedia",
-      "ru": "Энциклопедия"
+      "ru": "Энциклопедия",
+      "fr": "Encyclopédie",
+      "de": "Enzyklopädie",
+      "es": "Enciclopedia",
+      "it": "Enciclopedia",
+      "sv": "Uppslagsverk",
+      "da": "Leksikon",
+      "nb": "Leksikon",
+      "pt": "Enciclopédia",
+      "nl": "Encyclopedie",
+      "cz": "Encyklopedie",
+      "pl": "Encyklopedia"
     },
     "category": {
       "en": "Fact Memory",
-      "ru": "Эрудиция и память"
+      "ru": "Эрудиция и память",
+      "fr": "Culture et mémoire",
+      "de": "Wissen und Gedächtnis",
+      "es": "Cultura y memoria",
+      "it": "Cultura e memoria",
+      "sv": "Allmänbildning och minne",
+      "da": "Viden og hukommelse",
+      "nb": "Kunnskap og hukommelse",
+      "pt": "Cultura e memória",
+      "nl": "Kennis en geheugen",
+      "cz": "Vědomosti a paměť",
+      "pl": "Wiedza i pamięć"
     },
     "desc": {
       "ru": "Запомните числовые значения на четырёх страницах, затем выберите правильные ответы. Можно выбрать метрическую или американскую систему мер.",
-      "en": "Memorize numeric values on four pages, then choose the correct answers. Select metric or US units."
+      "en": "Memorize numeric values on four pages, then choose the correct answers. Select metric or US units.",
+      "fr": "Mémorisez des valeurs sur quatre pages puis choisissez les bonnes réponses. Unités métriques ou US.",
+      "de": "Merke dir Zahlenwerte auf vier Seiten und wähle dann die richtigen Antworten. Metrische oder US-Einheiten.",
+      "es": "Memoriza valores en cuatro páginas y elige las respuestas correctas. Unidades métricas o de EE. UU.",
+      "it": "Memorizza i valori su quattro pagine e scegli le risposte giuste. Unità metriche o USA.",
+      "sv": "Lägg värden på fyra sidor på minnet och välj sedan rätt svar. Metriska eller amerikanska enheter.",
+      "da": "Husk talværdier på fire sider, og vælg så de rigtige svar. Metriske eller amerikanske enheder.",
+      "nb": "Husk tallverdier på fire sider, og velg så riktige svar. Metriske eller amerikanske enheter.",
+      "pt": "Memorize valores em quatro páginas e escolha as respostas certas. Unidades métricas ou dos EUA.",
+      "nl": "Onthoud waarden op vier pagina’s en kies daarna de juiste antwoorden. Metrische of Amerikaanse eenheden.",
+      "cz": "Zapamatujte si hodnoty na čtyřech stranách a vyberte správné odpovědi. Metrické nebo americké jednotky.",
+      "pl": "Zapamiętaj wartości z czterech stron i wybierz poprawne odpowiedzi. Jednostki metryczne lub amerykańskie."
+    },
+    "difficulties": [
+      "easy",
+      "med",
+      "hard"
+    ]
+  },
+  {
+    "id": "stroop",
+    "mg_id": 201,
+    "added": true,
+    "title": {
+      "en": "Colour and Word",
+      "ru": "Цвет и слово",
+      "fr": "Couleur et mot",
+      "de": "Farbe und Wort",
+      "es": "Color y palabra",
+      "it": "Colore e parola",
+      "sv": "Färg och ord",
+      "da": "Farve og ord",
+      "nb": "Farge og ord",
+      "pt": "Cor e palavra",
+      "nl": "Kleur en woord",
+      "cz": "Barva a slovo",
+      "pl": "Kolor i słowo"
+    },
+    "category": {
+      "en": "Attention and self-control",
+      "ru": "Внимание и самоконтроль",
+      "fr": "Attention et maîtrise de soi",
+      "de": "Aufmerksamkeit und Selbstkontrolle",
+      "es": "Atención y autocontrol",
+      "it": "Attenzione e autocontrollo",
+      "sv": "Uppmärksamhet och självkontroll",
+      "da": "Opmærksomhed og selvkontrol",
+      "nb": "Oppmerksomhet og selvkontroll",
+      "pt": "Atenção e autocontrolo",
+      "nl": "Aandacht en zelfbeheersing",
+      "cz": "Pozornost a sebeovládání",
+      "pl": "Uwaga i samokontrola"
+    },
+    "desc": {
+      "en": "A colour name is written in another colour. Tap the colour of the ink, not the word.",
+      "ru": "Название цвета написано другим цветом. Нажмите цвет букв, а не тот, что написан словом.",
+      "fr": "Le nom d’une couleur est écrit dans une autre couleur. Touchez la couleur de l’encre, pas celle du mot.",
+      "de": "Ein Farbname ist in einer anderen Farbe geschrieben. Tippe auf die Farbe der Schrift, nicht auf das Wort.",
+      "es": "El nombre de un color está escrito en otro color. Toca el color de la tinta, no el de la palabra.",
+      "it": "Il nome di un colore è scritto in un altro colore. Tocca il colore dell’inchiostro, non quello della parola.",
+      "sv": "Ett färgnamn är skrivet i en annan färg. Tryck på bläckets färg, inte på ordets.",
+      "da": "Et farvenavn er skrevet med en anden farve. Tryk på skriftens farve, ikke på ordets.",
+      "nb": "Et fargenavn er skrevet med en annen farge. Trykk på skriftens farge, ikke på ordets.",
+      "pt": "O nome de uma cor está escrito noutra cor. Toque na cor da tinta, não na da palavra.",
+      "nl": "Een kleurnaam staat in een andere kleur geschreven. Tik op de kleur van de letters, niet op het woord.",
+      "cz": "Název barvy je napsán jinou barvou. Klepněte na barvu písma, ne na slovo.",
+      "pl": "Nazwa koloru jest napisana innym kolorem. Dotknij koloru liter, a nie słowa."
+    },
+    "difficulties": [
+      "easy",
+      "med",
+      "hard"
+    ]
+  },
+  {
+    "id": "schulte",
+    "mg_id": 202,
+    "added": true,
+    "title": {
+      "en": "Schulte Table",
+      "ru": "Таблица Шульте",
+      "fr": "Table de Schulte",
+      "de": "Schulte-Tabelle",
+      "es": "Tabla de Schulte",
+      "it": "Tabella di Schulte",
+      "sv": "Schultetabell",
+      "da": "Schulte-tabel",
+      "nb": "Schulte-tabell",
+      "pt": "Tabela de Schulte",
+      "nl": "Schulte-tabel",
+      "cz": "Schulteho tabulka",
+      "pl": "Tablica Schultego"
+    },
+    "category": {
+      "en": "Speed of attention",
+      "ru": "Скорость внимания",
+      "fr": "Rapidité d’attention",
+      "de": "Schnelle Aufmerksamkeit",
+      "es": "Rapidez de atención",
+      "it": "Rapidità di attenzione",
+      "sv": "Snabb uppmärksamhet",
+      "da": "Hurtig opmærksomhed",
+      "nb": "Rask oppmerksomhet",
+      "pt": "Rapidez de atenção",
+      "nl": "Snelle aandacht",
+      "cz": "Rychlost pozornosti",
+      "pl": "Szybkość uwagi"
+    },
+    "desc": {
+      "en": "Tap the mixed-up numbers in order, starting from 1, as fast as you can.",
+      "ru": "Нажимайте перемешанные числа по порядку, начиная с 1, как можно быстрее.",
+      "fr": "Touchez les nombres mélangés dans l’ordre, à partir de 1, le plus vite possible.",
+      "de": "Tippe die durcheinander stehenden Zahlen der Reihe nach an, ab 1, so schnell du kannst.",
+      "es": "Toca los números mezclados en orden, empezando por el 1, lo más rápido que puedas.",
+      "it": "Tocca i numeri mescolati in ordine, a partire da 1, il più in fretta possibile.",
+      "sv": "Tryck på de blandade talen i ordning, från 1, så snabbt du kan.",
+      "da": "Tryk på de blandede tal i rækkefølge, fra 1, så hurtigt du kan.",
+      "nb": "Trykk på de blandede tallene i rekkefølge, fra 1, så raskt du kan.",
+      "pt": "Toque nos números baralhados por ordem, a partir do 1, o mais depressa possível.",
+      "nl": "Tik de door elkaar staande getallen op volgorde aan, vanaf 1, zo snel je kunt.",
+      "cz": "Klepejte na zamíchaná čísla popořadě od 1 co nejrychleji.",
+      "pl": "Dotykaj pomieszanych liczb po kolei, zaczynając od 1, jak najszybciej."
+    },
+    "difficulties": [
+      "easy",
+      "med",
+      "hard"
+    ]
+  },
+  {
+    "id": "sequence",
+    "mg_id": 203,
+    "added": true,
+    "title": {
+      "en": "Repeat the Sequence",
+      "ru": "Повтори последовательность",
+      "fr": "Répétez la séquence",
+      "de": "Folge wiederholen",
+      "es": "Repite la secuencia",
+      "it": "Ripeti la sequenza",
+      "sv": "Upprepa följden",
+      "da": "Gentag rækkefølgen",
+      "nb": "Gjenta rekkefølgen",
+      "pt": "Repita a sequência",
+      "nl": "Herhaal de reeks",
+      "cz": "Zopakuj pořadí",
+      "pl": "Powtórz sekwencję"
+    },
+    "category": {
+      "en": "Working memory",
+      "ru": "Рабочая память",
+      "fr": "Mémoire de travail",
+      "de": "Arbeitsgedächtnis",
+      "es": "Memoria de trabajo",
+      "it": "Memoria di lavoro",
+      "sv": "Arbetsminne",
+      "da": "Arbejdshukommelse",
+      "nb": "Arbeidshukommelse",
+      "pt": "Memória de trabalho",
+      "nl": "Werkgeheugen",
+      "cz": "Pracovní paměť",
+      "pl": "Pamięć robocza"
+    },
+    "desc": {
+      "en": "Watch the tiles light up and repeat them in the same order. Each round is one step longer.",
+      "ru": "Следите, как загораются плитки, и повторите их в том же порядке. Каждый раунд на шаг длиннее.",
+      "fr": "Regardez les cases s’allumer et répétez-les dans le même ordre. Chaque manche compte un pas de plus.",
+      "de": "Sieh zu, wie die Felder aufleuchten, und wiederhole sie in derselben Reihenfolge. Jede Runde ist einen Schritt länger.",
+      "es": "Observa cómo se iluminan las casillas y repítelas en el mismo orden. Cada ronda es un paso más larga.",
+      "it": "Guarda le caselle accendersi e ripetile nello stesso ordine. Ogni turno è più lungo di un passo.",
+      "sv": "Se rutorna lysa upp och upprepa dem i samma ordning. Varje omgång blir ett steg längre.",
+      "da": "Se felterne lyse op, og gentag dem i samme rækkefølge. Hver runde er et trin længere.",
+      "nb": "Se rutene lyse opp, og gjenta dem i samme rekkefølge. Hver runde er ett steg lengre.",
+      "pt": "Veja as casas acenderem e repita-as pela mesma ordem. Cada ronda tem mais um passo.",
+      "nl": "Kijk hoe de vakjes oplichten en herhaal ze in dezelfde volgorde. Elke ronde is een stap langer.",
+      "cz": "Sledujte, jak se pole rozsvěcují, a zopakujte je ve stejném pořadí. Každé kolo je o krok delší.",
+      "pl": "Patrz, jak zapalają się pola, i powtórz je w tej samej kolejności. Każda runda jest o krok dłuższa."
+    },
+    "difficulties": [
+      "easy",
+      "med",
+      "hard"
+    ]
+  },
+  {
+    "id": "rotation",
+    "mg_id": 204,
+    "added": true,
+    "title": {
+      "en": "Turn the Figure",
+      "ru": "Поворот фигуры",
+      "fr": "Tourne la figure",
+      "de": "Figur drehen",
+      "es": "Gira la figura",
+      "it": "Ruota la figura",
+      "sv": "Vrid figuren",
+      "da": "Drej figuren",
+      "nb": "Snu figuren",
+      "pt": "Rode a figura",
+      "nl": "Draai de figuur",
+      "cz": "Otoč obrazec",
+      "pl": "Obróć figurę"
+    },
+    "category": {
+      "en": "Spatial thinking",
+      "ru": "Пространственное мышление",
+      "fr": "Pensée spatiale",
+      "de": "Räumliches Denken",
+      "es": "Pensamiento espacial",
+      "it": "Pensiero spaziale",
+      "sv": "Rumsligt tänkande",
+      "da": "Rumlig tænkning",
+      "nb": "Romlig tenkning",
+      "pt": "Pensamento espacial",
+      "nl": "Ruimtelijk denken",
+      "cz": "Prostorové myšlení",
+      "pl": "Myślenie przestrzenne"
+    },
+    "desc": {
+      "en": "Find the figure that is the sample turned on the plane. A mirrored copy does not count.",
+      "ru": "Найдите фигуру, которая получается поворотом образца. Зеркальная копия не подходит.",
+      "fr": "Trouvez la figure qui est le modèle tourné dans le plan. Une copie en miroir ne compte pas.",
+      "de": "Finde die Figur, die das Muster in der Ebene gedreht zeigt. Ein Spiegelbild zählt nicht.",
+      "es": "Encuentra la figura que es el modelo girado en el plano. Una copia en espejo no vale.",
+      "it": "Trova la figura che è il modello ruotato nel piano. Una copia speculare non vale.",
+      "sv": "Hitta figuren som är förlagan vriden i planet. En spegelvänd kopia räknas inte.",
+      "da": "Find figuren, der er forlægget drejet i planet. En spejlvendt kopi tæller ikke.",
+      "nb": "Finn figuren som er forbildet snudd i planet. En speilvendt kopi teller ikke.",
+      "pt": "Encontre a figura que é o modelo rodado no plano. Uma cópia espelhada não conta.",
+      "nl": "Zoek de figuur die het voorbeeld is, gedraaid in het vlak. Een spiegelbeeld telt niet.",
+      "cz": "Najděte obrazec, který je vzorem otočeným v rovině. Zrcadlová kopie neplatí.",
+      "pl": "Znajdź figurę, która jest wzorem obróconym na płaszczyźnie. Lustrzana kopia się nie liczy."
+    },
+    "difficulties": [
+      "easy",
+      "med",
+      "hard"
+    ]
+  },
+  {
+    "id": "hanoi",
+    "mg_id": 205,
+    "added": true,
+    "title": {
+      "en": "Tower of Hanoi",
+      "ru": "Ханойская башня",
+      "fr": "Tour de Hanoï",
+      "de": "Turm von Hanoi",
+      "es": "Torre de Hanói",
+      "it": "Torre di Hanoi",
+      "sv": "Tornet i Hanoi",
+      "da": "Tårnet i Hanoi",
+      "nb": "Tårnet i Hanoi",
+      "pt": "Torre de Hanói",
+      "nl": "Toren van Hanoi",
+      "cz": "Hanojská věž",
+      "pl": "Wieża Hanoi"
+    },
+    "category": {
+      "en": "Planning",
+      "ru": "Планирование",
+      "fr": "Planification",
+      "de": "Planen",
+      "es": "Planificación",
+      "it": "Pianificazione",
+      "sv": "Planering",
+      "da": "Planlægning",
+      "nb": "Planlegging",
+      "pt": "Planeamento",
+      "nl": "Plannen",
+      "cz": "Plánování",
+      "pl": "Planowanie"
+    },
+    "desc": {
+      "en": "Move the whole tower to the right peg in as few moves as you can. A larger disc never goes on a smaller one.",
+      "ru": "Перенесите всю башню на правый стержень за наименьшее число ходов. Больший диск нельзя класть на меньший.",
+      "fr": "Déplacez toute la tour sur la tige de droite en un minimum de coups. Un grand disque ne va jamais sur un petit.",
+      "de": "Versetze den ganzen Turm mit möglichst wenigen Zügen auf den rechten Stab. Eine größere Scheibe liegt nie auf einer kleineren.",
+      "es": "Lleva toda la torre a la varilla derecha con el menor número de movimientos. Un disco grande nunca va sobre uno pequeño.",
+      "it": "Sposta tutta la torre sul piolo di destra con meno mosse possibile. Un disco più grande non va mai su uno più piccolo.",
+      "sv": "Flytta hela tornet till högra pinnen med så få drag som möjligt. En större skiva får aldrig ligga på en mindre.",
+      "da": "Flyt hele tårnet til højre pind med så få træk som muligt. En større skive må aldrig ligge på en mindre.",
+      "nb": "Flytt hele tårnet til høyre pinne med så få trekk som mulig. En større skive kan aldri ligge på en mindre.",
+      "pt": "Leve toda a torre para a haste da direita com o menor número de jogadas. Um disco maior nunca fica sobre um menor.",
+      "nl": "Verplaats de hele toren naar de rechterstaaf in zo weinig mogelijk zetten. Een grotere schijf ligt nooit op een kleinere.",
+      "cz": "Přesuňte celou věž na pravý kolík co nejmenším počtem tahů. Větší disk nesmí ležet na menším.",
+      "pl": "Przenieś całą wieżę na prawy pręt jak najmniejszą liczbą ruchów. Większy krążek nigdy nie leży na mniejszym."
     },
     "difficulties": [
       "easy",

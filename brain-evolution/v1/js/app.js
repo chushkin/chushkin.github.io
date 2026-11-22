@@ -1,6 +1,7 @@
 // Amaze Brain Evolution - Main Application Controller (Authentic Remaster)
 
 import { audio } from './audio.js';
+import { haptics } from './haptics.js';
 import { storage } from './storage.js';
 import { loadOriginalConfig } from './original.js';
 import { attachGameLifetime } from './games/lifetime.js';
@@ -22,12 +23,22 @@ import { GuessWhoGame } from './games/guess_who.js';
 import { MemoricsGame } from './games/memorics.js';
 import { GeometryGame } from './games/geometry.js';
 import { EncyclopediaGame } from './games/encyclopedia.js';
+import { StroopGame } from './games/stroop.js';
+import { SchulteGame } from './games/schulte.js';
+import { SequenceGame } from './games/sequence.js';
+import { RotationGame } from './games/rotation.js';
+import { HanoiGame } from './games/hanoi.js';
 
 // [mini_games] game= order: the training list and the unlock order.
 // Month and day names of the calendar (translated in every languages.erc table).
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-const TRAINING_ORDER = ['arithmetics', 'quadronica', 'memorics', 'sudoku', 'pairs', 'numbers', 'roadblocks', 'guess_who', 'minesweeper', 'geometry', 'encyclopedia', 'matches'];
+// Each language is listed in its own name, so a player can find theirs whatever is selected now.
+const LANGUAGE_NAMES = {en: 'English', fr: 'Français', de: 'Deutsch', es: 'Español', it: 'Italiano', sv: 'Svenska', da: 'Dansk', nb: 'Norsk', pt: 'Português', ru: 'Русский', nl: 'Nederlands', cz: 'Čeština', pl: 'Polski'};
+const CALENDAR_HELP = 'In this window you can see statistics of all completed daily training sessions. Please note that only completed training sessions are included into the calendar. \\n \\n';
+const MAIN_HELP = 'Amaze Brain Evolution is an intellectual software suite designed to train and evaluate brain fitness.\n\n• Brain Training: complete daily workouts to evolve your mind.\n• Brain Marking: 5 tests measure your Evolutionary Rank.\n• Interesting Facts: a new fact after every completed training.\n• My Awards: diplomas and trophies for your achievements.\n• Manage Profiles: separate progress for family and friends.\n• High Scores: tables of the best results.';
+// The original twelve in the original order, then the five games made for the web (PLAN 5).
+const TRAINING_ORDER = ['arithmetics', 'quadronica', 'memorics', 'sudoku', 'pairs', 'numbers', 'roadblocks', 'guess_who', 'minesweeper', 'geometry', 'encyclopedia', 'matches', 'stroop', 'schulte', 'sequence', 'rotation', 'hanoi'];
 
 class App {
   constructor() {
@@ -100,10 +111,11 @@ class App {
       }
     }
 
-    if (this.activeModal) {
-      this.activeModal.remove();
-      this.activeModal = null;
-    }
+    // Leaving a screen, also with the phone's Back button, closes every window opened on it:
+    // dialogs, trainer messages and the games' own results windows.
+    document.querySelectorAll('.amaze-dialog-overlay, .amaze-modal-overlay').forEach(el => el.remove());
+    this.activeModal = null;
+    this.trainerModal = null;
 
     const headerEl = document.getElementById('appHeader');
     const mainEl = document.getElementById('appMain');
@@ -199,7 +211,7 @@ class App {
         case 'awards': title = i18n.t('My Awards', 'Награды'); break;
         case 'profiles': title = i18n.t('Manage Profiles', 'Профили'); break;
         case 'highscores': title = i18n.t('High Scores', 'Таблица рекордов'); break;
-        case 'games': title = i18n.t('12 Development Games', '12 развивающих игр'); break;
+        case 'games': title = i18n.t('Development Games', 'Развивающие игры'); break;
         case 'about': title = i18n.t('About', 'О программе'); break;
         case 'calendar': title = i18n.t('Calendar', 'Календарь'); break;
       }
@@ -207,21 +219,15 @@ class App {
 
     headerEl.innerHTML = `
       <div class="trainer-header-inner">
-        <button class="trainer-menu-btn" id="btnTrainerMenu" title="${i18n.t('Menu', 'Меню')}" aria-label="Menu"></button>
+        <button class="trainer-menu-btn" id="btnTrainerMenu" title="${i18n.t('Menu', 'Меню')}" aria-label="${i18n.t('Menu', 'Меню')}"></button>
         <div class="trainer-title-box">
           <span class="trainer-title">${title}</span>
         </div>
-        <button class="${isMain ? 'trainer-help-btn' : 'trainer-exit-btn'}" id="btnTrainerRight" title="${isMain ? i18n.t('Help', 'Помощь') : i18n.t('Back', 'Назад')}" aria-label="${isMain ? 'Help' : 'Back'}"></button>
-        <div class="trainer-notch" id="btnTrainerNotch" title="${i18n.t('Quick Menu', 'Быстрое меню')}"></div>
+        <button class="${isMain ? 'trainer-help-btn' : 'trainer-exit-btn'}" id="btnTrainerRight" title="${isMain ? i18n.t('Help', 'Помощь') : i18n.t('Back', 'Назад')}" aria-label="${isMain ? i18n.t('Help', 'Помощь') : i18n.t('Back', 'Назад')}"></button>
       </div>
     `;
 
     document.getElementById('btnTrainerMenu')?.addEventListener('click', () => {
-      audio.play('openTrainer');
-      this.showOptionsMenu();
-    });
-
-    document.getElementById('btnTrainerNotch')?.addEventListener('click', () => {
       audio.play('openTrainer');
       this.showOptionsMenu();
     });
@@ -246,47 +252,53 @@ class App {
       <div class="amaze-main-menu">
         <div class="menu-grid">
           <button class="ex-menu-btn" id="btnTrain" title="${i18n.t('Brain Training', 'Тренировка')}">
-            <span class="btn-num">1.</span>
+            <span class="btn-num" aria-hidden="true">1.</span>
+            <span class="classic-menu-art" aria-hidden="true"><span class="home-menu-icon"></span></span>
             <span class="btn-label">${i18n.t('Brain Training', 'Тренировка')}</span>
           </button>
 
           <button class="ex-menu-btn" id="btnMark" title="${i18n.t('Brain Marking', 'Тестирование')}">
-            <span class="btn-num">2.</span>
+            <span class="btn-num" aria-hidden="true">2.</span>
+            <span class="classic-menu-art" aria-hidden="true"><span class="home-menu-icon"></span></span>
             <span class="btn-label">${i18n.t('Brain Marking', 'Тестирование')}</span>
           </button>
 
           <button class="ex-menu-btn" id="btnFacts" title="${i18n.t('Interesting Facts', 'Интересные факты')}">
-            <span class="btn-num">3.</span>
+            <span class="btn-num" aria-hidden="true">3.</span>
+            <span class="classic-menu-art" aria-hidden="true"><span class="home-menu-icon"></span></span>
             <span class="btn-label">${i18n.t('Interesting Facts', 'Интересные факты')}</span>
           </button>
 
           <button class="ex-menu-btn" id="btnAwards" title="${i18n.t('My Awards', 'Награды')}">
-            <span class="btn-num">4.</span>
+            <span class="btn-num" aria-hidden="true">4.</span>
+            <span class="classic-menu-art" aria-hidden="true"><span class="home-menu-icon"></span></span>
             <span class="btn-label">${i18n.t('My Awards', 'Награды')}</span>
           </button>
 
           <button class="ex-menu-btn" id="btnProfiles" title="${i18n.t('Manage Profiles', 'Профили')}">
-            <span class="btn-num">5.</span>
+            <span class="btn-num" aria-hidden="true">5.</span>
+            <span class="classic-menu-art" aria-hidden="true"><span class="home-menu-icon"></span></span>
             <span class="btn-label">${i18n.t('Manage Profiles', 'Профили')}</span>
           </button>
 
           <button class="ex-menu-btn" id="btnHighscores" title="${i18n.t('High Scores', 'Рекорды')}">
-            <span class="btn-num">6.</span>
+            <span class="btn-num" aria-hidden="true">6.</span>
+            <span class="classic-menu-art" aria-hidden="true"><span class="home-menu-icon"></span></span>
             <span class="btn-label">${i18n.t('High Scores', 'Рекорды')}</span>
           </button>
         </div>
 
         <div class="trainer-status-bar">
-          <img src="assets/textures/Br_Mark_Rank_${prof.brainRank}.png" class="status-rank-img" alt="Rank" />
+          <img src="assets/textures/Br_Mark_Rank_${prof.brainRank}.png" class="status-rank-img" alt="" />
           <div class="status-info">
-            <div class="status-player-name">${escapeHTML(prof.name)}</div>
+            <div class="status-player-name">${escapeHTML(this.profileName(prof))}</div>
             <div class="status-rank-title">${rankTitle}</div>
             <div class="status-metrics">
-              <span>⚡ ${prof.brainScore} pts</span>
-              <span>📅 ${i18n.t('Day', 'День')} ${prof.trainingDays}</span>
+              <span><img class="ui-ico" src="assets/textures/Br_Train_Mark_V.png" alt=""> ${prof.brainScore} ${escapeHTML(i18n.t('points'))}</span>
+              <span>${i18n.t('Day', 'День')} ${prof.trainingDays}</span>
             </div>
           </div>
-          <button class="btn-free-play" id="btnFreePlay">${i18n.t('12 Games ➔', '12 Игр ➔')}</button>
+          <button class="btn-free-play" id="btnFreePlay">${i18n.t('All Games ➔', 'Все игры ➔')}</button>
         </div>
       </div>
     `;
@@ -418,26 +430,34 @@ class App {
             </div>
 
             <div class="option-row">
+              <span class="option-label">${i18n.t('Vibration')}</span>
+              <div class="checkbox-toggle-wrap" id="btnToggleVibrationOpt">
+                <img src="assets/textures/${settings.vibration !== false ? 'Options_CheckBox_On.png' : 'Options_CheckBox_Off.png'}" class="options-checkbox-img" alt="" />
+                <span style="font-size: 13px; font-weight: 700; color: #1a3854;">${settings.vibration !== false ? i18n.t('Vibration ON') : i18n.t('Vibration OFF')}</span>
+              </div>
+            </div>
+
+            <div class="option-row">
               <span class="option-label">${i18n.t('Language', 'Язык')}</span>
               <select class="options-lang-select" id="selLangOpt" aria-label="${i18n.t('Language', 'Язык')}">
-                ${i18n.languages.map(item => `<option value="${item.code}" ${item.code === i18n.getLang() ? 'selected' : ''}>${escapeHTML(i18n.t(item.name))}</option>`).join('')}
+                ${i18n.languages.map(item => `<option value="${item.code}" ${item.code === i18n.getLang() ? 'selected' : ''}>${escapeHTML(LANGUAGE_NAMES[item.code] || i18n.t(item.name))}</option>`).join('')}
               </select>
             </div>
 
             <div class="dialog-splitter"></div>
 
             <button class="options-nav-btn" id="btnOptFreePlay">
-              <span>🎮 ${i18n.t('Free Play & 12 Games', 'Все 12 мини-игр')}</span>
+              <span>${i18n.t('Free Play: All Games', 'Все мини-игры')}</span>
               <span>➔</span>
             </button>
 
             <button class="options-nav-btn" id="btnOptHelp">
-              <span>❔ ${i18n.t('Help', 'Помощь')}</span>
+              <span>${i18n.t('Help', 'Помощь')}</span>
               <span>➔</span>
             </button>
 
             <button class="options-nav-btn" id="btnOptAbout">
-              <span>ℹ️ ${i18n.t('About', 'О программе')}</span>
+              <span>${i18n.t('About', 'О программе')}</span>
               <span>➔</span>
             </button>
 
@@ -479,6 +499,13 @@ class App {
       modal.querySelector('#btnToggleSoundOpt')?.addEventListener('click', () => {
         storage.updateSettings(st => st.sound = !st.sound);
         audio.play('click');
+        renderModalContent();
+      });
+
+      modal.querySelector('#btnToggleVibrationOpt')?.addEventListener('click', () => {
+        storage.updateSettings(st => st.vibration = st.vibration === false);
+        audio.play('click');
+        if (storage.getSettings().vibration !== false) haptics.play('good'); // feel it when turning it on
         renderModalContent();
       });
 
@@ -524,64 +551,25 @@ class App {
       this.activeModal = null;
     }
 
-    const helpTexts = {
-      main: {
-        title: i18n.t('Amaze Brain Evolution Help', 'Помощь: Amaze Brain Evolution'),
-        body: i18n.t(
-          'Amaze Brain Evolution is an intellectual software suite designed to train and evaluate brain fitness.\n\n• Brain Training: Complete daily workouts to evolve your mind.\n• Brain Marking: 5 comprehensive tests to measure your Evolutionary Rank.\n• Interesting Facts: Over 200 amazing facts unlocked through training.\n• My Awards: Diplomas and trophies for your achievements.\n• Manage Profiles: Track progress across family and friends.\n• High Scores: Hall of fame with top records.',
-          'Amaze Brain Evolution — это интеллектуальный комплекс для тренировки и тестирования способностей мозга.\n\n• Тренировка: Выполняйте ежедневные упражнения для развития способностей.\n• Тестирование: 5 комплексных тестов для определения ранга эволюции.\n• Интересные факты: Более 200 поразительных фактов, открываемых в процессе игры.\n• Награды: Дипломы и кубки за ваши успехи.\n• Профили: Ведение раздельной статистики для друзей и семьи.\n• Рекорды: Таблицы лучших результатов.'
-        )
-      },
-      training: {
-        title: i18n.t('Brain Training Help', 'Помощь: Тренировка'),
-        body: i18n.t(
-          'In this mode you can improve your mental awareness by playing mini-games.\n\nBy achieving better results in these games, you will get new ones in the list, with new difficulty levels added in opened games.\n\nYou can always check your Brain Status in the Brain Marking mode.',
-          'В этом режиме вы можете улучшить свои способности путем игры в мини-игры.\n\nУлучшая свои результаты, вы будете открывать новые игры в списке, а также новые уровни сложности в уже открытых играх.\n\nВы всегда можете проверить свой статус в режиме Тестирования.'
-        )
-      },
-      marking: {
-        title: i18n.t('Brain Marking Help', 'Помощь: Тестирование'),
-        body: i18n.t(
-          'Here you can check your current Brain Status.\n\nYou will pass five test mini-games: Guess Who, Memorics, Arithmetics, Numbers, and Quadronica. Your combined score determines your evolutionary rank, from Child all the way to Nobel Prize-winner!',
-          'В этом режиме вы можете узнать ваш текущий эволюционный статус.\n\nВам предстоит пройти пять контрольных тестов: Кто это?, Меморика, Арифметика, Числа и Квадроника. Общий результат определит ваш ранг развития — от Ребенка до Нобелевского лауреата!'
-        )
-      },
-      facts: {
-        title: i18n.t('Interesting Facts Help', 'Помощь: Интересные факты'),
-        body: i18n.t(
-          'Here you will find all the interesting facts you got. To get new ones, complete more daily training programs.',
-          'В этом окне вы можете посмотреть все полученные вами интересные факты. Чтобы открывать новые факты, проходите больше ежедневных тренировок.'
-        )
-      },
-      awards: {
-        title: i18n.t('My Awards Help', 'Помощь: Награды'),
-        body: i18n.t(
-          'Here you will see all awards and certificates you got. Complete daily training programs to earn your diplomas!',
-          'В этом окне вы можете посмотреть все ваши награды и дипломы. Проходите ежедневные тренировки, чтобы заслужить почетные дипломы!'
-        )
-      },
-      profiles: {
-        title: i18n.t('Game Profiles Help', 'Помощь: Профили'),
-        body: i18n.t(
-          'In this window you can manage game profiles and review evolutionary statistics for each player.',
-          'В этом окне вы можете управлять профилями пользователей и отслеживать персональный прогресс каждого игрока.'
-        )
-      },
-      highscores: {
-        title: i18n.t('High Scores Help', 'Помощь: Таблица рекордов'),
-        body: i18n.t(
-          'In this window you can see the highest scores for all games across 7-Day and Overall periods.',
-          'В этом окне вы можете видеть таблицы рекордов для всех игр за последние 7 дней и за все время.'
-        )
-      }
-    };
-
-    // The shell help sections of the original are translated in every language.
-    const sections = {training: 'b_train_help', marking: 'b_mark_help', facts: 'int_fact_help', awards: 'awards_list_help', profiles: 'profile_help', highscores: 'highscores_help'};
+    // The shell help sections of the original are translated in every language. The original
+    // High Scores help is about publishing results online and the main screen has none, so those
+    // two use texts made for the web; the calendar uses the original calendar help string.
+    const sections = {training: 'b_train_help', marking: 'b_mark_help', facts: 'int_fact_help', awards: 'awards_list_help', profiles: 'profile_help'};
     const section = this.original?.shell?.[sections[screenKey]];
-    const content = section?.['2_value']
-      ? {title: escapeHTML(i18n.t(section['1_value'])), body: escapeHTML(i18n.t(section['2_value'])).replace(/\\n/g, '\n').trim()}
-      : helpTexts[screenKey] || helpTexts.main;
+    const clean = text => escapeHTML(text).replace(/\\n/g, '\n').trim();
+    let content;
+    if (section?.['2_value']) {
+      content = {title: escapeHTML(i18n.t(section['1_value'])), body: clean(i18n.t(section['2_value']))};
+    } else if (screenKey === 'calendar') {
+      content = {title: escapeHTML(i18n.t('Calendar', 'Календарь')), body: clean(i18n.t(CALENDAR_HELP))};
+    } else if (screenKey === 'highscores') {
+      content = {title: escapeHTML(i18n.t('High Scores Help')), body: clean(i18n.t(
+        'In this window you can see the highest scores for all games across 7-Day and Overall periods.',
+        'В этом окне вы можете видеть таблицы рекордов для всех игр за последние 7 дней и за все время.'))};
+    } else {
+      content = {title: escapeHTML(i18n.t('Amaze Brain Evolution Help', 'Помощь: Amaze Brain Evolution')), body: clean(i18n.t(MAIN_HELP,
+        'Amaze Brain Evolution — это интеллектуальный комплекс для тренировки и тестирования способностей мозга.\n\n• Тренировка: выполняйте ежедневные упражнения для развития способностей.\n• Тестирование: 5 тестов определяют ваш ранг эволюции.\n• Интересные факты: новый факт после каждой тренировки.\n• Награды: дипломы и кубки за ваши успехи.\n• Профили: отдельная статистика для друзей и семьи.\n• Рекорды: таблицы лучших результатов.'))};
+    }
     const modal = document.createElement('div');
     modal.className = 'amaze-dialog-overlay';
     modal.innerHTML = `
@@ -693,6 +681,11 @@ class App {
     else if (!session.startShown) this.showTrainingStart(session, config);
   }
 
+  // The untouched first profile is shown in the player's language; saved names stay as they are.
+  profileName(profile) {
+    return profile.name === 'Player 1' ? i18n.t('Player 1', 'Игрок 1') : profile.name;
+  }
+
   gameTitle(game) {
     return game.title[i18n.getLang()] || game.title.en || game.title.ru;
   }
@@ -700,7 +693,7 @@ class App {
   // [b_train_start_new_train]: how many games finish today's training.
   showTrainingStart(session, config) {
     storage.updateProfile(profile => { if (profile.training) profile.training.startShown = true; });
-    this.showTrainerMessage(i18n.t('Play any @GM_COUNT games to complete training for today.\\nThe better you play, the more games you get! \\n').replace('@GM_COUNT', session.required));
+    this.showTrainerMessage(i18n.counted(i18n.t('Play any @GM_COUNT games to complete training for today.\\nThe better you play, the more games you get! \\n').replace('@GM_COUNT', session.required)));
   }
 
   openTrainingGame(id, config) {
@@ -708,7 +701,7 @@ class App {
     const game = this.gamesMeta.find(item => item.id === id);
     if (!info.open) {
       const unlock = levelParams(gameSection(config, id, 0)).unlock;
-      this.showTrainerMessage(`<b>${escapeHTML(i18n.t('@GAME Locked').replace('@GAME', this.gameTitle(game)))}</b><br><br>${escapeHTML(i18n.t('To unlock this game you should raise difficulty @TIMES time(s) in any of the available games.').replace('@TIMES', Math.max(1, unlock - (prof.promotions || 0))))}`, null, true);
+      this.showTrainerMessage(`<b>${escapeHTML(i18n.t('@GAME Locked').replace('@GAME', this.gameTitle(game)))}</b><br><br>${escapeHTML(i18n.counted(i18n.t('To unlock this game you should raise difficulty @TIMES time(s) in any of the available games.').replace('@TIMES', Math.max(1, unlock - (prof.promotions || 0)))))}`, null, true);
       return;
     }
     const play = () => this.showView('play', {gameId: id, difficulty: ['easy', 'medium', 'hard', 'ultra'][info.diff] || 'easy', mode: 'training'});
@@ -814,7 +807,7 @@ class App {
   showTrainerMessage(text, buttons = null, isHTML = false) {
     this.trainerModal?.remove();
     const modal = document.createElement('div');
-    modal.className = 'amaze-modal-overlay trainer-message';
+    modal.className = 'amaze-modal-overlay mg-results-layer trainer-message';
     const body = isHTML ? text : escapeHTML(text).replace(/\\n/g, '<br>');
     const list = buttons || [{label: i18n.t('Next')}];
     modal.innerHTML = `<div class="restored-results"><div class="mg-results"><div class="mg-results-body">
@@ -920,7 +913,7 @@ class App {
           </div>
         </div>
 
-        <!-- 12 Game Awards -->
+        <!-- Best Play awards of every game -->
         <div class="awards-games-list">
           ${TRAINING_ORDER.map(id => this.gamesMeta.find(game => game.id === id)).filter(Boolean).map(game => {
             // [awards_list_game_btn] "%ls Best Play Award": earned at the top difficulty in training.
@@ -993,19 +986,19 @@ class App {
           ${profiles.map(([id, p]) => `
             <button class="prof-card ${id === storage.data.activeProfile ? 'active' : ''}" data-profile="${escapeHTML(id)}">
               <img src="assets/textures/${id === storage.data.activeProfile ? 'Profile_Marker_Cur' : 'Profile_Marker'}.png" class="prof-marker-img" alt="" />
-              <span class="prof-card-name">${escapeHTML(p.name)}</span>
-              <span class="prof-card-meta">⚡ ${p.brainScore} · 📅 ${p.trainingDays}</span>
+              <span class="prof-card-name">${escapeHTML(this.profileName(p))}</span>
+              <span class="prof-card-meta"><img class="ui-ico" src="assets/textures/Br_Train_Mark_V.png" alt=""> ${p.brainScore} · ${escapeHTML(i18n.t('Day', 'День'))} ${p.trainingDays}</span>
             </button>`).join('')}
         </div>
         <div class="prof-actions">
           <button class="mx-btn" id="btnRenameProf"><span class="mx-ico">✎</span><span>${escapeHTML(i18n.t('Rename Profile'))}</span></button>
-          <button class="mx-btn" id="btnDeleteProf" ${profiles.length < 2 ? 'disabled' : ''}><span class="mx-ico">🗑</span><span>${escapeHTML(i18n.t('Delete Profile'))}</span></button>
+          <button class="mx-btn" id="btnDeleteProf" ${profiles.length < 2 ? 'disabled' : ''}><span class="mx-ico">✕</span><span>${escapeHTML(i18n.t('Delete Profile'))}</span></button>
         </div>
 
         <div class="profile-stats-panel">
           <div class="prof-stat-row">
             <span>${i18n.t('Evolution Score', 'Индекс развития')}:</span>
-            <span class="prof-stat-val">⚡ ${prof.brainScore}</span>
+            <span class="prof-stat-val"><img class="ui-ico" src="assets/textures/Br_Train_Mark_V.png" alt=""> ${prof.brainScore}</span>
           </div>
           <div class="prof-stat-row">
             <span>${i18n.t('Evolutionary Rank', 'Ранг эволюции')}:</span>
@@ -1013,7 +1006,7 @@ class App {
           </div>
           <div class="prof-stat-row">
             <span>${i18n.t('Training Days', 'Дней тренировок')}:</span>
-            <span class="prof-stat-val">📅 ${prof.trainingDays}</span>
+            <span class="prof-stat-val">${prof.trainingDays}</span>
           </div>
         </div>
 
@@ -1029,7 +1022,7 @@ class App {
     }));
     container.querySelector('#btnRenameProf')?.addEventListener('click', () => {
       audio.play('click');
-      this.showInputDialog(i18n.t('Rename Profile'), storage.getProfile().name, name => {
+      this.showInputDialog(i18n.t('Rename Profile'), this.profileName(storage.getProfile()), name => {
         storage.updateProfile(p => p.name = name);
         this.renderHeader();
         this.renderProfilesView(container);
@@ -1037,7 +1030,7 @@ class App {
     });
     container.querySelector('#btnDeleteProf')?.addEventListener('click', () => {
       audio.play('click');
-      const name = storage.getProfile().name;
+      const name = this.profileName(storage.getProfile());
       this.showConfirmDialog(`${i18n.t('Delete Profile')}: «${name}»?`, () => {
         storage.deleteProfile(storage.data.activeProfile);
         this.renderHeader();
@@ -1111,7 +1104,7 @@ class App {
               <img src="assets/textures/Highscores_BT_Icon.png" class="hs-icon-img" alt="" />
               <span class="hs-title">${i18n.t('Brain Power Top', 'Сила мозга')}</span>
             </div>
-            <span class="hs-score-val">${topHistory(prof.history)} pts</span>
+            <span class="hs-score-val">${topHistory(prof.history)} ${escapeHTML(i18n.t('points'))}</span>
           </div>
 
           <div class="hs-item-row" style="background: #eef7fc; border-color: #3b7bb2;">
@@ -1119,7 +1112,7 @@ class App {
               <img src="assets/textures/Highscores_BM_Icon.png" class="hs-icon-img" alt="" />
               <span class="hs-title">${i18n.t('Brain Mark Top', 'Индекс эволюции')}</span>
             </div>
-            <span class="hs-score-val">${topHistory(prof.markingHistory)} pts</span>
+            <span class="hs-score-val">${topHistory(prof.markingHistory)} ${escapeHTML(i18n.t('points'))}</span>
           </div>
 
           ${this.gamesMeta.map((game, idx) => {
@@ -1128,10 +1121,10 @@ class App {
             return `
               <div class="hs-item-row">
                 <div class="hs-left">
-                  <img src="assets/textures/Highscores_Game_Icon.png" class="hs-icon-img" alt="" />
+                  <img src="assets/textures/restored/${this.gameIcon(game.id)}.png" class="hs-icon-img" alt="" />
                   <span class="hs-title">${title}</span>
                 </div>
-                <span class="hs-score-val">⭐ ${score}</span>
+                <span class="hs-score-val"><img class="ui-ico" src="assets/textures/Award_Game.png" alt=""> ${score}</span>
               </div>
             `;
           }).join('')}
@@ -1159,9 +1152,9 @@ class App {
     container.innerHTML = `
       <div class="sub-view-container">
         <div class="about-scroll-card">
-          <img src="assets/textures/Br_Mark_Rank_7.png" class="about-header-logo" alt="" />
+          <img src="assets/app_icon.png" class="about-header-logo about-app-icon" alt="" />
           <h2 class="about-title">Amaze Brain Evolution</h2>
-          <span class="about-copy">${escapeHTML(i18n.t('Version', 'Версия'))} 2.3.0</span>
+          <span class="about-copy">${escapeHTML(i18n.t('Version', 'Версия'))} 2.4.3</span>
 
           <div class="dialog-splitter"></div>
 
@@ -1169,7 +1162,7 @@ class App {
             <span class="credits-sec-title">${ru ? 'Автор и правообладатель' : 'Author and copyright holder'}</span>
             <span class="credits-sec-names">Евгений Чушкин<br>Yevhen Chushkin</span>
 
-            <span class="credits-sec-title">© 2007–2026 ${ru ? 'Евгений Чушкин' : 'Yevhen Chushkin'}</span>
+            <span class="credits-sec-title">© 2014–2026 ${ru ? 'Евгений Чушкин' : 'Yevhen Chushkin'}</span>
             <span class="credits-sec-names">${ru
               ? 'Все права защищены. Копирование, распространение и изменение игры и её материалов (кода, графики, звуков и текстов) без письменного разрешения правообладателя запрещены.'
               : 'All rights reserved. Copying, distributing or modifying the game and its materials (code, graphics, sounds and texts) without the written permission of the copyright holder is prohibited.'}</span>
@@ -1203,7 +1196,7 @@ class App {
                       <span style="font-size: 11px; font-weight: 600; color: #4075a3;">${cat}</span>
                     </div>
                   </div>
-                  <span style="font-size: 12px; font-weight: 800; color: #d35400;">⭐ ${highScore} pts</span>
+                  <span style="font-size: 12px; font-weight: 800; color: #d35400;"><img class="ui-ico" src="assets/textures/Award_Game.png" alt=""> ${highScore} ${escapeHTML(i18n.t('points'))}</span>
                 </div>
                 <p style="font-size: 12px; color: #2e4d6a; line-height: 1.3;">${desc}</p>
                 <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-top: 2px;">
@@ -1229,8 +1222,19 @@ class App {
     });
   }
 
+  // A game's help text. Matches' help has "@TASK" (the level's task) in its second line and the
+  // description in the fourth: the help shows the current task, if any, then the description.
+  gameHelpText(gameId, help) {
+    if (!help?.['2_value']) return '';
+    if (String(help['2_value']).trim() !== '@TASK') return i18n.t(help['2_value']).replace(/\\n/g, ' ');
+    const game = this.activeGameInstance;
+    const task = gameId === 'matches' && game?.currentLevel?.task
+      ? (i18n.getLang() === 'ru' && game.currentLevel.task_ru ? game.currentLevel.task_ru : i18n.t(game.currentLevel.task)) : '';
+    return [task, i18n.t(help['4_value'] || '').replace(/\\n/g, ' ').trim()].filter(Boolean).join(' ');
+  }
+
   gameIcon(id) {
-    return {sudoku:'Icon_Sudoku',matches:'Icon_Matches',pairs:'Icon_Pairs',memorics:'Icon_ColorRects',quadronica:'Icon_Znax',numbers:'Icon_Numbers',arithmetics:'Icon_Connected_Calc',minesweeper:'Icon_Minesweeper',roadblocks:'Icon_RoadBlocks',guess_who:'Icon_Antenna_Head',geometry:'Icon_Geometry',encyclopedia:'Icon_Interesting_Values'}[id];
+    return {sudoku:'Icon_Sudoku',matches:'Icon_Matches',pairs:'Icon_Pairs',memorics:'Icon_ColorRects',quadronica:'Icon_Znax',numbers:'Icon_Numbers',arithmetics:'Icon_Connected_Calc',minesweeper:'Icon_Minesweeper',roadblocks:'Icon_RoadBlocks',guess_who:'Icon_Antenna_Head',geometry:'Icon_Geometry',encyclopedia:'Icon_Interesting_Values',stroop:'Icon_Stroop',schulte:'Icon_Schulte',sequence:'Icon_Sequence',rotation:'Icon_Rotation',hanoi:'Icon_Hanoi'}[id];
   }
 
   renderHistoryGraph(history, color) {
@@ -1239,25 +1243,6 @@ class App {
     const max = Math.max(1, ...values.map(item => item.score));
     const points = values.map((item, index) => `${20 + index * 360 / Math.max(1, values.length - 1)},${80 - item.score / max * 65}`);
     return `<svg viewBox="0 0 400 90" width="100%" height="100%" aria-label="${tr('История результатов','Score history')}"><polyline fill="none" stroke="${color}" stroke-width="3" points="${points.join(' ')}"/>${points.map(point => { const [x,y]=point.split(','); return `<circle cx="${x}" cy="${y}" r="4" fill="${color}"/>`; }).join('')}</svg>`;
-  }
-
-  getGameEmoji(id) {
-    const emojis = {
-      sudoku: '🔢',
-      matches: '🥢',
-      pairs: '🃏',
-      quadronica: '🔷',
-      numbers: '🎯',
-      arithmetics: '🧮',
-      minesweeper: '💣',
-      roadblocks: '⚪',
-      guess_who: '🐜',
-      znax: '🔷',
-      memorics: '💡',
-      geometry: '▲',
-      encyclopedia: '📖'
-    };
-    return emojis[id] || '🎮';
   }
 
   launchGame(container, gameId, difficulty = 'easy', mode = null) {
@@ -1302,6 +1287,11 @@ class App {
         break;
       case 'geometry': game = new GeometryGame(container, onComplete, onOpenMenu, onOpenHelp); break;
       case 'encyclopedia': game = new EncyclopediaGame(container, onComplete, onOpenMenu, onOpenHelp); break;
+      case 'stroop': game = new StroopGame(container, onComplete, onOpenMenu, onOpenHelp); break;
+      case 'schulte': game = new SchulteGame(container, onComplete, onOpenMenu, onOpenHelp); break;
+      case 'sequence': game = new SequenceGame(container, onComplete, onOpenMenu, onOpenHelp); break;
+      case 'rotation': game = new RotationGame(container, onComplete, onOpenMenu, onOpenHelp); break;
+      case 'hanoi': game = new HanoiGame(container, onComplete, onOpenMenu, onOpenHelp); break;
       default:
         this.showView('games');
         return;
@@ -1374,16 +1364,16 @@ class App {
     const meta = this.gamesMeta.find(g => g.id === gameId);
     const lang = i18n.getLang();
     const title = meta ? this.gameTitle(meta) : 'Help';
-    const helpKeys = {memorics:'cr_help',numbers:'numbers_help',geometry:'geometry_help',encyclopedia:'iv_help',guess_who:'ant_head_help',arithmetics:'cc_help',roadblocks:'rb_help',minesweeper:'ms_help',pairs:'pairs_help',quadronica:'znax_help',sudoku:'sudoku_help',matches:'matches_help'};
+    const helpKeys = {memorics:'cr_help',numbers:'numbers_help',geometry:'geometry_help',encyclopedia:'iv_help',guess_who:'ant_head_help',arithmetics:'cc_help',roadblocks:'rb_help',minesweeper:'ms_help',pairs:'pairs_help',quadronica:'znax_help',sudoku:'sudoku_help',matches:'matches_help',stroop:'stroop_help',schulte:'schulte_help',sequence:'sequence_help',rotation:'rotation_help',hanoi:'hanoi_help'};
     const help = this.original?.games[helpKeys[gameId]];
-    const desc = help?.['2_value'] ? i18n.t(help['2_value']).replace(/\\n/g, ' ') : (meta ? (meta.desc[lang] || meta.desc.en) : '');
+    const desc = this.gameHelpText(gameId, help) || (meta ? (meta.desc[lang] || meta.desc.en) : '');
 
     const modal = document.createElement('div');
     modal.className = 'amaze-dialog-overlay';
     modal.innerHTML = `
       <div class="amaze-dialog-card">
         <div class="amaze-dialog-header">
-          <span>📖 ${title}</span>
+          <span class="help-title">${meta ? `<img class="help-title-ico" src="assets/textures/restored/${this.gameIcon(gameId)}.png" alt="">` : ''}${title}</span>
           <button class="amaze-dialog-close-x" id="modalBtnCloseHelpX">✕</button>
         </div>
         <div class="amaze-dialog-body">

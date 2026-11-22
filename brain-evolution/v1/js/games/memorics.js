@@ -11,7 +11,6 @@ const clean = value => String(value ?? '').trim().split(/\s+/)[0];
 
 export class MemoricsGame extends RestoredGame {
   id = 'memorics';
-  get title() { return 'Memorics'; }
 
   async init(difficulty = 'easy') {
     if (!await this.begin(difficulty)) return;

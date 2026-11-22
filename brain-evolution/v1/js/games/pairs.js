@@ -5,7 +5,7 @@ import { audio } from '../audio.js';
 import { storage } from '../storage.js';
 import { i18n } from '../i18n.js';
 import { loadOriginalConfig } from '../original.js';
-import { buildResults, resultsMarkup, revealResults } from './results-window.js';
+import { buildResults, resultsMarkup, showResultsLayer } from './results-window.js';
 
 // Authentic level shapes extracted from _GEOMETRY_INO (6 columns x 8 rows)
 // '.' = empty/disabled tile (disabled_item.png), '*' = active card position (closed_item.png)
@@ -500,7 +500,7 @@ export class PairsGame {
   }
 
   render() {
-    const titleText = i18n.t('Pairs', 'Пары');
+    const titleText = i18n.gameName('pairs');
     this.container.innerHTML = `
       <div class="amaze-game-container pairs-screen">
         <!-- Authentic Amaze Top Header Bar -->
@@ -728,16 +728,12 @@ export class PairsGame {
     let section = null;
     try { section = (await loadOriginalConfig()).games.pairs_show_results; } catch (e) { console.warn('Original config unavailable:', e); }
     if (this.destroyed) return;
-    const modal = document.createElement('div');
-    modal.className = 'amaze-modal-overlay active pairs-results';
     const diff = {easy: 0, medium: 1, hard: 2}[this.difficulty] ?? 0;
-    modal.innerHTML = `<div class="restored-results">${section
+    const modal = showResultsLayer(this.container, section
       ? resultsMarkup(section, buildResults(section, {DIST: levelSum, P1: levelSum, P2: this.wrongPairsCount, P7: this.config.wrongPairCost, TIME: 1, TOTAL: total}, diff), i18n.t('Continue', 'Продолжить'))
-      : `<p>${finalScore}</p><button data-finish>${i18n.t('Continue', 'Продолжить')}</button>`}</div>`;
+      : `<p>${finalScore}</p><button data-finish>${i18n.t('Continue', 'Продолжить')}</button>`, 'pairs-results');
     modal.querySelector('[data-finish]').id = 'btnPairsDone';
-    document.body.appendChild(modal);
     this.resultsModal = modal;
-    revealResults(modal);
     modal.querySelector('#btnPairsDone')?.addEventListener('click', () => {
       audio.play('click');
       modal.remove();

@@ -1,5 +1,6 @@
 import { storage } from './storage.js';
 import { loadOriginalConfig } from './original.js';
+import { NEW_GAME_IDS } from './games/new-games.js';
 
 export const localDate=()=> {
   const date=new Date();
@@ -20,7 +21,8 @@ export function markRank(mark,section) {
   for(let rank=7;rank>=1;rank--) if(percent>=Number(section[`status${rank}_param`].split(/\s+/)[0])) return rank;
   return 1;
 }
-const gameIds={101:'guess_who',102:'memorics',103:'arithmetics',105:'encyclopedia',106:'matches',107:'minesweeper',108:'numbers',109:'roadblocks',110:'sudoku',111:'quadronica',112:'pairs',114:'geometry'};
+// The original twelve (native game numbers of the APK) and the five games made for the web.
+const gameIds={101:'guess_who',102:'memorics',103:'arithmetics',105:'encyclopedia',106:'matches',107:'minesweeper',108:'numbers',109:'roadblocks',110:'sudoku',111:'quadronica',112:'pairs',114:'geometry',...NEW_GAME_IDS};
 export function miniGameRoute(id) {
   return {gameId:gameIds[Math.floor(id/10)],difficulty:['easy','medium','hard','ultra'][id%10]};
 }

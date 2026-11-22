@@ -6,7 +6,6 @@ import { i18n } from '../i18n.js';
 
 export class RoadblocksGame extends RestoredGame {
   id='roadblocks';
-  get title() { return tr('Препятствия','Balltracker'); }
   async init(difficulty='easy') {
     if(!await this.begin(difficulty)) return;
     const generation=this.generation;

@@ -5,7 +5,7 @@ import { audio } from '../audio.js';
 import { storage } from '../storage.js';
 import { i18n } from '../i18n.js';
 import { loadOriginalConfig, createRandom } from '../original.js';
-import { buildResults, resultsMarkup, revealResults } from './results-window.js';
+import { buildResults, resultsMarkup, showResultsLayer } from './results-window.js';
 import * as Q from './quadronica-model.js';
 
 const TICK_MS = 66;
@@ -141,7 +141,7 @@ export class QuadronicaGame {
   }
 
   render() {
-    const titleText = i18n.t('Quadronica', 'Квадроника');
+    const titleText = i18n.gameName('quadronica');
     this.container.innerHTML = `
       <div class="amaze-game-container quadronica-screen">
         <!-- Authentic Amaze Top Header Bar -->
@@ -160,7 +160,7 @@ export class QuadronicaGame {
           <div class="quad-info-left" id="quadRectCount">
             ${i18n.t('Score', 'Очки')}: <strong id="quadScoreVal">0</strong>
           </div>
-          <button class="amaze-pause-capsule" id="btnQuadPause" title="${i18n.t('Pause', 'Пауза')}">
+          <button class="amaze-pause-capsule" id="btnQuadPause" title="${i18n.t('Paused')}">
             <span class="pause-bars">❚❚</span>
           </button>
           <div class="quad-info-right" id="quadTimeVal">
@@ -617,14 +617,10 @@ export class QuadronicaGame {
   showResultsModal() {
     const section = this.original?.znax_show_results;
     const total = this.score;
-    const modal = document.createElement('div');
-    modal.className = 'amaze-modal-overlay active';
-    modal.innerHTML = section
-      ? `<div class="restored-results">${resultsMarkup(section, buildResults(section, {TOTAL: total}, this.diffIndex), i18n.t('Continue', 'Продолжить'))}</div>`
-      : `<div class="amaze-modal-card quad-results-card"><div class="amaze-modal-title">${total}</div><button class="amaze-modal-btn default-btn" data-finish>${i18n.t('Continue', 'Продолжить')}</button></div>`;
+    const modal = showResultsLayer(this.container, section
+      ? resultsMarkup(section, buildResults(section, {TOTAL: total}, this.diffIndex), i18n.t('Continue', 'Продолжить'))
+      : `<p>${total}</p><button data-finish>${i18n.t('Continue', 'Продолжить')}</button>`);
     modal.querySelector('[data-finish]').id = 'btnQuadDone';
-    document.body.appendChild(modal);
-    revealResults(modal);
     this.resultsModal = modal;
 
     modal.querySelector('#btnQuadDone')?.addEventListener('click', () => {

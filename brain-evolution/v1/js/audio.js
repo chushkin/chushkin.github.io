@@ -1,6 +1,7 @@
 // Amaze Brain Evolution - Authentic Audio Engine
 
 import { storage } from './storage.js';
+import { haptics } from './haptics.js';
 
 class AudioManager {
   constructor() {
@@ -68,6 +69,8 @@ class AudioManager {
   }
 
   async play(name) {
+    // A right answer and a mistake are felt as well as heard, even with the sound off (PLAN 7.4).
+    if (name === 'good' || name === 'wrong') haptics.play(name);
     const settings = storage.getSettings();
     if (!settings.sound) return;
 

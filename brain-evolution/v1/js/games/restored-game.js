@@ -2,7 +2,7 @@ import { audio } from '../audio.js';
 import { storage } from '../storage.js';
 import { i18n } from '../i18n.js';
 import { loadOriginalConfig, difficultyIndex } from '../original.js';
-import { buildResults, resultsMarkup, revealResults } from './results-window.js';
+import { buildResults, resultsMarkup, showResultsLayer } from './results-window.js';
 
 // Strings made for the web: Russian text, else the English key through the locale tables.
 export const tr = (ru, en) => i18n.getLang() === 'ru' ? ru : i18n.t(en);
@@ -28,6 +28,7 @@ export class RestoredGame {
     }
     return generation === this.generation && !this.destroyed;
   }
+  get title() { return i18n.gameName(this.id); }
   get playable() { return !this.destroyed && !this.finished && !this.isPaused; }
   tick(callback) {
     const timer = setInterval(() => { if (this.playable && !document.hidden) callback(); }, 1000);
@@ -73,13 +74,13 @@ export class RestoredGame {
     this.timers.forEach(clearInterval); this.timers.clear();
     storage.recordGameScore(this.id,this.score);
     audio.play('levelUp');
-    this.frame(this.title, built
-      ? `<div class="restored-results">${resultsMarkup(results.section, built, tr('Продолжить','Continue'))}</div>`
-      : `<div class="restored-results"><h2>${tr('Результат','Results')}</h2>
-      <p>${tr('Очки','Score')}: <strong>${this.score}</strong></p>
-      <button class="amaze-action-btn" data-finish>${tr('Продолжить','Continue')}</button></div>`);
-    revealResults(this.container);
-    this.container.querySelector('[data-finish]').onclick=() => { this.destroy(); this.onComplete(this.score); };
+    // The results window stands over the finished game (PLAN 2.1).
+    const layer=showResultsLayer(this.container, built
+      ? resultsMarkup(results.section, built, tr('Продолжить','Continue'))
+      : `<div class="mg-results" role="status"><div class="mg-results-body">
+      <p class="mg-results-total">${tr('Очки','Score')}: ${this.score}</p>
+      <button class="mg-results-btn" data-finish>${tr('Продолжить','Continue')}</button></div></div>`);
+    layer.querySelector('[data-finish]').onclick=() => { this.destroy(); this.onComplete(this.score); };
   }
   destroy() {
     this.destroyed=true; this.generation++;

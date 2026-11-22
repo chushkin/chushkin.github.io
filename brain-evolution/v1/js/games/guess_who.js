@@ -1,12 +1,12 @@
 import { RestoredGame, tr } from './restored-game.js';
 import { arrayValue, createRandom } from '../original.js';
 import * as G from './guess-who-model.js';
+import { easyTimePenalty, withItemPoints } from './results-window.js';
 import { audio } from '../audio.js';
 
 // ANTENNA_HEAD: identify one object from feature clues, not from a target face.
 export class GuessWhoGame extends RestoredGame {
   id='guess_who';
-  get title() { return tr('Кто это?','Guess Who'); }
   async init(difficulty='easy') {
     if(!await this.begin(difficulty)) return;
     const cfg=this.original.ant_head_game_field;
@@ -94,12 +94,16 @@ export class GuessWhoGame extends RestoredGame {
     audio.play(correct?'good':'wrong');this.calculateScore();
   }
   finish(score=this.score) {
-    const section=this.original[this.mode==='marking'?'ant_head_sp_show_results':'ant_head_show_results'];
+    const section=withItemPoints(this.original[this.mode==='marking'?'ant_head_sp_show_results':'ant_head_show_results'],3,this.diff,this.timePenalty());
     super.finish(score,{section,values:{P1:this.correct,P2:this.wrong,TIME:this.elapsed,TOTAL:Math.round(score)}});
+  }
+  timePenalty() {
+    const prefix=this.mode==='marking'?'sp_':'';
+    return easyTimePenalty(arrayValue(this.original.ant_head_wnd[`${prefix}time_penalty_arr`],this.diff),this.diff,this.mode);
   }
   calculateScore() {
     const cfg=this.original.ant_head_wnd,prefix=this.mode==='marking'?'sp_':'';
-    this.score=this.correct*arrayValue(cfg[`${prefix}points_good_move_arr`],this.diff)+this.wrong*arrayValue(cfg[`${prefix}points_wrong_move_arr`],this.diff)+this.elapsed*arrayValue(cfg[`${prefix}time_penalty_arr`],this.diff);
+    this.score=this.correct*arrayValue(cfg[`${prefix}points_good_move_arr`],this.diff)+this.wrong*arrayValue(cfg[`${prefix}points_wrong_move_arr`],this.diff)+this.elapsed*this.timePenalty();
     this.updateScore();
   }
   updateStatus() {

@@ -9,7 +9,7 @@ import { storage } from '../storage.js';
 import { i18n } from '../i18n.js';
 import { loadOriginalConfig, createRandom } from '../original.js';
 import * as SudokuModel from './sudoku-model.js';
-import { buildResults, resultsMarkup, revealResults } from './results-window.js';
+import { buildResults, easyTimePenalty, resultsMarkup, showResultsLayer, withItemPoints } from './results-window.js';
 
 const TEX = 'assets/textures/sudoku/';
 const ASSET_VER = '20261021_sud1';
@@ -215,7 +215,7 @@ export class SudokuGame {
           <button class="amaze-header-btn amaze-menu-btn" id="btnSudokuMenu" title="${i18n.t('Menu', 'Меню')}">
             <span class="bar-icon">☰</span>
           </button>
-          <div class="amaze-header-title">${i18n.t('Sudoku', 'Судоку')}</div>
+          <div class="amaze-header-title">${i18n.gameName('sudoku')}</div>
           <button class="amaze-header-btn amaze-help-btn" id="btnSudokuHelp" title="${i18n.t('Help', 'Справка')}">
             <span class="help-q">?</span>
           </button>
@@ -529,10 +529,14 @@ export class SudokuGame {
     return true;
   }
 
+  timePenalty() {
+    return easyTimePenalty(this.config.timePenaltyCfx, {easy: 0, medium: 1, hard: 2}[this.difficulty] ?? 0);
+  }
+
   computeScore() {
     const cfg = this.config;
     const wrong = this.wrongMoves * cfg.wrongAnswerCfx;
-    const time = this.timer * cfg.timePenaltyCfx;
+    const time = this.timer * this.timePenalty();
     const cheats = this.pmCheats * cfg.pmCheatCost;
     const total = cfg.levelCost + wrong + time + cheats;
     return { levelCost: cfg.levelCost, wrong, time, cheats, raw: total, total: Math.max(0, total), subzero: total <= 0 };
@@ -551,17 +555,13 @@ export class SudokuGame {
   // [sudoku_show_results] in the original results window: Level Summary (@DIST), Wrong Moves (@P1),
   // Time Penalty (@TIME), Pencilmarks Cheats (@P2), then the total.
   showResultsModal(res) {
-    const section = this.original?.sudoku_show_results;
     const diff = {easy: 0, medium: 1, hard: 2}[this.difficulty] ?? 0;
+    const section = this.original?.sudoku_show_results && withItemPoints(this.original.sudoku_show_results, 3, diff, this.timePenalty());
     const built = section ? buildResults(section, {DIST: res.levelCost, P1: this.wrongMoves, TIME: this.timer, P2: this.pmCheats, TOTAL: res.raw}, diff) : null;
-    const modal = document.createElement('div');
-    modal.className = 'amaze-modal-overlay active';
-    modal.innerHTML = `<div class="restored-results">${built
+    const modal = showResultsLayer(this.container, built
       ? resultsMarkup(section, built, i18n.t('Continue', 'Продолжить'))
-      : `<p>${res.total}</p><button data-finish>${i18n.t('Continue', 'Продолжить')}</button>`}</div>`;
+      : `<p>${res.total}</p><button data-finish>${i18n.t('Continue', 'Продолжить')}</button>`);
     modal.querySelector('[data-finish]').id = 'btnSudDone';
-    document.body.appendChild(modal);
-    revealResults(modal);
     modal.querySelector('#btnSudDone')?.addEventListener('click', () => {
       audio.play('click');
       modal.remove();

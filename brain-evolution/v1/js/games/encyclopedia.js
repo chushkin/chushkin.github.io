@@ -7,7 +7,6 @@ import { audio } from '../audio.js';
 // The shell's 222 interesting facts are a separate resource.
 export class EncyclopediaGame extends RestoredGame {
   id='encyclopedia';
-  get title() { return tr('Энциклопедия','Encyclopedia'); }
   async init(difficulty='easy') {
     if(!await this.begin(difficulty)) return;
     this.level=this.original[`iv_lev_${this.diff}`];
@@ -59,9 +58,11 @@ export class EncyclopediaGame extends RestoredGame {
   render() {
     let body,footer='';
     if(this.phase==='units') {
-      body=`<p class="restored-instruction">${i18n.t('Please choose measurement units:').replace(/\\n/g,' ')}</p><div class="restored-results">
-        <button class="amaze-action-btn" data-units="eu">${tr('Метрические: м, км, кг, °C','Metric: m, km, kg, °C')}</button>
-        <button class="amaze-action-btn" data-units="us">${tr('Американские: футы, мили, фунты, °F','US: feet, miles, pounds, °F')}</button></div>`;
+      // The original prompt (its key is the whole text) explains both systems; the buttons are short.
+      const prompt=i18n.t('Please choose measurement units:\\n \\nMetric - meters, kilometers, kilograms, Celsius\\nUS - feets, miles, pounds, Fahrenheit');
+      body=`<p class="restored-instruction">${escapeHTML(prompt).replace(/\\n/g,'<br>')}</p><div class="restored-results">
+        <button class="amaze-action-btn" data-units="eu">${escapeHTML(i18n.t('Metric'))}</button>
+        <button class="amaze-action-btn" data-units="us">${escapeHTML(i18n.t('US'))}</button></div>`;
     } else if(this.phase==='remember') {
       const perPage=Number(this.level.m_nValuesCount);
       body=`<p class="restored-instruction">${i18n.t('Please remember these values')}</p><div class="iv-study">

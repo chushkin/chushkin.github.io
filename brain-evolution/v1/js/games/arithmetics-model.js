@@ -9,6 +9,8 @@ export const OPS = ['+', '-', '*', '/'];
 // (values 10..60, 20 examples, -60 points per second). Brain Marking keeps cc_lev_3..5.
 export const EASY_LEVEL = {min: 5, max: 30, steps: 15, minOperand: 2, ops: [0, 1]};
 export const EASY_TIME_PENALTY = -30;
+// PLAN 4.1: the light easy level does not charge the first minute.
+export const EASY_FREE_SECONDS = 60;
 
 const rnd = (rand, n) => n > 0 ? (rand() % 0x7fff) % n : 0;
 

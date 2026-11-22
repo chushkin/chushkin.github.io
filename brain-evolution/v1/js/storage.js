@@ -9,7 +9,7 @@ export function createProfile(name='Player 1') {
     unlockedGames:[],progress:{},promotions:0,
     training:null,marking:null,unlockedFacts:[],lastFact:3};
 }
-const defaultSettings={sound:true,volume:0.8,locale:'ru',difficulty:'easy'};
+const defaultSettings={sound:true,vibration:true,volume:0.8,locale:'ru',difficulty:'easy'};
 const defaultData=()=>({version:2,activeProfile:'Player 1',profiles:{'Player 1':createProfile()},settings:{...defaultSettings}});
 
 export class StorageManager {

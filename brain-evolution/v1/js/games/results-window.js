@@ -86,7 +86,7 @@ export function resultsMarkup(section, {items, total, totalDelay}, continueLabel
       </div>`).join('');
   return `<div class="mg-results" role="status" style="--res-ch:${widest}">
       <div class="mg-results-body">
-        ${rows}
+        <div class="mg-results-list">${rows}</div>
         <p class="mg-results-total mg-results-pending" data-delay="${totalDelay ?? 0}">${totalText(section, total)}</p>
         <button class="mg-results-btn" data-finish>${escapeHTML(continueLabel)}</button>
       </div>
@@ -98,4 +98,30 @@ export function revealResults(root) {
   root?.querySelectorAll('.mg-results-pending').forEach(el => {
     setTimeout(() => el.classList.remove('mg-results-pending'), Number(el.dataset.delay) || 0);
   });
+}
+
+// PLAN 4.3: on the easy level (not in Brain Marking) the time penalty is half the original one.
+// The original easy levels of Sudoku, Numbers and Guess Who needed a result faster than an average
+// player manages (Guess Who's easy penalty was even harsher than its medium one), so normal play
+// ended at 0 points and never reached the level-up goal.
+export const EASY_TIME_FACTOR = 0.5;
+export const easyTimePenalty = (value, diff, mode) => (diff === 0 && mode !== 'marking' ? Math.round(value * EASY_TIME_FACTOR) : value);
+// The section with one item's per-difficulty points replaced, for the results window.
+export function withItemPoints(section, item, diff, value) {
+  const key = `i${item}_points_arr`, arr = String(section?.[key] ?? '').trim().split(/\s+/);
+  arr[diff + 1] = String(value);
+  return {...section, [key]: arr.join(' ')};
+}
+
+// One results window for every game and for the trainer messages (PLAN 2.1–2.4): the screen is
+// dimmed and the window stands in its middle at one width; when it is taller than the screen only
+// its list scrolls, the total and the button stay in view. The layer is an .amaze-modal-overlay,
+// so leaving the screen (also with the phone's Back button) removes it.
+export function showResultsLayer(host, html, className = '') {
+  const layer = document.createElement('div');
+  layer.className = `amaze-modal-overlay mg-results-layer ${className}`.trim();
+  layer.innerHTML = `<div class="restored-results">${html}</div>`;
+  host.appendChild(layer);
+  revealResults(layer);
+  return layer;
 }

@@ -1,10 +1,12 @@
+import { withNewGames } from './games/new-games.js';
 // Source: scripts/extract_original_config.py, extracted APK INO records.
 let configPromise;
+// The APK's configuration plus the sections of the five games made for the web (PLAN 5).
 export function loadOriginalConfig() {
   return configPromise ||= fetch('data/original_config.json').then(response => {
     if (!response.ok) throw new Error(`Original configuration: HTTP ${response.status}`);
     return response.json();
-  });
+  }).then(withNewGames);
 }
 export const difficultyIndex = value => ({easy: 0, med: 1, medium: 1, hard: 2}[value] ?? 0);
 export const arrayValue = (value, index) => Number(value.trim().split(/\s+/)[index + 1]);

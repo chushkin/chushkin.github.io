@@ -6,7 +6,7 @@ import { storage } from '../storage.js';
 import { i18n } from '../i18n.js';
 import { isSolved, pickLevel, score as matchesScore, slotMap, taskKind } from './matches-model.js';
 import { loadOriginalConfig, arrayValue, createRandom, difficultyIndex } from '../original.js';
-import { buildResults, resultsMarkup, revealResults } from './results-window.js';
+import { buildResults, resultsMarkup, showResultsLayer } from './results-window.js';
 
 export class MatchesGame {
   constructor(container, onComplete, onOpenMenu, onOpenHelp) {
@@ -126,8 +126,6 @@ export class MatchesGame {
   // decide the orientation themselves. Remove tasks: tap a match to take it away. Add tasks: drag
   // a match from the supply under the field or tap a free place. Undo, Reset and Check below.
   // The puzzles, the solution check and the points stay the original ones.
-  async loadSprites() {}
-
   loadLevel(lev) {
     this.currentLevel = lev;
     this.board = (lev.board || []).map(r => r.split(''));
@@ -197,7 +195,7 @@ export class MatchesGame {
     const taskText = lang === 'ru' && this.currentLevel?.task_ru
       ? this.currentLevel.task_ru
       : i18n.t(this.currentLevel?.task || 'Move matches to solve the puzzle');
-    const titleText = i18n.t('Matches', 'Спички');
+    const titleText = i18n.gameName('matches');
 
     this.container.innerHTML = `
       <div class="amaze-game-container matches-screen">
@@ -503,12 +501,6 @@ export class MatchesGame {
   }
 
   // Programmatic click (tests): canvas client coordinates.
-  handleCanvasClick(clientX, clientY) {
-    const {x, y} = this.canvasPoint(clientX, clientY);
-    const hit = this.nearest(x, y, true) || this.nearest(x, y, false);
-    if (hit) this.tapAt(hit.r, hit.c);
-  }
-
   bindPointerEvents() {
     const canvas = this.canvas;
     const startDrag = (e, origin, fromTray) => {
@@ -672,14 +664,10 @@ export class MatchesGame {
     const finalScore = Math.max(0, total);
     if (finalScore > 0) storage.recordGameScore('matches', finalScore);
     this.score = finalScore;
-    const modal = document.createElement('div');
-    modal.className = 'amaze-modal-overlay active matches-results';
-    modal.innerHTML = `<div class="restored-results">${section
+    const modal = showResultsLayer(this.container, section
       ? resultsMarkup(section, buildResults(section, {DIST: prize, P1: this.mistakesCount, TOTAL: total}, this.diff), i18n.t('Continue', 'Продолжить'))
-      : `<p>${finalScore}</p><button data-finish>${i18n.t('Continue', 'Продолжить')}</button>`}</div>`;
-    document.body.appendChild(modal);
+      : `<p>${finalScore}</p><button data-finish>${i18n.t('Continue', 'Продолжить')}</button>`, 'matches-results');
     this.resultsModal = modal;
-    revealResults(modal);
     modal.querySelector('[data-finish]').addEventListener('click', () => {
       audio.play('click');
       this.destroy();

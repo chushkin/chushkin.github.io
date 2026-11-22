@@ -13,7 +13,6 @@ const clean = value => String(value ?? '').trim().split(/\s+/)[0];
 
 export class ArithmeticsGame extends RestoredGame {
   id = 'arithmetics';
-  get title() { return tr('Арифметика', 'Arithmetics'); }
 
   async init(difficulty = 'easy') {
     if (!await this.begin(difficulty)) return;
@@ -105,7 +104,6 @@ export class ArithmeticsGame extends RestoredGame {
     this.updateTexts(); this.draw();
   }
 
-  submitAnswer() { if (this.input) this.check(); }
   set userInput(value) { this.input = String(value); }
   get userInput() { return this.input; }
 
@@ -169,7 +167,8 @@ export class ArithmeticsGame extends RestoredGame {
     let r = this.original.cc_show_results;
     if (this.lightEasy) r = {...r, i3_points_arr: String(r.i3_points_arr).trim().split(/\s+/).map((v, i) => (i === 1 ? M.EASY_TIME_PENALTY : v)).join(' ')};
     const points = [r.i1_points_arr, r.i2_points_arr, r.i3_points_arr].map(v => arrayValue(v, this.diff));
-    const seconds = Math.max(1, this.elapsed);
+    // The results window shows the charged seconds: on the light easy level the first minute is free.
+    const seconds = this.lightEasy ? Math.max(0, this.elapsed - M.EASY_FREE_SECONDS) : Math.max(1, this.elapsed);
     const total = M.totalScore(this.right, this.wrong, seconds, ...points);
     this.finish(total, {section: r, values: {P1: this.right, P2: this.wrong, TIME: seconds, TOTAL: total}});
   }

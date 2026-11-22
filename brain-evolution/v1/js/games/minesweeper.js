@@ -4,7 +4,10 @@ import { storage } from '../storage.js';
 import { i18n } from '../i18n.js';
 import { loadOriginalConfig, difficultyIndex, arrayValue, createRandom } from '../original.js';
 import { tr } from './restored-game.js';
-import { buildResults, resultsMarkup, revealResults } from './results-window.js';
+import { buildResults, resultsMarkup, showResultsLayer } from './results-window.js';
+
+// "60 сек.": the unit of the results window's "%d sec. x %ls" in the player's language.
+const secondsText = seconds => i18n.t('%d sec. x %ls').split(' x ')[0].replace('%d', seconds);
 
 export class MinesweeperGame {
   constructor(container, onComplete, onOpenMenu, onOpenHelp) {
@@ -111,7 +114,7 @@ export class MinesweeperGame {
       if (!this.isPaused && !this.gameOver && !document.hidden) {
         this.timer++;
         const time = this.container.querySelector('#minesTime');
-        if (time) time.textContent = `${this.timer}s`;
+        if (time) time.textContent = secondsText(this.timer);
       }
     }, 1000);
   }
@@ -124,7 +127,7 @@ export class MinesweeperGame {
           <button class="amaze-header-btn amaze-menu-btn" id="btnMinesMenu" title="${i18n.t('Menu', 'Меню')}">
             <span class="bar-icon">☰</span>
           </button>
-          <div class="amaze-header-title">Minesweeper</div>
+          <div class="amaze-header-title">${i18n.gameName('minesweeper')}</div>
           <button class="amaze-header-btn amaze-help-btn" id="btnMinesHelp" title="${i18n.t('Help', 'Справка')}">
             <span class="help-q">?</span>
           </button>
@@ -140,7 +143,7 @@ export class MinesweeperGame {
         <!-- Info Strip -->
         <div class="amaze-game-info-strip">
           <span>${i18n.t('Mines', 'Мины')}: <strong id="minesRemaining">${this.getRemainingFlags()}</strong></span>
-          <span>${i18n.t('Time', 'Время')}: <strong id="minesTime">${this.timer}s</strong></span>
+          <span>${i18n.t('Time', 'Время')}: <strong id="minesTime">${secondsText(this.timer)}</strong></span>
         </div>
 
         <!-- Mines Board Wrap -->
@@ -152,15 +155,20 @@ export class MinesweeperGame {
 
         <!-- Mode Toggle Bar -->
         <div class="amaze-flag-toggle-bar">
-          <button class="mode-toggle-btn ${this.flagMode ? 'flag-active' : ''}" id="btnToggleFlag">
-            ${this.flagMode ? '🚩 ' + i18n.t('Mode: Flagging', 'Режим: Флажки') : '⛏ ' + i18n.t('Mode: Digging', 'Режим: Раскопки')}
-          </button>
+          <button class="mode-toggle-btn ${this.flagMode ? 'flag-active' : ''}" id="btnToggleFlag" aria-pressed="${this.flagMode}">${this.flagButtonContent()}</button>
         </div>
       </div>
     `;
 
     this.renderGrid();
     this.bindEvents();
+  }
+
+  // The original flag button (ms_Btn_Pencil: light when digging, blue while flags are placed) with
+  // the current mode written next to it.
+  flagButtonContent() {
+    const icon = this.flagMode ? 'ms_Btn_Pencil_Pr' : 'ms_Btn_Pencil_Rel';
+    return `<img class="mode-toggle-ico" src="assets/textures/${icon}.png" alt=""><span>${this.flagMode ? i18n.t('Mode: Flagging', 'Режим: Флажки') : i18n.t('Mode: Digging', 'Режим: Раскопки')}</span>`;
   }
 
   getRemainingFlags() {
@@ -214,7 +222,7 @@ export class MinesweeperGame {
     const remEl = this.container.querySelector('#minesRemaining');
     if (remEl) remEl.textContent = this.getRemainingFlags();
     const timeEl = this.container.querySelector('#minesTime');
-    if (timeEl) timeEl.textContent = `${this.timer}s`;
+    if (timeEl) timeEl.textContent = secondsText(this.timer);
   }
 
   handleCellClick(r, c) {
@@ -250,10 +258,12 @@ export class MinesweeperGame {
     }
 
     audio.play('click');
-    // One successful opening action is one right move (CMSGameField: counter +1 per click),
-    // however many cells the cascade reveals.
-    this.rightMoves = (this.rightMoves || 0) + 1;
+    // Every opened cell is one right move ("EmptyCellCxf" points): the click handler counts the
+    // clicked cell and the cascade (FUN_4a04a3f4) calls the counter FUN_4a0d9908 for each cell it
+    // opens. Counting only the clicks made the easy level-up goal (3000) unreachable.
+    const opened = this.revealedCount;
     this.revealCell(r, c);
+    this.rightMoves = (this.rightMoves || 0) + (this.revealedCount - opened);
     this.renderGrid();
     this.checkWinCondition();
   }
@@ -304,7 +314,7 @@ export class MinesweeperGame {
       const score = Math.max(0, this.total);
       storage.recordGameScore('minesweeper', score);
       this.renderGrid();
-      this.showGameResult(true, score);
+      this.showGameResult(score);
     }
   }
 
@@ -313,31 +323,24 @@ export class MinesweeperGame {
   resultsWindow(total) {
     const section = this.original.ms_show_results;
     const built = buildResults(section, {P1: this.rightMoves || 0, P2: this.exploded, TIME: this.timer, TOTAL: total}, difficultyIndex(this.difficulty));
-    return `<div class="restored-results">${resultsMarkup(section, built, tr('Продолжить', 'Continue'))}</div>`;
+    return resultsMarkup(section, built, tr('Продолжить', 'Continue'));
   }
 
-  showGameResult(won, score = 0) {
-    const panel = document.createElement('div');
-    panel.className = 'game-ending-overlay';
-    panel.setAttribute('role', won ? 'status' : 'alert');
-    panel.innerHTML = won ? this.resultsWindow(this.total ?? score) : `<div class="game-ending-card">
-      <h2>${tr('Мина! Игра окончена', 'Mine! Game over')}</h2>
-      <p>${tr('Время', 'Time')}: ${this.timer} ${tr('с', 's')}</p>
-      <button class="btn-dialog-primary" data-mines-restart>${i18n.t('New Game')}</button>
-      <button class="options-nav-btn" data-mines-done>${i18n.t('Back')}</button>
-    </div>`;
-    if (won) panel.querySelector('[data-finish]').setAttribute('data-mines-done', '');
-    this.container.querySelector('.amaze-mines-frame').appendChild(panel);
-    revealResults(panel);
-    panel.querySelector('[data-mines-restart]')?.addEventListener('click', () => this.init(this.difficulty));
-    panel.querySelector('[data-mines-done]').onclick = () => {
+  // The game only ends with a win (a blown bomb is a penalty, not the end). The results window
+  // stands over the field like in the other games (inside the field it did not fit on phones).
+  showGameResult(score = 0) {
+    const layer = showResultsLayer(this.container, this.resultsWindow(this.total ?? score));
+    const done = layer.querySelector('[data-finish]');
+    done.setAttribute('data-mines-done', '');
+    done.onclick = () => {
       this.destroy();
-      this.onComplete(won ? score : null);
+      this.onComplete(score);
     };
   }
 
   bindEvents() {
     this.container.querySelector('#btnMinesMenu')?.addEventListener('click', () => {
+      if (this.gameOver) return;
       audio.play('click');
       this.onOpenMenu?.({
         onRestart: () => this.init(this.difficulty),
@@ -365,14 +368,14 @@ export class MinesweeperGame {
       const btn = this.container.querySelector('#btnToggleFlag');
       if (btn) {
         btn.className = `mode-toggle-btn ${this.flagMode ? 'flag-active' : ''}`;
-        btn.textContent = this.flagMode
-          ? '🚩 ' + i18n.t('Mode: Flagging', 'Режим: Флажки')
-          : '⛏ ' + i18n.t('Mode: Digging', 'Режим: Раскопки');
+        btn.setAttribute('aria-pressed', String(this.flagMode));
+        btn.innerHTML = this.flagButtonContent();
       }
     });
   }
 
   togglePause() {
+    if (this.gameOver) return; // the results window is up: only "Continue" leaves it, as in the other games
     this.isPaused = !this.isPaused;
     if (this.isPaused && this.onOpenMenu) {
       this.onOpenMenu({

@@ -4,6 +4,7 @@ import { audio } from '../audio.js';
 import { i18n } from '../i18n.js';
 import { loadResources, drawFrame, drawTiled, drawBorderSection, rect, numbers, rgba, canvasPoint } from './amaze-canvas.js';
 import * as M from './numbers-model.js';
+import { easyTimePenalty, withItemPoints } from './results-window.js';
 
 // Numbers window (numbers_wnd) is 480x715 layout units below the 85-unit top bar.
 const WIDTH = 480, HEIGHT = 715;
@@ -11,7 +12,6 @@ const TICK_MS = 66; // animation step of the original field (number_disappear_sp
 
 export class NumbersGame extends RestoredGame {
   id = 'numbers';
-  get title() { return tr('Числа', 'Numbers'); }
 
   async init(difficulty = 'easy') {
     if (!await this.begin(difficulty)) return;
@@ -233,11 +233,11 @@ export class NumbersGame extends RestoredGame {
   }
 
   finishGame() {
-    const penalty = arrayValue(this.cfg.time_penalty_arr, this.diff);
+    const penalty = easyTimePenalty(arrayValue(this.cfg.time_penalty_arr, this.diff), this.diff, this.mode);
     const seconds = Math.max(1, this.elapsed);
     const total = M.totalScore(this.points, seconds, penalty);
     this.draw();
-    const section = this.original[this.mode === 'marking' ? 'numbers_sp_show_results' : 'numbers_show_results'];
+    const section = withItemPoints(this.original[this.mode === 'marking' ? 'numbers_sp_show_results' : 'numbers_show_results'], 2, this.diff, penalty);
     this.finish(total, {section, values: {DIST: this.points, TIME: seconds, TOTAL: total}});
   }
 
